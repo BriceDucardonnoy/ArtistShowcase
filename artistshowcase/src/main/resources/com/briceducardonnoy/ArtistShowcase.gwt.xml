@@ -17,6 +17,10 @@
     <source path='client' />
     <source path='shared' />
 
-    <set-configuration-property name="gin.ginjector.modules" 
-                                value="com.briceducardonnoy.client.gin.ClientModule"/>
+    <set-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.ClientModule"/>
+    <!-- Super Dev Mode -->
+    <add-linker name="xsiframe"/>
+	<!-- <set-configuration-property name="devModeRedirectEnabled" value="true"/> --><!-- Enabled by default since GWT 2.6 -->
+	<!-- enable source maps -->
+	<!-- <set-property name="compiler.useSourceMaps" value="true" /> --><!-- Enabled by default since GWT 2.6 -->
 </module>

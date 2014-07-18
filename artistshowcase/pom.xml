@@ -14,6 +14,8 @@
         <gwt.version>2.6.1</gwt.version>
         <gwtp.version>1.2.1</gwtp.version>
         <gin.version>2.1.2</gin.version>
+        <gwt.compiler.localWorkers>6</gwt.compiler.localWorkers>
+		<gwt.logLevel>INFO</gwt.logLevel>
 
         <!-- server -->
         <guice.version>3.0</guice.version>
@@ -85,11 +87,13 @@
                     <copyWebapp>true</copyWebapp>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
 					<i18nMessagesBundle>com.briceducardonnoy.client.lang.Translate</i18nMessagesBundle>
-					<!-- <noServer>false</noServer> -->
-					<debugPort>5050</debugPort>
-					<!-- <port>4040</port> -->
 					<bindAddress>0.0.0.0</bindAddress>
-                    <runTarget>ArtistShowcase.html</runTarget>
+					<noServer>true</noServer>
+					<!-- <port>4040</port> -->
+					<debugPort>5050</debugPort>
+					<!-- Super Dev Mode -->
+					<!-- <codeServerPort>6060</codeServerPort> -->
+                    <runTarget>index.html</runTarget>
                     <modules>
                         <module>com.briceducardonnoy.ArtistShowcase</module>
                     </modules>
@@ -149,6 +153,11 @@
             <artifactId>gwt-user</artifactId>
             <version>${gwt.version}</version>
         </dependency>
+        <!-- <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-codeserver</artifactId>
+            <version>${gwt.version}</version>
+        </dependency> -->
 
         <!-- GWT-Platform -->
         <dependency>
