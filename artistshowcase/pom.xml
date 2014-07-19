@@ -177,6 +177,13 @@
             <artifactId>gwt-codeserver</artifactId>
             <version>${gwt.version}</version>
         </dependency> -->
+        
+        <!-- Log -->
+        <dependency>
+			<groupId>com.allen-sauer.gwt.log</groupId>
+			<artifactId>gwt-log</artifactId>
+			<version>3.3.1</version>
+		</dependency>
 
         <!-- GWT-Platform -->
         <dependency>

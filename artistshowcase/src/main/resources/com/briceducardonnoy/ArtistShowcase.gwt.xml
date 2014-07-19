@@ -8,6 +8,16 @@
     <inherits name='com.google.gwt.user.theme.standard.Standard' />
     <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
     <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
+    
+    <!-- Add gwt-log support, default level displayed in browser console OFF / TRACE / FATAL -->
+    <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
+
+	<!-- Add the 'TRACE' and 'DEBUG' compile time log level -->
+	<!-- <extend-property name="log_level" values="TRACE, INFO"/> -->
+	<extend-property name="log_level" values="INFO" />
+
+	<!-- inner HTML debugger DISABLED / ENABLED -->
+	<set-property name="log_DivLogger" value="DISABLED" />
 
     <!-- Other module inherits -->
     <inherits name='com.gwtplatform.dispatch.Dispatch' />

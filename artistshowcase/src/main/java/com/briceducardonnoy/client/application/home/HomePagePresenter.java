@@ -2,6 +2,7 @@ package com.briceducardonnoy.client.application.home;
 
 import javax.inject.Inject;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.ApplicationPresenter;
 import com.briceducardonnoy.client.place.NameTokens;
 import com.google.web.bindery.event.shared.EventBus;
@@ -25,5 +26,6 @@ public class HomePagePresenter extends Presenter<HomePagePresenter.MyView, HomeP
                       MyView view,
                       MyProxy proxy) {
         super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
+        Log.info("PATATE");
     }
 }
