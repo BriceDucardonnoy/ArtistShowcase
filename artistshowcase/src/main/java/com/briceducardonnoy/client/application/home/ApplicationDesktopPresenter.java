@@ -19,7 +19,7 @@ public class ApplicationDesktopPresenter extends AbstractApplicationPresenter im
 
         view.setUiHandlers(this);
         
-        Log.info("PATATE");
+        Log.info("Desktop presenter");
     }
 
 }
