@@ -19,7 +19,7 @@ package com.briceducardonnoy.client.application;
 import com.gwtplatform.mvp.client.UiHandlers;
 
 /**
- * {@link com.briceducardonnoy.client.application.applicationdesktop.ApplicationDesktopView}'s {@link UiHandlers}.
+ * {@link com.briceducardonnoy.client.application.home.ApplicationDesktopView}'s {@link UiHandlers}.
  */
 public interface ApplicationUiHandlers extends UiHandlers {
 //    void revealAllProductsList();
