@@ -35,6 +35,7 @@
         <target.jdk>1.7</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jetty.plugin.version>9.2.0.v20140526</jetty.plugin.version>
 
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
     </properties>
@@ -88,11 +89,11 @@
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
 					<i18nMessagesBundle>com.briceducardonnoy.client.lang.Translate</i18nMessagesBundle>
 					<bindAddress>0.0.0.0</bindAddress>
-					<noServer>true</noServer>
+					<!-- <noServer>true</noServer> -->
 					<!-- <port>4040</port> -->
 					<debugPort>5050</debugPort>
 					<!-- Super Dev Mode -->
-					<!-- <codeServerPort>6060</codeServerPort> -->
+					<!-- <codeServerPort>4040</codeServerPort> -->
                     <runTarget>index.html</runTarget>
                     <modules>
                         <module>com.briceducardonnoy.ArtistShowcase</module>
@@ -103,14 +104,27 @@
                         <goals>
                             <goal>compile</goal>
                         	<goal>i18n</goal>
-                            <goal>test</goal>
+                            <!-- <goal>test</goal> -->
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+            </plugin>
         </plugins>
         <pluginManagement>
         	<plugins>
+        		<plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>${jetty.plugin.version}</version>
+                    <configuration>
+                        <webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
+                        <contextPath>/</contextPath>
+                    </configuration>
+                </plugin>
         		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         		<plugin>
         			<groupId>org.eclipse.m2e</groupId>
@@ -151,6 +165,11 @@
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-servlet</artifactId>
             <version>${gwt.version}</version>
         </dependency>
         <!-- <dependency>
@@ -217,4 +236,32 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <!-- Initialization of super dev mode -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>gwt-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <modules>
+                                <module>com.briceducardonnoy.ArtistShowcase</module>
+                            </modules>
+                            <draftCompile>true</draftCompile>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
