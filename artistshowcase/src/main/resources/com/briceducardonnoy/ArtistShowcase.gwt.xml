@@ -13,7 +13,6 @@
     <inherits name="com.allen_sauer.gwt.log.gwt-log-OFF" />
 
 	<!-- Add the 'TRACE' and 'DEBUG' compile time log level -->
-	<!-- <extend-property name="log_level" values="TRACE, INFO"/> -->
 	<extend-property name="log_level" values="INFO" />
 
 	<!-- inner HTML debugger DISABLED / ENABLED -->
@@ -21,13 +20,22 @@
 
     <!-- Other module inherits -->
     <inherits name='com.gwtplatform.dispatch.Dispatch' />
-    
-    <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' />
+    <!-- <inherits name='com.gwtplatform.mvp.MvpWithEntryPoint' /> -->
+    <!-- Form-factor -->
+    <inherits name="com.gwtplatform.mvp.MvpWithFormFactor" />
+
+    <!-- Form factor specific modules --><!-- Phone and tablet are processed in the same way -->
+	<set-configuration-property name="gin.ginjector.module.desktop" value="com.briceducardonnoy.client.gin.DesktopModule" />
+	<set-configuration-property name="gin.ginjector.module.mobile" value="com.briceducardonnoy.client.gin.TabletModule" />
+	<set-configuration-property name="gin.ginjector.module.tablet" value="com.briceducardonnoy.client.gin.TabletModule" />
+	
+	<!-- Shared modules -->
+    <!-- <set-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.ClientModule"/> -->
+    <extend-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.SharedModule" />
 
     <source path='client' />
     <source path='shared' />
-
-    <set-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.ClientModule"/>
+    
     <!-- Super Dev Mode -->
     <add-linker name="xsiframe"/>
 	<!-- <set-configuration-property name="devModeRedirectEnabled" value="true"/> --><!-- Enabled by default since GWT 2.6 -->
