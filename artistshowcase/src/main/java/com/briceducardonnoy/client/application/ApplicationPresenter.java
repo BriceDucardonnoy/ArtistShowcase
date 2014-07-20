@@ -12,6 +12,9 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
+/**
+ * This is the top-level presenter of the hierarchy. Other presenters reveal themselves within this presenter.
+ */
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
 	@Inject
 	PlaceManager placeManager;
