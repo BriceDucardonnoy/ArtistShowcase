@@ -33,16 +33,20 @@ h1 {
   margin: 15px 6px 6px;
 }
 
-.globalStyle {
-	background: #000000 repeat scroll 0 0;
+/* @media screen and (orientation: landscape) {
+	.globalStyle {
+		background: #000000 repeat scroll 0 0;
+	}
 }
 
-.globalStyle2 {
+@media screen and (orientation: portrait) {
+	.globalStyle {
+		background: #995522 repeat scroll 0 0;
+	}
+} */
+
+.globalStyle {
 	background: #000000 repeat scroll 0 0;
-	width: 100%;
-	height: 100%;
-	font: 14px Helvetica, elvetica;
-	color: white;
 }
 
 .globalFont {
