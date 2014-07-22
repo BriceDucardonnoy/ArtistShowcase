@@ -1,10 +1,8 @@
-package com.briceducardonnoy.client.application.home.desktop;
+package com.briceducardonnoy.client.application;
 
 import javax.inject.Inject;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.briceducardonnoy.client.application.AbstractApplicationPresenter;
-import com.briceducardonnoy.client.application.ApplicationUiHandlers;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.client.lang.Translate;
 import com.google.gwt.core.client.GWT;

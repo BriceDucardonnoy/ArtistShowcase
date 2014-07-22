@@ -1,8 +1,7 @@
-package com.briceducardonnoy.client.application.home.tablet;
+package com.briceducardonnoy.client.application;
 
 import javax.inject.Singleton;
 
-import com.briceducardonnoy.client.application.AbstractApplicationPresenter;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.client.application.header.HeaderTabletView;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;

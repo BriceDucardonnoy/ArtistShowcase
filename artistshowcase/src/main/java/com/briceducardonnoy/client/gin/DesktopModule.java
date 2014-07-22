@@ -16,7 +16,7 @@
 
 package com.briceducardonnoy.client.gin;
 
-import com.briceducardonnoy.client.application.home.desktop.ApplicationDesktopModule;
+import com.briceducardonnoy.client.application.ApplicationDesktopModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
 public class DesktopModule extends AbstractPresenterModule {

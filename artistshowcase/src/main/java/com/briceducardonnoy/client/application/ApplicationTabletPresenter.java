@@ -1,8 +1,6 @@
-package com.briceducardonnoy.client.application.home.tablet;
+package com.briceducardonnoy.client.application;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.briceducardonnoy.client.application.AbstractApplicationPresenter;
-import com.briceducardonnoy.client.application.ApplicationUiHandlers;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;

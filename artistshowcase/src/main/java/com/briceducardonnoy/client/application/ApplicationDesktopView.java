@@ -1,7 +1,5 @@
-package com.briceducardonnoy.client.application.home.desktop;
+package com.briceducardonnoy.client.application;
 
-import com.briceducardonnoy.client.application.ApplicationUiHandlers;
-import com.briceducardonnoy.client.application.AbstractApplicationPresenter;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
