@@ -9,7 +9,7 @@
 		}
     </ui:style>
     <g:HTMLPanel styleName="globalStyle globalFont" addStyleNames="{style.fullScreen}">
-    	<g:HTMLPanel>This is header from desktop<br/></g:HTMLPanel>
+    	<g:HTMLPanel>This is header from tablet<br/></g:HTMLPanel>
     	<g:SimplePanel ui:field="main" />
     </g:HTMLPanel>
 </ui:UiBinder>
