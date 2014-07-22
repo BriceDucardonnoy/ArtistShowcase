@@ -1,4 +1,4 @@
-package com.briceducardonnoy.client.application;
+package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
@@ -9,24 +9,23 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 
-public class ApplicationView extends ViewImpl implements ApplicationPresenter.MyView {
-    public interface Binder extends UiBinder<Widget, ApplicationView> {
+public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
+    public interface Binder extends UiBinder<Widget, HeaderView> {
     }
 
     @UiField
     SimplePanel main;
 
     @Inject
-    ApplicationView(Binder uiBinder) {
+    HeaderView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
     }
 
     @Override
     public void setInSlot(Object slot, IsWidget content) {
-		if (slot == ApplicationPresenter.SLOT_SetHeaderContent) {
-			// TODO BDY: as soon as menu panel type chosen, implement the setInSlot
-		}
-		else if (slot == ApplicationPresenter.SLOT_SetMainContent) {
+//		if (slot == HeaderPresenter.SLOT_SetHeaderContent) {
+//		} else
+		if (slot == HeaderPresenter.SLOT_SetMainContent) {
 		    main.setWidget(content);
 		}
 		else {

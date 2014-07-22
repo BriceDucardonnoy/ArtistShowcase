@@ -4,8 +4,8 @@ import javax.inject.Inject;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.AbstractApplicationPresenter;
-import com.briceducardonnoy.client.application.ApplicationPresenter;
 import com.briceducardonnoy.client.application.ApplicationUiHandlers;
+import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.client.lang.Translate;
 import com.google.gwt.core.client.GWT;
 import com.google.web.bindery.event.shared.EventBus;
@@ -19,7 +19,7 @@ public class ApplicationDesktopPresenter extends AbstractApplicationPresenter im
 
 	@Inject
 	public ApplicationDesktopPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-        super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
+        super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
 
         view.setUiHandlers(this);
         

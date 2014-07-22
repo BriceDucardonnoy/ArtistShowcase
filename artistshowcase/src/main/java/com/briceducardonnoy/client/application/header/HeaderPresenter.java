@@ -1,4 +1,4 @@
-package com.briceducardonnoy.client.application;
+package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
@@ -15,24 +15,24 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 /**
  * This is the top-level presenter of the hierarchy. Other presenters reveal themselves within this presenter.
  */
-public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
+public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPresenter.MyProxy> {
 	@Inject
 	PlaceManager placeManager;
 	
     public interface MyView extends View {
     }
 
-	@ContentSlot
-	public static final Type<RevealContentHandler<?>> SLOT_SetHeaderContent = new Type<>();
+//	@ContentSlot
+//	public static final Type<RevealContentHandler<?>> SLOT_SetHeaderContent = new Type<>();
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<>();
 
     @ProxyStandard
-    public interface MyProxy extends Proxy<ApplicationPresenter> {
+    public interface MyProxy extends Proxy<HeaderPresenter> {
     }
 
     @Inject
-    ApplicationPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    HeaderPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
         super(eventBus, view, proxy, RevealType.Root);
     }
 }
