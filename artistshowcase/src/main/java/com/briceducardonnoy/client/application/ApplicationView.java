@@ -23,14 +23,14 @@ public class ApplicationView extends ViewImpl implements ApplicationPresenter.My
 
     @Override
     public void setInSlot(Object slot, IsWidget content) {
-    	if (slot == ApplicationPresenter.SLOT_SetHeaderContent) {
-    		// TODO BDY: as soon as menu panel type chosen, implement the setInSlot
-        }
-    	else if (slot == ApplicationPresenter.SLOT_SetMainContent) {
-            main.setWidget(content);
-        }
-        else {
-            super.setInSlot(slot, content);
-        }
+		if (slot == ApplicationPresenter.SLOT_SetHeaderContent) {
+			// TODO BDY: as soon as menu panel type chosen, implement the setInSlot
+		}
+		else if (slot == ApplicationPresenter.SLOT_SetMainContent) {
+		    main.setWidget(content);
+		}
+		else {
+		    super.setInSlot(slot, content);
+		}
     }
 }
