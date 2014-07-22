@@ -1,4 +1,4 @@
-package com.briceducardonnoy.client.application.home;
+package com.briceducardonnoy.client.application.home.desktop;
 
 import com.briceducardonnoy.client.application.ApplicationUiHandlers;
 import com.briceducardonnoy.client.application.AbstractApplicationPresenter;
