@@ -25,5 +25,11 @@ public class ApplicationDesktopPresenter extends AbstractApplicationPresenter im
         Log.info(translate.Selection());
         
     }
+	
+	@Override
+	protected void onBind() {
+		super.onBind();
+//		placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.home).build());
+	}
 
 }

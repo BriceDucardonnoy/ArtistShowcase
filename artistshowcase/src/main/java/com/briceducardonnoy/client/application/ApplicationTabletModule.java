@@ -2,6 +2,7 @@ package com.briceducardonnoy.client.application;
 
 import javax.inject.Singleton;
 
+import com.briceducardonnoy.client.application.apphome.AppHomeTabletModule;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.client.application.header.HeaderTabletView;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
@@ -9,6 +10,7 @@ import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 public class ApplicationTabletModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
+		install(new AppHomeTabletModule());
 		// Application Presenters
 		bind(ApplicationTabletPresenter.class).in(Singleton.class);
 		bind(ApplicationTabletView.class).in(Singleton.class);
@@ -16,6 +18,6 @@ public class ApplicationTabletModule extends AbstractPresenterModule {
 		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationTabletView.class);
 		bind(AbstractApplicationPresenter.class).to(ApplicationTabletPresenter.class);
 		
-		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderTabletView.class, HeaderPresenter.MyProxy.class);
+		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderTabletView.class, HeaderPresenter.MyProxy.class);		
 	}
 }

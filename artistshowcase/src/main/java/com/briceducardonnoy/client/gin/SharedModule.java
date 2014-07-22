@@ -30,7 +30,7 @@ public class SharedModule extends AbstractPresenterModule {
         install(new DefaultModule());
 
         // DefaultPlaceManager Places
-        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.homePage);
+        bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
         bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
         bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
 
