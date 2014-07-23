@@ -2,6 +2,7 @@ package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
+import com.briceducardonnoy.client.imagepreloader.FitImage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -32,4 +33,10 @@ public class HeaderTabletView extends ViewImpl implements HeaderPresenter.MyView
 		    super.setInSlot(slot, content);
 		}
     }
+
+	@Override
+	public FitImage getLogo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

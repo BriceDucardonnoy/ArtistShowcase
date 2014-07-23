@@ -2,6 +2,7 @@ package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
+import com.briceducardonnoy.client.imagepreloader.FitImage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -13,8 +14,8 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
     public interface Binder extends UiBinder<Widget, HeaderView> {
     }
 
-    @UiField
-    SimplePanel main;
+	@UiField FitImage logo;
+	@UiField SimplePanel main;
 
     @Inject
     HeaderView(Binder uiBinder) {
@@ -32,4 +33,9 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 		    super.setInSlot(slot, content);
 		}
     }
+
+	@Override
+	public FitImage getLogo() {
+		return logo;
+	}
 }
