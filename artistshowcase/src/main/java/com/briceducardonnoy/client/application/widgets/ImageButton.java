@@ -1,5 +1,6 @@
-/*
+/**
  * Copyright © Brice DUCARDONNOY
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation 
@@ -10,40 +11,36 @@
  * 	in all copies or substantial portions of the Software.
  * - The Software is provided "as is", without warranty of any kind, express 
  * 	or implied, including but not limited to the warranties of merchantability, 
- * 	fitness for a particular purpose and noninfringement. 
+ * 	fitness for a particular purpose and noninfringement.
+ * 
  * In no event shall the authors or copyright holders be liable for any claim, 
  * damages or other liability, whether in an action of contract, tort or otherwise, 
  * arising from, out of or in connection with the software or the use or other 
  * dealings in the Software.
  */
-package com.briceducardonnoy.client.application.apphome;
+package com.briceducardonnoy.client.application.widgets;
 
-import javax.inject.Inject;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.uibinder.client.UiConstructor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+public class ImageButton extends Button {
 
-public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implements AppHomePresenter.MyView {
-	interface Binder extends UiBinder<Widget, AppHomeView> {
+	public ImageButton() {
 	}
 
-	@UiField SimplePanel main;
-
-	@Inject
-	AppHomeView(Binder uiBinder) {
-		initWidget(uiBinder.createAndBindUi(this));
+	@UiConstructor
+	public ImageButton(ImageResource res) {
+		Image img = new Image(res);
+		getElement().appendChild(img.getElement());
 	}
-
+	
 	@Override
-	public void setInSlot(Object slot, IsWidget content) {
-		if (slot == AppHomePresenter.SLOT_AppHome) {
-			main.setWidget(content);
-		} else {
-			super.setInSlot(slot, content);
-		}
+	public void setText(String text) {
+		Label lbl = new Label(text);
+		getElement().appendChild(lbl.getElement());
 	}
+
 }

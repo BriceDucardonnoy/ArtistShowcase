@@ -29,8 +29,7 @@ public class ApplicationDesktopView extends ViewWithUiHandlers<ApplicationUiHand
 	interface Binder extends UiBinder<Widget, ApplicationDesktopView> {
 	}
 
-	@UiField
-	HTMLPanel panel;
+	@UiField HTMLPanel panel;
 
 	@Inject
 	ApplicationDesktopView(Binder binder) {

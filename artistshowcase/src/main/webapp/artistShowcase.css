@@ -91,6 +91,12 @@ h1 {
 		max-width: 100%;
 		max-height: 200px;
 	}
+	
+	.menuBar {
+		position: absolute;
+		right: 0px;
+		top: calc(200px - 30px);/* -30px for text + icon */
+	}
 }
 
 @MEDIA screen and (max-height: 600px) and (min-height: 480px) {
@@ -112,6 +118,12 @@ h1 {
 	.logo {
 		max-width: 100%;
 		max-height: 150px;
+	}
+	
+	.menuBar {
+		position: absolute;
+		right: 0px;
+		top: calc(150px - 30px);/* -30px for text + icon */
 	}
 }
 
@@ -135,11 +147,49 @@ h1 {
 		max-width: 100%;
 		max-height: 100px;
 	}
+	
+	.menuBar {
+		position: absolute;
+		right: 0px;
+		top: calc(100px - 30px);/* -30px for text + icon */
+	}
 }
 
+.logo:HOVER {
+	cursor: pointer;
+}
+
+.mailInfo {
+	color: white;
+	/*margin-right: 5px;*/
+	padding-right: 10px;
+	font-size: 18px;
+	cursor: default;
+}
 
 .overflowAuto {
 	overflow: auto;
+}
+
+/****************************/
+/********** buttons *********/
+/****************************/
+.gwt-Button {
+    background: none repeat scroll 0 0 #000000 !important;
+    border: 0px solid #333333 !important;
+    color: #FFFFFF;
+}
+
+.gwt-Button:hover {
+    background: #222222 !important;
+}
+
+.gwt-Button:ACTIVE {
+    background: #333333 !important;
+}
+
+button::-moz-focus-inner {
+  border: 0;
 }
 
 .buttonViewer {

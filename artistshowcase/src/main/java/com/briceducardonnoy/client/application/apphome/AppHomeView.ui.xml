@@ -3,7 +3,7 @@
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
     <g:SimplePanel ui:field="main">
     	<g:HTMLPanel>
-    		Main for desktop<br/><g:Button text="desktop" />
+    		Main for desktop<br/><g:Button text="desktop" ui:field="desktop" />
     	</g:HTMLPanel>
     </g:SimplePanel>
 </ui:UiBinder>

@@ -1,19 +1,41 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:imagepreloader="urn:import:com.briceducardonnoy.client.imagepreloader">
+             xmlns:imagepreloader="urn:import:com.briceducardonnoy.client.imagepreloader"
+             xmlns:bdywidget="urn:import:com.briceducardonnoy.client.application.widgets">
     
     <!-- Resources -->
 	<ui:with field='res' type='com.briceducardonnoy.client.images.ImagesDesktopResources' />
     
     <ui:style>
+    	.contactLang {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+		}
+		.floatLeft {
+			float: left;
+		}
+		.menuItem {
+			cursor: pointer;
+		}
     </ui:style>
     
     <g:HTMLPanel styleName="globalStyle globalFont">
 	    <g:HTMLPanel styleName="header" ui:field="headerPanel">
 	    	<!-- This is header from desktop<br/> -->
-	    	<imagepreloader:FitImage ui:field="logo" url="./ArtistShowcase/images/Header_200.png" styleName="logo" />
+	    	<imagepreloader:FitImage ui:field="logo" url="./ArtistShowcase/images/Header_200.png" styleName="logo" altText="logo" />
 	    	<!-- <g:Image ui:field="logo" resource="{res.header200}" styleName="logo" /> -->
 	    </g:HTMLPanel>
+	    <g:FlowPanel addStyleNames="{style.contactLang}">
+	    	<g:Label styleName="mailInfo" text="contact@deblache.com" addStyleNames="{style.floatLeft}"/>
+	    	<g:Image resource='{res.france24}' ui:field="tr_fr" addStyleNames="{style.menuItem} {style.floatLeft}" altText="langFr" />
+	    	<g:Image resource='{res.uk24}' ui:field="tr_en" addStyleNames="{style.menuItem} {style.floatLeft}" altText="langEn" />
+	    </g:FlowPanel>
+	   	<g:FlowPanel styleName="menuBar" ui:field="menuBar">
+    		<!-- <g:Image resource="{res.home}" ui:field="home" altText="Home" /> -->
+    		<bdywidget:ImageButton res="{res.home}" ui:field="home" />
+    		<bdywidget:ImageButton res="{res.gallery}" ui:field="gallery" />
+    	</g:FlowPanel>
 	   	<g:SimplePanel styleName="main" ui:field="main" />
    	</g:HTMLPanel>
 </ui:UiBinder>

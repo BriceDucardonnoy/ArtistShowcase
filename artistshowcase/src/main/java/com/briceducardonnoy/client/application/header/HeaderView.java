@@ -22,7 +22,10 @@ package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
+import com.briceducardonnoy.client.application.widgets.ImageButton;
 import com.briceducardonnoy.client.imagepreloader.FitImage;
+import com.briceducardonnoy.client.lang.Translate;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -33,13 +36,20 @@ import com.gwtplatform.mvp.client.ViewImpl;
 public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
     public interface Binder extends UiBinder<Widget, HeaderView> {
     }
+    
+    private final Translate translate = GWT.create(Translate.class);
 
 	@UiField FitImage logo;
+	@UiField ImageButton home;
+	@UiField ImageButton gallery;
 	@UiField SimplePanel main;
 
     @Inject
     HeaderView(Binder uiBinder) {
-        initWidget(uiBinder.createAndBindUi(this));
+		initWidget(uiBinder.createAndBindUi(this));
+		
+		home.setText(translate.Home());
+		gallery.setText(translate.Gallery());// TODO BDY: use split button and set icons size to 16x16
     }
 
     @Override
