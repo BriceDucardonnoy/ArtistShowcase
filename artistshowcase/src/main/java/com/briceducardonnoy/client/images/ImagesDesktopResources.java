@@ -37,4 +37,8 @@ public interface ImagesDesktopResources extends ClientBundle {
 	ImageResource home();
 	
 	ImageResource link();
+	
+	ImageResource arrow();
+	
+	ImageResource split();
 }

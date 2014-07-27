@@ -23,6 +23,7 @@ package com.briceducardonnoy.client.application.header;
 import javax.inject.Inject;
 
 import com.briceducardonnoy.client.application.widgets.ImageButton;
+import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.client.imagepreloader.FitImage;
 import com.briceducardonnoy.client.lang.Translate;
 import com.google.gwt.core.client.GWT;
@@ -41,7 +42,7 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 
 	@UiField FitImage logo;
 	@UiField ImageButton home;
-	@UiField ImageButton gallery;
+	@UiField ImageSplitButton gallery;
 	@UiField SimplePanel main;
 
     @Inject
@@ -49,7 +50,7 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		home.setText(translate.Home());
-		gallery.setText(translate.Gallery());// TODO BDY: use split button and set icons size to 16x16
+		gallery.setText(translate.Gallery());// TODO BDY: send HandlerRegistration to presenter
     }
 
     @Override

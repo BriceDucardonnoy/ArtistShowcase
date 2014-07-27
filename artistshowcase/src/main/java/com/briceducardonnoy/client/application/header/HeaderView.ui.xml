@@ -34,7 +34,7 @@
 	   	<g:FlowPanel styleName="menuBar" ui:field="menuBar">
     		<!-- <g:Image resource="{res.home}" ui:field="home" altText="Home" /> -->
     		<bdywidget:ImageButton res="{res.home}" ui:field="home" />
-    		<bdywidget:ImageButton res="{res.gallery}" ui:field="gallery" />
+    		<bdywidget:ImageSplitButton res="{res.gallery}" ui:field="gallery" />
     	</g:FlowPanel>
 	   	<g:SimplePanel styleName="main" ui:field="main" />
    	</g:HTMLPanel>

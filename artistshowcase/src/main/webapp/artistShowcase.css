@@ -95,7 +95,7 @@ h1 {
 	.menuBar {
 		position: absolute;
 		right: 0px;
-		top: calc(200px - 30px);/* -30px for text + icon */
+		top: calc(200px - 40px);/* -40px for text + icon */
 	}
 }
 
@@ -123,7 +123,7 @@ h1 {
 	.menuBar {
 		position: absolute;
 		right: 0px;
-		top: calc(150px - 30px);/* -30px for text + icon */
+		top: calc(150px - 40px);/* -40px for text + icon */
 	}
 }
 
@@ -151,7 +151,7 @@ h1 {
 	.menuBar {
 		position: absolute;
 		right: 0px;
-		top: calc(100px - 30px);/* -30px for text + icon */
+		top: calc(100px - 40px);/* -40px for text + icon */
 	}
 }
 
@@ -172,8 +172,32 @@ h1 {
 }
 
 /****************************/
+/*********** Popup **********/
+/****************************/
+/* Override global pop-up and menu properties */
+.gwt-PopupPanel {
+	background: none repeat scroll 0 0 #000000 !important;
+	border: 1px solid #222222 !important;
+	color: #FFFFFF;
+    /*padding: 3px;*/
+}
+
+.gwt-MenuBar-vertical {
+	background: inherit !important;
+}
+
+.gwt-MenuBar .gwt-MenuItem {
+    background: none repeat scroll 0 0 #222222 !important;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+    background: none repeat scroll 0 0 #333333 !important;
+}
+
+/****************************/
 /********** buttons *********/
 /****************************/
+/* Override global button properties */
 .gwt-Button {
     background: none repeat scroll 0 0 #000000 !important;
     border: 0px solid #333333 !important;
