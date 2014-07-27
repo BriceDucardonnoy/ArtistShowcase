@@ -43,6 +43,11 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 	@UiField FitImage logo;
 	@UiField ImageButton home;
 	@UiField ImageSplitButton gallery;
+	@UiField ImageButton approach;
+	@UiField ImageButton expo;
+	@UiField ImageButton contact;
+	@UiField ImageButton link;
+	@UiField ImageButton legal;
 	@UiField SimplePanel main;
 
     @Inject
@@ -51,6 +56,11 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 		
 		home.setText(translate.Home());
 		gallery.setText(translate.Gallery());// TODO BDY: send HandlerRegistration to presenter
+		approach.setText(translate.ArtisticApproach());
+		expo.setText(translate.Expositions());
+		contact.setText(translate.Contact());
+		link.setText(translate.Link());
+		legal.setText(translate.Legal());
     }
 
     @Override

@@ -30,7 +30,8 @@ public interface ImagesDesktopResources extends ClientBundle {
 	
 	ImageResource copyright();
 	
-	ImageResource demarche();
+	@Source("demarche.png")
+	ImageResource approach();
 	
 	ImageResource gallery();
 	
