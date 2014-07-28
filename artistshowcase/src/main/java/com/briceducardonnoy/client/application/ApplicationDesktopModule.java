@@ -22,7 +22,6 @@ import javax.inject.Singleton;
 
 import com.briceducardonnoy.client.application.apphome.AppHomeModule;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
-import com.briceducardonnoy.client.application.header.HeaderMobileView;
 import com.briceducardonnoy.client.application.header.HeaderView;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 

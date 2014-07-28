@@ -20,7 +20,11 @@ package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
+import com.briceducardonnoy.client.application.widgets.ImageButton;
+import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.client.imagepreloader.FitImage;
+import com.briceducardonnoy.client.lang.Translate;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -32,12 +36,28 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
     public interface Binder extends UiBinder<Widget, HeaderMobileView> {
     }
 
-    @UiField
-    SimplePanel main;
+    private final Translate translate = GWT.create(Translate.class);
+    
+    @UiField ImageButton home;
+	@UiField ImageSplitButton gallery;
+	@UiField ImageButton approach;
+	@UiField ImageButton expo;
+	@UiField ImageButton contact;
+	@UiField ImageButton link;
+	@UiField ImageButton legal;
+	@UiField SimplePanel main;
 
     @Inject
     HeaderMobileView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
+        
+        home.setText(translate.Home());
+		gallery.setText(translate.Gallery());// TODO BDY: send HandlerRegistration to presenter
+		approach.setText(translate.ArtisticApproach());
+		expo.setText(translate.Expositions());
+		contact.setText(translate.Contact());
+		link.setText(translate.Link());
+		legal.setText(translate.Legal());
     }
 
     @Override
