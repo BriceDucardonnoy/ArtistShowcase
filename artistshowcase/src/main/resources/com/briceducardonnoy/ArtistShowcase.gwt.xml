@@ -28,8 +28,8 @@
 
     <!-- Form factor specific modules --><!-- Phone and tablet are processed in the same way -->
 	<set-configuration-property name="gin.ginjector.module.desktop" value="com.briceducardonnoy.client.gin.DesktopModule" />
-	<set-configuration-property name="gin.ginjector.module.mobile" value="com.briceducardonnoy.client.gin.TabletModule" />
-	<set-configuration-property name="gin.ginjector.module.tablet" value="com.briceducardonnoy.client.gin.TabletModule" />
+	<set-configuration-property name="gin.ginjector.module.mobile" value="com.briceducardonnoy.client.gin.MobileModule" />
+	<set-configuration-property name="gin.ginjector.module.tablet" value="com.briceducardonnoy.client.gin.MobileModule" />
 	
 	<!-- Shared modules -->
     <!-- <set-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.ClientModule"/> -->

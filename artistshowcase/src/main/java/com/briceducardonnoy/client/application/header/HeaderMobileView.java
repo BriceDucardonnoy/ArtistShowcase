@@ -16,26 +16,45 @@
  * arising from, out of or in connection with the software or the use or other 
  * dealings in the Software.
  */
-package com.briceducardonnoy.client.application;
+package com.briceducardonnoy.client.application.header;
 
-import javax.inject.Singleton;
+import javax.inject.Inject;
 
-import com.briceducardonnoy.client.application.apphome.AppHomeTabletModule;
-import com.briceducardonnoy.client.application.header.HeaderPresenter;
-import com.briceducardonnoy.client.application.header.HeaderTabletView;
-import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.briceducardonnoy.client.imagepreloader.FitImage;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtplatform.mvp.client.ViewImpl;
 
-public class ApplicationTabletModule extends AbstractPresenterModule {
+public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView {
+    public interface Binder extends UiBinder<Widget, HeaderMobileView> {
+    }
+
+    @UiField
+    SimplePanel main;
+
+    @Inject
+    HeaderMobileView(Binder uiBinder) {
+        initWidget(uiBinder.createAndBindUi(this));
+    }
+
+    @Override
+    public void setInSlot(Object slot, IsWidget content) {
+//		if (slot == HeaderPresenter.SLOT_SetHeaderContent) {
+//		} else
+		if (slot == HeaderPresenter.SLOT_SetMainContent) {
+		    main.setWidget(content);
+		}
+		else {
+		    super.setInSlot(slot, content);
+		}
+    }
+
 	@Override
-	protected void configure() {
-		install(new AppHomeTabletModule());
-		// Application Presenters
-		bind(ApplicationTabletPresenter.class).in(Singleton.class);
-		bind(ApplicationTabletView.class).in(Singleton.class);
-		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
-		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationTabletView.class);
-		bind(AbstractApplicationPresenter.class).to(ApplicationTabletPresenter.class);
-		
-		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderTabletView.class, HeaderPresenter.MyProxy.class);		
+	public FitImage getLogo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

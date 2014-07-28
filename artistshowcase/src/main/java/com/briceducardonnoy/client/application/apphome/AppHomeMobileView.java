@@ -9,16 +9,16 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 
-public class AppHomeTabletView extends ViewWithUiHandlers<AppHomeUiHandlers>
+public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers>
 		implements AppHomePresenter.MyView {
-	interface Binder extends UiBinder<Widget, AppHomeTabletView> {
+	interface Binder extends UiBinder<Widget, AppHomeMobileView> {
 	}
 
 	@UiField
 	SimplePanel main;
 
 	@Inject
-	AppHomeTabletView(Binder uiBinder) {
+	AppHomeMobileView(Binder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 

@@ -16,13 +16,26 @@
  * arising from, out of or in connection with the software or the use or other 
  * dealings in the Software.
  */
-package com.briceducardonnoy.client.application.apphome;
+package com.briceducardonnoy.client.application;
 
+import javax.inject.Singleton;
+
+import com.briceducardonnoy.client.application.apphome.AppHomeMobileModule;
+import com.briceducardonnoy.client.application.header.HeaderMobileView;
+import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
-public class AppHomeTabletModule extends AbstractPresenterModule {
+public class ApplicationMobileModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
-		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeTabletView.class, AppHomePresenter.MyProxy.class);
+		install(new AppHomeMobileModule());
+		// Application Presenters
+		bind(ApplicationTabletPresenter.class).in(Singleton.class);
+		bind(ApplicationTabletView.class).in(Singleton.class);
+		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
+		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationTabletView.class);
+		bind(AbstractApplicationPresenter.class).to(ApplicationTabletPresenter.class);
+		
+		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);		
 	}
 }

@@ -16,45 +16,13 @@
  * arising from, out of or in connection with the software or the use or other 
  * dealings in the Software.
  */
-package com.briceducardonnoy.client.application.header;
+package com.briceducardonnoy.client.application.apphome;
 
-import javax.inject.Inject;
+import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
-import com.briceducardonnoy.client.imagepreloader.FitImage;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.gwtplatform.mvp.client.ViewImpl;
-
-public class HeaderTabletView extends ViewImpl implements HeaderPresenter.MyView {
-    public interface Binder extends UiBinder<Widget, HeaderTabletView> {
-    }
-
-    @UiField
-    SimplePanel main;
-
-    @Inject
-    HeaderTabletView(Binder uiBinder) {
-        initWidget(uiBinder.createAndBindUi(this));
-    }
-
-    @Override
-    public void setInSlot(Object slot, IsWidget content) {
-//		if (slot == HeaderPresenter.SLOT_SetHeaderContent) {
-//		} else
-		if (slot == HeaderPresenter.SLOT_SetMainContent) {
-		    main.setWidget(content);
-		}
-		else {
-		    super.setInSlot(slot, content);
-		}
-    }
-
+public class AppHomeMobileModule extends AbstractPresenterModule {
 	@Override
-	public FitImage getLogo() {
-		// TODO Auto-generated method stub
-		return null;
+	protected void configure() {
+		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeMobileView.class, AppHomePresenter.MyProxy.class);
 	}
 }

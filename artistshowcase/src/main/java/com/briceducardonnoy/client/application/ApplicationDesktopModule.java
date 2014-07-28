@@ -22,6 +22,7 @@ import javax.inject.Singleton;
 
 import com.briceducardonnoy.client.application.apphome.AppHomeModule;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
+import com.briceducardonnoy.client.application.header.HeaderMobileView;
 import com.briceducardonnoy.client.application.header.HeaderView;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
@@ -36,6 +37,7 @@ public class ApplicationDesktopModule extends AbstractPresenterModule {
 		bind(AbstractApplicationPresenter.class).to(ApplicationDesktopPresenter.class);
 		
 		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderView.class, HeaderPresenter.MyProxy.class);
+//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);
 //		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeView.class, AppHomePresenter.MyProxy.class);
 		
 		install(new AppHomeModule());
