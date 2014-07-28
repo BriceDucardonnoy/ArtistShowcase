@@ -20,19 +20,23 @@
  */
 package com.briceducardonnoy.client.application;
 
-import com.allen_sauer.gwt.log.client.Log;
-import com.briceducardonnoy.client.application.header.HeaderPresenter;
-import com.google.inject.Inject;
-import com.google.web.bindery.event.shared.EventBus;
+import javax.inject.Inject;
 
-public class ApplicationTabletPresenter extends AbstractApplicationPresenter implements ApplicationUiHandlers {
-	
-	@Inject
-	public ApplicationTabletPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-		super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
-		
-		view.setUiHandlers(this);
-		Log.info("Tablet presenter");
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+
+public class ApplicationMobileView extends ViewWithUiHandlers<ApplicationUiHandlers> implements AbstractApplicationPresenter.MyView {
+	interface Binder extends UiBinder<Widget, ApplicationMobileView> {
 	}
 
+	@UiField
+	HTMLPanel panel;
+
+	@Inject
+	ApplicationMobileView(Binder uiBinder) {
+		initWidget(uiBinder.createAndBindUi(this));
+	}
 }

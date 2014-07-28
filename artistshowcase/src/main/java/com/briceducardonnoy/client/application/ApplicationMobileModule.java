@@ -30,11 +30,11 @@ public class ApplicationMobileModule extends AbstractPresenterModule {
 	protected void configure() {
 		install(new AppHomeMobileModule());
 		// Application Presenters
-		bind(ApplicationTabletPresenter.class).in(Singleton.class);
-		bind(ApplicationTabletView.class).in(Singleton.class);
+		bind(ApplicationMobilePresenter.class).in(Singleton.class);
+		bind(ApplicationMobileView.class).in(Singleton.class);
 		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
-		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationTabletView.class);
-		bind(AbstractApplicationPresenter.class).to(ApplicationTabletPresenter.class);
+		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationMobileView.class);
+		bind(AbstractApplicationPresenter.class).to(ApplicationMobilePresenter.class);
 		
 		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);		
 	}
