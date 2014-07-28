@@ -71,7 +71,7 @@ h1 {
 	color: white;
 }
 
-@MEDIA screen and (min-height: 600px) {
+@MEDIA screen and (min-height: 1024px) {
 	.header {
 		position: absolute;
 		background: inherit;
@@ -99,7 +99,7 @@ h1 {
 	}
 }
 
-@MEDIA screen and (max-height: 600px) and (min-height: 480px) {
+@MEDIA screen and (max-height: 1024px) and (min-height: 480px) {
 	.header {
 		position: absolute;
 		background: inherit;
