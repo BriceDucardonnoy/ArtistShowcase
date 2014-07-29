@@ -29,6 +29,7 @@ import com.briceducardonnoy.client.lang.Translate;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,6 +42,8 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
     private final Translate translate = GWT.create(Translate.class);
 
 	@UiField FitImage logo;
+	@UiField Image tr_fr;
+	@UiField Image tr_en;
 	@UiField ImageButton home;
 	@UiField ImageSplitButton gallery;
 	@UiField ImageButton approach;
@@ -78,5 +81,15 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 	@Override
 	public FitImage getLogo() {
 		return logo;
+	}
+
+	@Override
+	public Image getFrBtn() {
+		return tr_fr;
+	}
+
+	@Override
+	public Image getEnBtn() {
+		return tr_en;
 	}
 }

@@ -22,11 +22,13 @@ package com.briceducardonnoy.client.application.header;
 
 import javax.inject.Inject;
 
+import com.briceducardonnoy.client.application.utils.Utils;
 import com.briceducardonnoy.client.imagepreloader.FitImage;
 import com.briceducardonnoy.client.place.NameTokens;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.ui.Image;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -46,6 +48,8 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 	
     public interface MyView extends View {
     	public FitImage getLogo();
+		public Image getFrBtn();
+		public Image getEnBtn();
     }
 
 //	@ContentSlot
@@ -65,9 +69,11 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
     @Override
     protected void onBind() {
     	super.onBind();
-    	if(getView().getLogo() != null) {// TODO BDY: implement it in TabletView
+    	if(getView().getLogo() != null) {// Mobile view hasn't any logo
     		registerHandler(getView().getLogo().addClickHandler(logoClick));
     	}
+    	registerHandler(getView().getFrBtn().addClickHandler(frHandler));
+		registerHandler(getView().getEnBtn().addClickHandler(enHandler));
     }
     // TODO BDY: add cursor pointer on logo
     
@@ -78,5 +84,20 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 			placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.home).build());
 		}
 	};
+	
+	private ClickHandler frHandler = new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent arg0) {
+			Utils.switchLocale("fr");
+		}
+	};
+
+	private ClickHandler enHandler = new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent arg0) {
+			Utils.switchLocale("en");
+		}
+	};
+	
 	
 }

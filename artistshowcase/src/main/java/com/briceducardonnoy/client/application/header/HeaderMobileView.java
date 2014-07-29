@@ -27,6 +27,7 @@ import com.briceducardonnoy.client.lang.Translate;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,6 +46,8 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 	@UiField ImageButton contact;
 	@UiField ImageButton link;
 	@UiField ImageButton legal;
+	@UiField Image tr_fr;
+	@UiField Image tr_en;
 	@UiField SimplePanel main;
 
     @Inject
@@ -74,7 +77,17 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 
 	@Override
 	public FitImage getLogo() {
-		// TODO Auto-generated method stub
+		// Mobile view hasn't any logo
 		return null;
+	}
+	
+	@Override
+	public Image getFrBtn() {
+		return tr_fr;
+	}
+
+	@Override
+	public Image getEnBtn() {
+		return tr_en;
 	}
 }
