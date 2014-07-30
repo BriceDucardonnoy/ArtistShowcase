@@ -23,8 +23,8 @@
     		<bdywidget:ImageButton res="{res.contact}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="contact" />
     		<bdywidget:ImageButton res="{res.link}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="link" />
     		<bdywidget:ImageButton res="{res.copyright}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="legal" />
-    		<g:Image resource='{res.france24}' ui:field="tr_fr" addStyleNames="{style.menuItem} headerButtonMobile" altText="langFr" />
-	    	<g:Image resource='{res.uk24}' ui:field="tr_en" addStyleNames="{style.menuItem} headerButtonMobile" altText="langEn" />
+    		<g:Image resource='{res.france}' ui:field="tr_fr" addStyleNames="{style.menuItem} headerButtonMobile" altText="langFr" />
+	    	<g:Image resource='{res.uk}' ui:field="tr_en" addStyleNames="{style.menuItem} headerButtonMobile" altText="langEn" />
     	</g:FlowPanel>
     	<g:SimplePanel styleName="mainMobile" ui:field="main" />
     </g:HTMLPanel>
