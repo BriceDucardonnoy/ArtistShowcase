@@ -1,0 +1,7 @@
+Title: Steve Wozniak;
+Show: wozniak.jpg;
+Price: 145;
+Dimension: 80 x 70;
+Color: Blue;
+Categories: tout,Good Side;
+Description:;

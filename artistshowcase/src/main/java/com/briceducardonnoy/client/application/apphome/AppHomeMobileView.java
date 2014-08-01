@@ -1,7 +1,13 @@
 package com.briceducardonnoy.client.application.apphome;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import org.gwt.contentflow4gwt.client.ContentFlow;
+
+import com.briceducardonnoy.shared.model.Category;
+import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -29,5 +35,35 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers>
 		} else {
 			super.setInSlot(slot, content);
 		}
+	}
+
+	@Override
+	public void addCategories(List<Category> categories) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addItems(List<Picture> pictures) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ContentFlow<Picture> getContentFlow() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Picture getCurrentPicture() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

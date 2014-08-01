@@ -1,6 +1,6 @@
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
              xmlns:g='urn:import:com.google.gwt.user.client.ui'
-             xmlns:imagepreloader="urn:import:com.briceducardonnoy.client.imagepreloader"
+             xmlns:imagepreloader="urn:import:com.reveregroup.gwt.imagepreloader.client"
              xmlns:bdywidget="urn:import:com.briceducardonnoy.client.application.widgets">
     
     <!-- Resources -->

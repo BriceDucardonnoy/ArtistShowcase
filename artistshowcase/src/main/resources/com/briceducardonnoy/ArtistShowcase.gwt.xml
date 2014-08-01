@@ -31,6 +31,9 @@
 	<set-configuration-property name="gin.ginjector.module.mobile" value="com.briceducardonnoy.client.gin.MobileModule" />
 	<set-configuration-property name="gin.ginjector.module.tablet" value="com.briceducardonnoy.client.gin.MobileModule" />
 	
+	<!-- ContentFlow module -->
+	<inherits name='org.gwt.contentflow4gwt.contentflow4gwt'/>
+	
 	<!-- Shared modules -->
     <!-- <set-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.ClientModule"/> -->
     <extend-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.SharedModule" />

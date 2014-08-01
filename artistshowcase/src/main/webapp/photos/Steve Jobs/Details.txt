@@ -1,0 +1,7 @@
+Title: Steve Jobs;
+Show: jobs.jpg;
+Price: 100;
+Dimension: 30 x 40;
+Color: Black;
+Categories: tout,Thiefs;
+Description:;

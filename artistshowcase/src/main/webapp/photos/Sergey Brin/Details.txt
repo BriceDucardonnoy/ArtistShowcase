@@ -1,0 +1,7 @@
+Title: Sergey Brin;
+Show: brin.jpg;
+Price: 300;
+Dimension: 100 x 200;
+Color: Blue;
+Categories: tout,Good Side;
+Description:;

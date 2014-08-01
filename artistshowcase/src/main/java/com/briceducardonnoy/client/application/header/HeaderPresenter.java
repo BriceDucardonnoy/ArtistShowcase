@@ -23,7 +23,6 @@ package com.briceducardonnoy.client.application.header;
 import javax.inject.Inject;
 
 import com.briceducardonnoy.client.application.utils.Utils;
-import com.briceducardonnoy.client.imagepreloader.FitImage;
 import com.briceducardonnoy.client.place.NameTokens;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -38,6 +37,7 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
+import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 /**
  * This is the top-level presenter of the hierarchy. Other presenters reveal themselves within this presenter.
@@ -75,7 +75,6 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
     	registerHandler(getView().getFrBtn().addClickHandler(frHandler));
 		registerHandler(getView().getEnBtn().addClickHandler(enHandler));
     }
-    // TODO BDY: add cursor pointer on logo
     
     // Handlers
     private ClickHandler logoClick = new ClickHandler() {

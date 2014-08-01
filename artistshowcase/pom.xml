@@ -242,6 +242,14 @@
             <version>${jukito.version}</version>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Coverflow -->
+        <dependency>
+            <groupId>org.gwt</groupId>
+            <artifactId>contentflow4gwt</artifactId>
+            <version>0.5</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <!-- Initialization of super dev mode -->
     <profiles>

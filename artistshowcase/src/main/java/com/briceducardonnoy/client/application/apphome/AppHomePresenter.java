@@ -18,9 +18,21 @@
  */
 package com.briceducardonnoy.client.application.apphome;
 
+import java.util.List;
+
+import org.gwt.contentflow4gwt.client.ContentFlow;
+import org.gwt.contentflow4gwt.client.ContentFlowItemClickListener;
+
+import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
+import com.briceducardonnoy.client.context.ApplicationContext;
+import com.briceducardonnoy.client.lang.Translate;
 import com.briceducardonnoy.client.place.NameTokens;
+import com.briceducardonnoy.shared.model.Category;
+import com.briceducardonnoy.shared.model.Picture;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.HasUiHandlers;
@@ -29,14 +41,22 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
-public class AppHomePresenter extends
-		Presenter<AppHomePresenter.MyView, AppHomePresenter.MyProxy> implements
-		AppHomeUiHandlers {
+public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHomePresenter.MyProxy> implements AppHomeUiHandlers {
 	interface MyView extends View, HasUiHandlers<AppHomeUiHandlers> {
+		public void addCategories(List<Category> categories);
+		public void init();
+		public void addItems(List<Picture> pictures);
+		public ContentFlow<Picture> getContentFlow();
+		public Picture getCurrentPicture();
 	}
+	
+	@Inject	PlaceManager placeManager;
+	
+	private final Translate translate = GWT.create(Translate.class);
 
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> SLOT_AppHome = new Type<RevealContentHandler<?>>();
@@ -53,8 +73,17 @@ public class AppHomePresenter extends
 		getView().setUiHandlers(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void onBind() {
 		super.onBind();
+		// TODO BDY: add pictures loaded handler
+//		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
+		registerHandler(getView().getContentFlow().addItemClickListener(contentFlowClickListener));
+//		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
+		if(ApplicationContext.getInstance().getProperty("pictures") != null) {
+			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
+					(List<Picture>)ApplicationContext.getInstance().getProperty("pictures"));
+		}
 	}
 
 	protected void onHide() {
@@ -64,5 +93,24 @@ public class AppHomePresenter extends
 	protected void onReset() {
 		super.onReset();
 	}
+	
+	private void initDataAndView(List<Category> categories, List<Picture> pictures) {
+		getView().addCategories(categories);
+		getView().addItems(pictures);// Initialize cover flow
+		getView().init();
+	}
+	
+//	Log.info("getHostPageBaseURL: " + GWT.getHostPageBaseURL());// http://127.0.1.1:8888/
+//	Log.info("getModuleName: " + GWT.getModuleName());// liliShowcase
+//	Log.info("getModuleBaseForStaticFiles: " + GWT.getModuleBaseForStaticFiles());// http://127.0.1.1:8888/liliShowcase/ 
+//	Log.info("getModuleBaseURL: " + GWT.getModuleBaseURL());// http://127.0.1.1:8888/liliShowcase/
 
+	// Handlers
+	private ContentFlowItemClickListener contentFlowClickListener = new ContentFlowItemClickListener() {
+        public void onItemClicked(Widget widget) {
+        	Log.info(translate.Selection(), translate.YouClickOn() + " " + getView().getCurrentPicture().getTitle());
+//        	placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.detail).with(ApplicationContext.DETAIL_KEYWORD, 
+//        			(String) getView().getCurrentPicture().getProperty(ApplicationContext.FILEINFO)).build());
+        }
+    };
 }

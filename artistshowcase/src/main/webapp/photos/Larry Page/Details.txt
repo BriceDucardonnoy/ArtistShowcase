@@ -1,0 +1,7 @@
+Title: Larry Page;
+Show: page.jpg;
+Price: 200;
+Dimension: 30 x 40;
+Color: Black;
+Categories: tout,Evil Side;
+Description:;
