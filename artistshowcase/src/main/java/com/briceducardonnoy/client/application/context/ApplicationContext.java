@@ -1,4 +1,4 @@
-package com.briceducardonnoy.client.context;
+package com.briceducardonnoy.client.application.context;
 
 import java.util.HashMap;
 

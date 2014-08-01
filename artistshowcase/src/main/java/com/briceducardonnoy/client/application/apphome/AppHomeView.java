@@ -32,6 +32,7 @@ import com.briceducardonnoy.shared.model.Category;
 import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -57,6 +58,8 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	
 	private String sortName;
 	private int loadedPictures = 0;
+	private boolean isResizing = false;
+	private Integer currentCategoryId = null;
 
 	@Inject
 	AppHomeView(Binder uiBinder) {
@@ -109,6 +112,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 		if(categories == null || categories.isEmpty()) return;
 		this.categories = new ArrayList<>();
 		this.categories.addAll(categories);
+		currentCategoryId = categories.get(0).getId();
 	}
 	
 	@Override
@@ -167,6 +171,94 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 			}
 		}
 		orderedPictures.add(refIdx);
+	}
+	
+	@Override
+	public void changeCurrentCategory(final Integer categoryId) {
+		// Wait for cover flow to be initialized and change current category
+		// That case can append if another page is loaded in first and then a category selection is done without going to home before
+		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
+			@Override
+			public boolean execute() {
+				if(contentFlow.isInit() && loadedPictures >= allPictures.size() && !isResizing) {
+					Log.info("Start change current category");
+					startChangeCurrentCategory(categoryId);
+					return false;
+				}
+				return true;
+			}
+		}, 1000);// 1s
+	}
+	
+	private void startChangeCurrentCategory(final Integer categoryId) {
+		if(categoryId.equals(currentCategoryId)) return;
+		currentCategoryId = categoryId;
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				refreshCoverFlow();
+			}
+		});
+	}
+	
+	/**
+	 * Display pictures for given category
+	 * Clear ordered pictures and add new ones in specific order
+	 * Then add it in DOM
+	 */
+	public void refreshCoverFlow() {
+		/*
+		 *  Remove objects pushed twice in target (objects from contentflow project in public)
+		 */
+		/*
+		 *  Update data
+		 */
+		// Pictures are removed from view but PhotoView widget keeps last class/style state (as 'active' or 'display:block') => clean it
+		for(Integer i : orderedPictures) {
+			allPictures.get(i).getContainer().removeStyleName("active");
+			allPictures.get(i).getContainer().setVisible(false);
+		}
+		orderedPictures.clear();
+		int sz = allPictures.size();
+		for(int i = 0 ; i < sz ; i++) {
+			Picture p = (Picture) allPictures.get(i).getPojo();
+			if(p.getCategoryIds().contains(currentCategoryId)) {
+//			if(containsCategorie(p.getCategoryIds(), currentCategoryId)) {
+				addInOrderedData(p, i);
+			}
+		}
+		/*
+		 *  Update contentFlow
+		 */
+		contentFlow.removeAll();
+		for(Integer i : orderedPictures) {
+			contentFlow.addItem(allPictures.get(i));
+		}
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				if(Log.isTraceEnabled()) {
+					Log.trace("Refresh DOM");
+				}
+				// Lame hack
+				contentFlow.refreshActiveItem(orderedPictures.size() * 28);
+			}
+		});
+	}
+	
+	@Override
+	public void resize() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				if(contentFlow.isInit()) {
+					isResizing = true;
+					contentFlow.resize();
+					isResizing = false;
+				}
+			}
+		});
+//		refreshCoverFlow();
 	}
 	
 	@Override

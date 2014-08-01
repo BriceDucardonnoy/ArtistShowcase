@@ -20,14 +20,25 @@
  */
 package com.briceducardonnoy.client.application.header;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.client.application.context.ApplicationContext;
 import com.briceducardonnoy.client.application.utils.Utils;
+import com.briceducardonnoy.client.lang.Translate;
 import com.briceducardonnoy.client.place.NameTokens;
+import com.briceducardonnoy.shared.model.Category;
+import com.briceducardonnoy.shared.model.Picture;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -43,8 +54,15 @@ import com.reveregroup.gwt.imagepreloader.client.FitImage;
  * This is the top-level presenter of the hierarchy. Other presenters reveal themselves within this presenter.
  */
 public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPresenter.MyProxy> {
-	@Inject
-	PlaceManager placeManager;
+	@Inject	PlaceManager placeManager;
+	@UiField SimplePanel main;
+	
+	private final Translate translate = GWT.create(Translate.class);
+	
+	private ArrayList<Picture> pictures;
+	private ArrayList<Category> categories;
+	private String[] picts;
+	private int categoriesNumber = 0;
 	
     public interface MyView extends View {
     	public FitImage getLogo();
@@ -69,12 +87,111 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
     @Override
     protected void onBind() {
     	super.onBind();
+    	Utils.loadFile(loadListAC, GWT.getHostPageBaseURL() + "Documents/List.txt");
+		Utils.showWaitCursor(main.getElement());
     	if(getView().getLogo() != null) {// Mobile view hasn't any logo
     		registerHandler(getView().getLogo().addClickHandler(logoClick));
     	}
+//    	registerHandler(getView().getGalleryMenu().addSelectionHandler(categoryChangedHandler));// TODO BDY: category changed handler
     	registerHandler(getView().getFrBtn().addClickHandler(frHandler));
 		registerHandler(getView().getEnBtn().addClickHandler(enHandler));
     }
+    
+    private void initPictures(String list) {
+//		picts = list.replaceAll("\r", "").replaceAll("\n", "").split(";");
+		picts = list.replaceAll("\r",  "").split("\n");
+		Log.info("Picture " + picts[0]);
+		Utils.loadFile(loadInfoAC, GWT.getHostPageBaseURL() + ApplicationContext.PHOTOSFOLDER + "/" + picts[0] + "/Details.txt");
+	}
+	
+	private void loadPictureInfo(String infos, int nextInd) {
+		// Store info
+		if(!infos.isEmpty() && !infos.contains("HTTP ERROR: 404")) {
+			Picture p = new Picture();
+			p.addProperty(ApplicationContext.FILEINFO, picts[nextInd - 1]);
+			// Special case for imageUrl to build from 'Show'
+			String []entries = infos.replaceAll("\r", "").split("\n");
+			for(String entry : entries) {
+				if(entry.endsWith(";")) {
+					entry = entry.replaceAll(";$", "");
+				}
+				if(entry.startsWith("Categories")) {
+					// Add property Categories
+					String []categories = entry.substring(entry.indexOf(":") + 1).replaceAll(" ", "").split(",");
+					if(categories.length == 0) continue;
+					for(String category : categories) {
+						if(category.isEmpty()) continue;
+						if(category.equalsIgnoreCase("tout")) {
+							category = translate.All();			
+						}
+						boolean found = false;
+						for(Category cat : this.categories) {
+							if(cat != null && cat.getName().equalsIgnoreCase(category)) {
+								found = true;
+								p.addCategoryId(cat.getId());
+								break;
+							}
+						}
+						if(!found) {
+							if(Log.isTraceEnabled()) {
+								Log.info("Add category <" + category + ">");
+							}
+							addNewCategory(new Category(categoriesNumber, category, category));
+							p.addCategoryId(categoriesNumber++);
+						}
+					}
+//					p.addProperty("imageUrl", GWT.getHostPageBaseURL() + "photos/" + p.getNameOrTitle() + "/" + p.getProperty("Show"));
+					p.addProperty("imageUrl", GWT.getHostPageBaseURL() + ApplicationContext.PHOTOSFOLDER + "/" + picts[nextInd - 1] + "/" + p.getProperty("Show"));
+					continue;
+				}// End of categories process
+				String []prop = entry.split(":");
+				if(prop.length == 2) {
+					p.addProperty(prop[0].trim(), prop[1].trim());
+				}
+				else {
+					if(Log.isTraceEnabled()) {
+						Log.warn("Line <" + entry + "> doesn't contain 2 properties");
+					}
+					if(prop.length == 1) p.addProperty(prop[0], null);
+				}
+			}// End of properties process
+			pictures.add(p);
+		}
+		// Browse next picture
+		if(nextInd < picts.length) {
+			if(!picts[nextInd].isEmpty()) {
+				Log.info("Picture " + picts[nextInd]);
+				Utils.loadFile(loadInfoAC, GWT.getHostPageBaseURL() + ApplicationContext.PHOTOSFOLDER + "/" + picts[nextInd++] + "/Details.txt");
+			}
+		}
+		// Launch view initialization
+		else if(nextInd == picts.length) {
+			Log.info("Log picture done!!!");
+//			getView().addGalleries(categories);
+//			getEventBus().fireEvent(new PicturesLoadedEvent(pictures, categories));// TODO BDY: add gallery in view
+			ApplicationContext.getInstance().addProperty("categories", categories);
+			ApplicationContext.getInstance().addProperty("pictures", pictures);
+			Utils.showDefaultCursor(main.getElement());
+			return;
+		}
+	}
+	
+	private void addNewCategory(Category newCat) {
+		if(newCat == null) return;
+		if(newCat.getName().equalsIgnoreCase(translate.All())) {
+			categories.add(0, newCat);
+			return;
+		}
+		for(int i = 0 ; i < categories.size() ; i++) {
+			Category cat = categories.get(i);
+			// Add new category with alphabetic sort if doesn't exist.
+			if(!cat.getName().equalsIgnoreCase(translate.All()) && newCat.getName().compareToIgnoreCase(cat.getName()) > 0) {
+				categories.add(i, newCat);
+				return;
+			}
+		}
+		categories.add(newCat);
+	}
     
     // Handlers
     private ClickHandler logoClick = new ClickHandler() {
@@ -98,5 +215,47 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 		}
 	};
 	
+	/*
+	 * AsyncCallbacks
+	 */
+	private AsyncCallback<String> loadListAC = new AsyncCallback<String>() {
+		@Override
+		public void onFailure(Throwable caught) {
+			Log.error("Loading list failed: " + caught.getMessage());
+			caught.printStackTrace();
+		}
+		@Override
+		public void onSuccess(String result) {
+			if(Log.isTraceEnabled()) {
+            	Log.trace("List: \n" + result);
+            }
+			if(result.isEmpty()) {
+				Log.error("List of pictures is empty");
+			}
+			else {
+				initPictures(result);
+			}
+		}
+	};
+	
+	private AsyncCallback<String> loadInfoAC = new AsyncCallback<String>() {
+		private int ind = 0;
+		@Override
+		public void onFailure(Throwable caught) {
+			Log.error("Loading details failed: " + caught.getMessage());
+			caught.printStackTrace();
+			loadPictureInfo("", ++ind);
+		}
+		@Override
+		public void onSuccess(String result) {
+			if(Log.isTraceEnabled()) {
+            	Log.trace("Info: \n" + result);
+            }
+			if(result.isEmpty()) {
+				Log.warn("List of pictures is empty");
+			}
+			loadPictureInfo(result, ++ind);
+		}
+	};
 	
 }

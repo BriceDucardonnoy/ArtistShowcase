@@ -66,4 +66,16 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers>
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void resize() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeCurrentCategory(Integer categoryId) {
+		// TODO Auto-generated method stub
+		
+	}
 }

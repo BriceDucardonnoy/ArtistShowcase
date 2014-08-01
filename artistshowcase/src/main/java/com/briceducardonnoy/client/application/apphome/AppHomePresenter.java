@@ -24,8 +24,12 @@ import org.gwt.contentflow4gwt.client.ContentFlow;
 import org.gwt.contentflow4gwt.client.ContentFlowItemClickListener;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.client.application.context.ApplicationContext;
+import com.briceducardonnoy.client.application.events.CategoryChangedEvent;
+import com.briceducardonnoy.client.application.events.CategoryChangedEvent.CategoryChangedHandler;
+import com.briceducardonnoy.client.application.events.PicturesLoadedEvent;
+import com.briceducardonnoy.client.application.events.PicturesLoadedEvent.PicturesLoadedHandler;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
-import com.briceducardonnoy.client.context.ApplicationContext;
 import com.briceducardonnoy.client.lang.Translate;
 import com.briceducardonnoy.client.place.NameTokens;
 import com.briceducardonnoy.shared.model.Category;
@@ -47,11 +51,13 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 
 public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHomePresenter.MyProxy> implements AppHomeUiHandlers {
 	interface MyView extends View, HasUiHandlers<AppHomeUiHandlers> {
-		public void addCategories(List<Category> categories);
-		public void init();
-		public void addItems(List<Picture> pictures);
-		public ContentFlow<Picture> getContentFlow();
-		public Picture getCurrentPicture();
+		void addCategories(List<Category> categories);
+		void init();
+		void addItems(List<Picture> pictures);
+		ContentFlow<Picture> getContentFlow();
+		Picture getCurrentPicture();
+		void resize();
+		void changeCurrentCategory(Integer categoryId);
 	}
 	
 	@Inject	PlaceManager placeManager;
@@ -76,10 +82,9 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	@SuppressWarnings("unchecked")
 	protected void onBind() {
 		super.onBind();
-		// TODO BDY: add pictures loaded handler
-//		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
+		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
 		registerHandler(getView().getContentFlow().addItemClickListener(contentFlowClickListener));
-//		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
+		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
 		if(ApplicationContext.getInstance().getProperty("pictures") != null) {
 			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
 					(List<Picture>)ApplicationContext.getInstance().getProperty("pictures"));
@@ -105,7 +110,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 //	Log.info("getModuleBaseForStaticFiles: " + GWT.getModuleBaseForStaticFiles());// http://127.0.1.1:8888/liliShowcase/ 
 //	Log.info("getModuleBaseURL: " + GWT.getModuleBaseURL());// http://127.0.1.1:8888/liliShowcase/
 
-	// Handlers
+	// Handlers and events
 	private ContentFlowItemClickListener contentFlowClickListener = new ContentFlowItemClickListener() {
         public void onItemClicked(Widget widget) {
         	Log.info(translate.Selection(), translate.YouClickOn() + " " + getView().getCurrentPicture().getTitle());
@@ -113,4 +118,18 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 //        			(String) getView().getCurrentPicture().getProperty(ApplicationContext.FILEINFO)).build());
         }
     };
+    
+    private PicturesLoadedHandler pictureLoadedHandler = new PicturesLoadedHandler() {
+		@Override
+		public void onPicturesLoaded(PicturesLoadedEvent event) {
+			initDataAndView(event.getCategories(), event.getPictures());
+		}
+	};
+	
+	private CategoryChangedHandler categoryChangedHandler = new CategoryChangedHandler() {
+		@Override
+		public void onCategoryChanged(CategoryChangedEvent event) {
+			AppHomePresenter.this.getView().changeCurrentCategory(event.getCategoryId());
+		}
+	};
 }
