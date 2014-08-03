@@ -90,14 +90,20 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 					(List<Picture>)ApplicationContext.getInstance().getProperty("pictures"));
 		}
 	}
-
-	protected void onHide() {
-		super.onHide();
-	}
-
-	protected void onReset() {
-		super.onReset();
-	}
+	
+//	@Override
+//	protected void onReveal() {
+//		super.onReveal();
+//		getView().resize();
+//	}
+//
+//	protected void onHide() {
+//		super.onHide();
+//	}
+//
+//	protected void onReset() {
+//		super.onReset();
+//	}
 	
 	private void initDataAndView(List<Category> categories, List<Picture> pictures) {
 		getView().addCategories(categories);

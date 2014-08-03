@@ -227,7 +227,6 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 		for(int i = 0 ; i < sz ; i++) {
 			Picture p = (Picture) allPictures.get(i).getPojo();
 			if(p.getCategoryIds().contains(currentCategoryId)) {
-//			if(containsCategorie(p.getCategoryIds(), currentCategoryId)) {
 				addInOrderedData(p, i);
 			}
 		}
@@ -262,7 +261,6 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 				}
 			}
 		});
-//		refreshCoverFlow();
 	}
 	
 	@Override
@@ -280,7 +278,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	 */
 	@UiFactory
 	ContentFlow<Picture> createContentFlow() {
-		return new ContentFlow<Picture>(true, true);
+		return new ContentFlow<Picture>(true, true, 1.33f);
 	}
 
 }

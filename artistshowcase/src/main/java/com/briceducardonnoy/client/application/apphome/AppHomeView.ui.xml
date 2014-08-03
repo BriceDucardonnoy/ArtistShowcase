@@ -5,15 +5,11 @@
              
     <ui:style>
     	.contentStyle {
-			width: 100%;
-			height: 100%;
-		}
+			margin-top: 30px;
+    	}
     </ui:style>
     
-    <g:SimplePanel ui:field="main" addStyleNames="{style.contentStyle}">
-    	<!-- <g:HTMLPanel>
-    		Main for desktop<br/><g:Button text="desktop" ui:field="desktop" />
-    	</g:HTMLPanel> -->
+    <g:SimpleLayoutPanel ui:field="main" height="100%" >
     	<cover:ContentFlow ui:field="contentFlow" addStyleNames="{style.contentStyle}" />
-    </g:SimplePanel>
+    </g:SimpleLayoutPanel>
 </ui:UiBinder>
