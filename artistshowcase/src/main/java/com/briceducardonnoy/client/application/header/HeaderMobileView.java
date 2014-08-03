@@ -18,16 +18,20 @@
  */
 package com.briceducardonnoy.client.application.header;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import com.briceducardonnoy.client.application.widgets.ImageButton;
 import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.client.lang.Translate;
+import com.briceducardonnoy.shared.model.Category;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
@@ -40,7 +44,7 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
     private final Translate translate = GWT.create(Translate.class);
     
     @UiField ImageButton home;
-	@UiField ImageSplitButton gallery;
+	@UiField ImageSplitButton gallery;// TODO BDY: hide it because it has no reason to be here in mobile view
 	@UiField ImageButton approach;
 	@UiField ImageButton expo;
 	@UiField ImageButton contact;
@@ -89,5 +93,21 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 	@Override
 	public Image getEnBtn() {
 		return tr_en;
+	}
+	
+	@Override
+	public Panel getMain() {
+		return main;
+	}
+	
+	@Override
+	public ImageSplitButton getGallery() {
+		return gallery;
+	}
+
+	@Override
+	public void addGalleries(ArrayList<Category> categories) {
+		// TODO Auto-generated method stub
+		
 	}
 }

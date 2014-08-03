@@ -105,11 +105,6 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		getView().init();
 	}
 	
-//	Log.info("getHostPageBaseURL: " + GWT.getHostPageBaseURL());// http://127.0.1.1:8888/
-//	Log.info("getModuleName: " + GWT.getModuleName());// liliShowcase
-//	Log.info("getModuleBaseForStaticFiles: " + GWT.getModuleBaseForStaticFiles());// http://127.0.1.1:8888/liliShowcase/ 
-//	Log.info("getModuleBaseURL: " + GWT.getModuleBaseURL());// http://127.0.1.1:8888/liliShowcase/
-
 	// Handlers and events
 	private ContentFlowItemClickListener contentFlowClickListener = new ContentFlowItemClickListener() {
         public void onItemClicked(Widget widget) {

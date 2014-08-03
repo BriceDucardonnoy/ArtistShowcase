@@ -20,18 +20,26 @@
  */
 package com.briceducardonnoy.client.application.header;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.client.application.events.CategoryChangedEvent;
 import com.briceducardonnoy.client.application.widgets.ImageButton;
 import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.client.lang.Translate;
+import com.briceducardonnoy.shared.model.Category;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
@@ -40,6 +48,8 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
     }
     
     private final Translate translate = GWT.create(Translate.class);
+    
+    @Inject EventBus eventBus;
 
 	@UiField FitImage logo;
 	@UiField Image tr_fr;
@@ -52,13 +62,15 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 	@UiField ImageButton link;
 	@UiField ImageButton legal;
 	@UiField SimplePanel main;
+	
+	private int nbCategories = 0;
 
     @Inject
     HeaderView(Binder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		home.setText(translate.Home());
-		gallery.setText(translate.Gallery());// TODO BDY: send HandlerRegistration to presenter
+		gallery.setText(translate.Gallery());
 		approach.setText(translate.ArtisticApproach());
 		expo.setText(translate.Expositions());
 		contact.setText(translate.Contact());
@@ -77,6 +89,22 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 		    super.setInSlot(slot, content);
 		}
     }
+    
+    @Override
+	public void addGalleries(ArrayList<Category> categories) {
+    	if(categories == null || categories.size() == 0 || categories.size() == nbCategories) return;
+    	Log.info("Categories to update (size to add is " + categories.size() + ")");
+    	gallery.getMenuBar().clearItems();
+    	for(final Category cat : categories) {
+    		if(cat.getId() == null) continue;
+    		gallery.getMenuBar().addItem(cat.getName(), new ScheduledCommand() {
+				@Override
+				public void execute() {
+					eventBus.fireEvent(new CategoryChangedEvent(cat.getId()));
+				}
+			});
+    	}
+    }
 
 	@Override
 	public FitImage getLogo() {
@@ -91,5 +119,15 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 	@Override
 	public Image getEnBtn() {
 		return tr_en;
+	}
+
+	@Override
+	public Panel getMain() {
+		return main;
+	}
+	
+	@Override
+	public ImageSplitButton getGallery() {
+		return gallery;
 	}
 }

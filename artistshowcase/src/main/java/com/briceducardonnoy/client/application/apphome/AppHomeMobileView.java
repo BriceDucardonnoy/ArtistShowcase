@@ -20,8 +20,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers>
 	interface Binder extends UiBinder<Widget, AppHomeMobileView> {
 	}
 
-	@UiField
-	SimplePanel main;
+	@UiField SimplePanel main;
 
 	@Inject
 	AppHomeMobileView(Binder uiBinder) {

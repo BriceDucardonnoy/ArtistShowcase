@@ -34,6 +34,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -52,7 +53,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	
 	private ArrayList<PhotoView> allPictures = null;
 	private ArrayList<Integer> orderedPictures = null;
-	private ArrayList<Category> categories = null;
+	private ArrayList<Category> categories = null;// TODO BDY: not sure it's necessary
 	
 	private FitImageLoadHandler flh;
 	
@@ -66,6 +67,9 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		sortName = "Date";
+		allPictures = new ArrayList<>();
+		orderedPictures = new ArrayList<>();
+		categories = new ArrayList<>();
 		flh = new FitImageLoadHandler() {
 			@Override
 			public void imageLoaded(FitImageLoadEvent event) {
@@ -269,6 +273,14 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	@Override
 	public ContentFlow<Picture> getContentFlow() {
 		return contentFlow;
+	}
+	
+	/*
+	 * As for UiHandler, method name has no importance, it's the parameter type of the return...
+	 */
+	@UiFactory
+	ContentFlow<Picture> createContentFlow() {
+		return new ContentFlow<Picture>(true, true);
 	}
 
 }

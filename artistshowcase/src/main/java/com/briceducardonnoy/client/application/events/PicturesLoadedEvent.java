@@ -1,6 +1,6 @@
 package com.briceducardonnoy.client.application.events;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import com.briceducardonnoy.shared.model.Category;
 import com.briceducardonnoy.shared.model.Picture;
@@ -11,8 +11,8 @@ import com.google.gwt.event.shared.HasHandlers;
 public class PicturesLoadedEvent extends GwtEvent<PicturesLoadedEvent.PicturesLoadedHandler> {
 
 	public static Type<PicturesLoadedHandler> TYPE = new Type<PicturesLoadedHandler>();
-	private Vector<Picture> pictures;
-	private Vector<Category> categories;
+	private ArrayList<Picture> pictures;
+	private ArrayList<Category> categories;
 
 	public interface PicturesLoadedHandler extends EventHandler {
 		void onPicturesLoaded(PicturesLoadedEvent event);
@@ -22,16 +22,16 @@ public class PicturesLoadedEvent extends GwtEvent<PicturesLoadedEvent.PicturesLo
 //		HandlerRegistration addPicturesLoadedHandler(PicturesLoadedHandler handler);
 //	}
 
-	public PicturesLoadedEvent(Vector<Picture> pictures, Vector<Category> categories) {
+	public PicturesLoadedEvent(ArrayList<Picture> pictures, ArrayList<Category> categories) {
 		this.pictures = pictures;
 		this.categories = categories;
 	}
 
-	public Vector<Picture> getPictures() {
+	public ArrayList<Picture> getPictures() {
 		return pictures;
 	}
 
-	public Vector<Category> getCategories() {
+	public ArrayList<Category> getCategories() {
 		return categories;
 	}
 
@@ -49,7 +49,7 @@ public class PicturesLoadedEvent extends GwtEvent<PicturesLoadedEvent.PicturesLo
 		return TYPE;
 	}
 
-	public static void fire(HasHandlers source, Vector<Picture> pictures, Vector<Category> categories) {
+	public static void fire(HasHandlers source, ArrayList<Picture> pictures, ArrayList<Category> categories) {
 		source.fireEvent(new PicturesLoadedEvent(pictures, categories));
 	}
 }

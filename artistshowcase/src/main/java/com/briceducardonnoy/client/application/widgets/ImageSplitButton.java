@@ -25,17 +25,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Create a button with image and an arrow at the right.
  * On click, it opens a popup panel with item added thanks to addMenuItem.
- * It's recommanded to get the basic handler registration from the presenter in order to free it. 
+ * It's recommended to get the basic handler registration from the presenter in order to free it. 
  * @author Brice DUCARDONNOY
  * @see getClickHandlerRegistration
  * @see addItem
@@ -68,19 +66,11 @@ public class ImageSplitButton extends ImageButton {
 		return clickHandlerRegistration;
 	}
 	
-	public MenuItem addItem(final String name) {
-		MenuItem it = new MenuItem(new SafeHtml() {
-			private static final long serialVersionUID = -1238157840615087564L;
-			@Override
-			public String asString() {
-				return name;
-			}
-		});
-		return menuBar.addItem(it);
-	}
-	
 	public void addSeparator() {
 		menuBar.addSeparator();
 	}
 	
+	public MenuBar getMenuBar() {
+		return menuBar;
+	}
 }

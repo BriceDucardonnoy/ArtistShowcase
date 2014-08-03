@@ -26,7 +26,11 @@ import javax.inject.Inject;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.context.ApplicationContext;
+import com.briceducardonnoy.client.application.events.CategoryChangedEvent;
+import com.briceducardonnoy.client.application.events.CategoryChangedEvent.CategoryChangedHandler;
+import com.briceducardonnoy.client.application.events.PicturesLoadedEvent;
 import com.briceducardonnoy.client.application.utils.Utils;
+import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.client.lang.Translate;
 import com.briceducardonnoy.client.place.NameTokens;
 import com.briceducardonnoy.shared.model.Category;
@@ -35,10 +39,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
@@ -55,7 +60,6 @@ import com.reveregroup.gwt.imagepreloader.client.FitImage;
  */
 public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPresenter.MyProxy> {
 	@Inject	PlaceManager placeManager;
-	@UiField SimplePanel main;
 	
 	private final Translate translate = GWT.create(Translate.class);
 	
@@ -68,6 +72,9 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
     	public FitImage getLogo();
 		public Image getFrBtn();
 		public Image getEnBtn();
+		Panel getMain();
+		ImageSplitButton getGallery();
+		void addGalleries(ArrayList<Category> categories);
     }
 
 //	@ContentSlot
@@ -82,20 +89,30 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
     @Inject
     HeaderPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
         super(eventBus, view, proxy, RevealType.Root);
+        categories = new ArrayList<Category>();
+		pictures = new ArrayList<Picture>();
+		Log.info("Current local is " + LocaleInfo.getCurrentLocale().getLocaleName() + ". "
+				+ "Platform and user agent are " + Navigator.getPlatform() + " | " + Navigator.getUserAgent());
     }
     
     @Override
     protected void onBind() {
     	super.onBind();
     	Utils.loadFile(loadListAC, GWT.getHostPageBaseURL() + "Documents/List.txt");
-		Utils.showWaitCursor(main.getElement());
+		Utils.showWaitCursor(getView().getMain().getElement());
     	if(getView().getLogo() != null) {// Mobile view hasn't any logo
     		registerHandler(getView().getLogo().addClickHandler(logoClick));
     	}
-//    	registerHandler(getView().getGalleryMenu().addSelectionHandler(categoryChangedHandler));// TODO BDY: category changed handler
+    	registerHandler(getView().getGallery().getClickHandlerRegistration());
+    	registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
     	registerHandler(getView().getFrBtn().addClickHandler(frHandler));
 		registerHandler(getView().getEnBtn().addClickHandler(enHandler));
     }
+    
+//	Log.info("getHostPageBaseURL: " + GWT.getHostPageBaseURL());// http://127.0.1.1:8888/
+//	Log.info("getModuleName: " + GWT.getModuleName());// liliShowcase
+//	Log.info("getModuleBaseForStaticFiles: " + GWT.getModuleBaseForStaticFiles());// http://127.0.1.1:8888/liliShowcase/ 
+//	Log.info("getModuleBaseURL: " + GWT.getModuleBaseURL());// http://127.0.1.1:8888/liliShowcase/
     
     private void initPictures(String list) {
 //		picts = list.replaceAll("\r", "").replaceAll("\n", "").split(";");
@@ -167,11 +184,11 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 		// Launch view initialization
 		else if(nextInd == picts.length) {
 			Log.info("Log picture done!!!");
-//			getView().addGalleries(categories);
-//			getEventBus().fireEvent(new PicturesLoadedEvent(pictures, categories));// TODO BDY: add gallery in view
+			getView().addGalleries(categories);
+			getEventBus().fireEvent(new PicturesLoadedEvent(pictures, categories));
 			ApplicationContext.getInstance().addProperty("categories", categories);
 			ApplicationContext.getInstance().addProperty("pictures", pictures);
-			Utils.showDefaultCursor(main.getElement());
+			Utils.showDefaultCursor(getView().getMain().getElement());
 			return;
 		}
 	}
@@ -193,11 +210,15 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 		categories.add(newCat);
 	}
     
-    // Handlers
+    /*
+     * Handlers
+     */
     private ClickHandler logoClick = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.home).build());
+			if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.main)) {
+				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.main).build());
+			}
 		}
 	};
 	
@@ -212,6 +233,15 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 		@Override
 		public void onClick(ClickEvent arg0) {
 			Utils.switchLocale("en");
+		}
+	};
+	
+	private CategoryChangedHandler categoryChangedHandler = new CategoryChangedHandler() {
+		@Override
+		public void onCategoryChanged(CategoryChangedEvent event) {
+			if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.main)) {
+				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.main).build());
+			}
 		}
 	};
 	
