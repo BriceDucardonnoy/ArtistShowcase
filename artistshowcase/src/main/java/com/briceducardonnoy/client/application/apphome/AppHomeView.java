@@ -278,7 +278,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	 */
 	@UiFactory
 	ContentFlow<Picture> createContentFlow() {
-		return new ContentFlow<Picture>(true, true, 1.33f);
+		return new ContentFlow<Picture>(true, true, 1.5f);
 	}
 
 }
