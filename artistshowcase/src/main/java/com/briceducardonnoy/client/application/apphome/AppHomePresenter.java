@@ -83,7 +83,9 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	protected void onBind() {
 		super.onBind();
 		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
-		registerHandler(getView().getContentFlow().addItemClickListener(contentFlowClickListener));
+		if(getView().getContentFlow() != null) {// Can be null for mobile view
+			registerHandler(getView().getContentFlow().addItemClickListener(contentFlowClickListener));
+		}
 		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
 		if(ApplicationContext.getInstance().getProperty("pictures") != null) {
 			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
