@@ -27,6 +27,8 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.context.ApplicationContext;
 import com.briceducardonnoy.client.application.events.CategoryChangedEvent;
 import com.briceducardonnoy.client.application.events.CategoryChangedEvent.CategoryChangedHandler;
+import com.briceducardonnoy.client.application.events.PictureLoadedEvent;
+import com.briceducardonnoy.client.application.events.PictureLoadedEvent.PictureLoadedHandler;
 import com.briceducardonnoy.client.application.events.PicturesLoadedEvent;
 import com.briceducardonnoy.client.application.events.PicturesLoadedEvent.PicturesLoadedHandler;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
@@ -56,8 +58,8 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		void addItems(List<Picture> pictures);
 		ContentFlow<Picture> getContentFlow();
 		Picture getCurrentPicture();
-		void resize();
 		void changeCurrentCategory(Integer categoryId);
+		void addPicture(Picture picture);
 	}
 	
 	@Inject	PlaceManager placeManager;
@@ -82,7 +84,8 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	@SuppressWarnings("unchecked")
 	protected void onBind() {
 		super.onBind();
-		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
+		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), picturesLoadedHandler));
+		registerHandler(getEventBus().addHandler(PictureLoadedEvent.getType(), pictureLoadedHandler));
 		if(getView().getContentFlow() != null) {// Can be null for mobile view
 			registerHandler(getView().getContentFlow().addItemClickListener(contentFlowClickListener));
 		}
@@ -122,10 +125,17 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
         }
     };
     
-    private PicturesLoadedHandler pictureLoadedHandler = new PicturesLoadedHandler() {
+    private PicturesLoadedHandler picturesLoadedHandler = new PicturesLoadedHandler() {
 		@Override
 		public void onPicturesLoaded(PicturesLoadedEvent event) {
 			initDataAndView(event.getCategories(), event.getPictures());
+		}
+	};
+	
+	private PictureLoadedHandler pictureLoadedHandler = new PictureLoadedHandler() {
+		@Override
+		public void onPictureLoaded(PictureLoadedEvent event) {
+			getView().addPicture(event.getPicture());
 		}
 	};
 	

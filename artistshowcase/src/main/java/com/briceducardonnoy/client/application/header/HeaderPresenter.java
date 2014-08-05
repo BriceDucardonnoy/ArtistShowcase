@@ -28,6 +28,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.context.ApplicationContext;
 import com.briceducardonnoy.client.application.events.CategoryChangedEvent;
 import com.briceducardonnoy.client.application.events.CategoryChangedEvent.CategoryChangedHandler;
+import com.briceducardonnoy.client.application.events.PictureLoadedEvent;
 import com.briceducardonnoy.client.application.events.PicturesLoadedEvent;
 import com.briceducardonnoy.client.application.utils.Utils;
 import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
@@ -173,6 +174,7 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 				}
 			}// End of properties process
 			pictures.add(p);
+			getEventBus().fireEvent(new PictureLoadedEvent(p));
 		}
 		// Browse next picture
 		if(nextInd < picts.length) {

@@ -249,7 +249,6 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 		});
 	}
 	
-	@Override
 	public void resize() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
@@ -279,6 +278,11 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	@UiFactory
 	ContentFlow<Picture> createContentFlow() {
 		return new ContentFlow<Picture>(true, true, 1.5f);
+	}
+
+	@Override
+	public void addPicture(Picture picture) {
+		// Does nothing now. That's for mobile version. Maybe usefull for one-by-one loading
 	}
 
 }

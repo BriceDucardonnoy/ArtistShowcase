@@ -1,9 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <g:SimplePanel ui:field="main">
-    	<g:HTMLPanel>
+             
+    <ui:style>
+    </ui:style>
+    
+    <g:SimpleLayoutPanel ui:field="main" height="100%" >
+    	<!-- <g:HTMLPanel>
     		Main for tablet<br/><g:Button text="tablet" />
-    	</g:HTMLPanel>
-    </g:SimplePanel>
+    	</g:HTMLPanel> -->
+    	<g:Grid ui:field="grid" />
+    </g:SimpleLayoutPanel>
 </ui:UiBinder>
