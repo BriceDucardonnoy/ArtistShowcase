@@ -9,7 +9,7 @@
     	}
     </ui:style>
     
-    <g:SimpleLayoutPanel ui:field="main" height="100%" >
+    <g:ResizeLayoutPanel ui:field="main" height="100%" >
     	<cover:ContentFlow ui:field="contentFlow" addStyleNames="{style.contentStyle}" />
-    </g:SimpleLayoutPanel>
+    </g:ResizeLayoutPanel>
 </ui:UiBinder>

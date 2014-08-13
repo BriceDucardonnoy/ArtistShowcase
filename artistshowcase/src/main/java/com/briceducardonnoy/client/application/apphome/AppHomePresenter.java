@@ -37,7 +37,10 @@ import com.briceducardonnoy.client.place.NameTokens;
 import com.briceducardonnoy.shared.model.Category;
 import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -60,6 +63,8 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		Picture getCurrentPicture();
 		void changeCurrentCategory(Integer categoryId);
 		void addPicture(Picture picture);
+		ResizeLayoutPanel getMainPane();
+		void resize(int width, int height);
 	}
 	
 	@Inject	PlaceManager placeManager;
@@ -89,6 +94,9 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		if(getView().getContentFlow() != null) {// Can be null for mobile view
 			registerHandler(getView().getContentFlow().addItemClickListener(contentFlowClickListener));
 		}
+		else {// Mobile view handles resize event
+			registerHandler(getView().getMainPane().addResizeHandler(resizeHandler));
+		}
 		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
 		if(ApplicationContext.getInstance().getProperty("pictures") != null) {
 			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
@@ -108,6 +116,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 //
 //	protected void onReset() {
 //		super.onReset();
+//		Log.info("Reset. Size is " + getView().getMainPane().getOffsetWidth() + " x " + getView().getMainPane().getOffsetHeight());
 //	}
 	
 	private void initDataAndView(List<Category> categories, List<Picture> pictures) {
@@ -143,6 +152,13 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		@Override
 		public void onCategoryChanged(CategoryChangedEvent event) {
 			AppHomePresenter.this.getView().changeCurrentCategory(event.getCategoryId());
+		}
+	};
+	
+	private ResizeHandler resizeHandler = new ResizeHandler() {
+		@Override
+		public void onResize(ResizeEvent event) {
+			getView().resize(event.getWidth(), event.getHeight());
 		}
 	};
 }

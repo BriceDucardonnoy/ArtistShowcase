@@ -5,10 +5,7 @@
     <ui:style>
     </ui:style>
     
-    <g:SimpleLayoutPanel ui:field="main" height="100%" >
-    	<!-- <g:HTMLPanel>
-    		Main for tablet<br/><g:Button text="tablet" />
-    	</g:HTMLPanel> -->
+    <g:ResizeLayoutPanel ui:field="main" height="100%" >
     	<g:Grid ui:field="grid" />
-    </g:SimpleLayoutPanel>
+    </g:ResizeLayoutPanel>
 </ui:UiBinder>

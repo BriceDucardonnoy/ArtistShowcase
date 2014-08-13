@@ -37,7 +37,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
@@ -48,7 +48,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	interface Binder extends UiBinder<Widget, AppHomeView> {
 	}
 
-	@UiField SimplePanel main;
+	@UiField ResizeLayoutPanel main;
 	@UiField ContentFlow<Picture> contentFlow;
 	
 	private ArrayList<PhotoView> allPictures = null;
@@ -249,7 +249,8 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 		});
 	}
 	
-	public void resize() {
+	@Override
+	public void resize(int width, int height) {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -283,6 +284,11 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	@Override
 	public void addPicture(Picture picture) {
 		// Does nothing now. That's for mobile version. Maybe usefull for one-by-one loading
+	}
+
+	@Override
+	public ResizeLayoutPanel getMainPane() {
+		return main;
 	}
 
 }
