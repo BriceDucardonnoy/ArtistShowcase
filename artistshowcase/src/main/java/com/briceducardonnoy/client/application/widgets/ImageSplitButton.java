@@ -40,24 +40,45 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class ImageSplitButton extends ImageButton {
 	
+	public enum Position {
+		BOTTOM,
+		RIGHT
+	}
+	
+	private Position position;
+	
 	protected HandlerRegistration clickHandlerRegistration;
 	protected PopupPanel menuPopup;
 	protected MenuBar menuBar;
-
+	
 	@UiConstructor
-	public ImageSplitButton(ImageResource res) {
+	public ImageSplitButton(ImageResource res, Position position) {
 		super(res);
+		this.position = position;
 		Image arrow = new Image(ImagesDesktopResources.INSTANCE.arrow());
 		getElement().appendChild(arrow.getElement());
 		
 		menuPopup = new PopupPanel(true);
 		menuBar = new MenuBar(true);
 		menuPopup.add(menuBar);
+		// TODO BDY: add hide on click
 		
 		clickHandlerRegistration = addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				menuPopup.showRelativeTo(ImageSplitButton.this);
+				if(ImageSplitButton.this.position == Position.RIGHT) {
+					menuPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+						@Override
+						public void setPosition(int offsetWidth, int offsetHeight) {
+							int left = offsetWidth - 10;
+							int top = ImageSplitButton.this.getAbsoluteTop();
+							menuPopup.setPopupPosition(left, top);
+						}
+					});
+				}
+				else {
+					menuPopup.showRelativeTo(ImageSplitButton.this);
+				}
 			}
 		});
 	}
@@ -72,5 +93,9 @@ public class ImageSplitButton extends ImageButton {
 	
 	public MenuBar getMenuBar() {
 		return menuBar;
+	}
+	
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 }

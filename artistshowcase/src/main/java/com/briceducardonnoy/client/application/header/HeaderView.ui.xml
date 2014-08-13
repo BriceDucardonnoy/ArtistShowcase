@@ -37,7 +37,7 @@
 	   	<g:FlowPanel styleName="menuBar" ui:field="menuBar">
     		<!-- <g:Image resource="{res.home}" ui:field="home" altText="Home" /> -->
     		<bdywidget:ImageButton res="{res.home}" addStyleNames="{style.textButton}" ui:field="home" />
-    		<bdywidget:ImageSplitButton res="{res.gallery}" addStyleNames="{style.textButton}" ui:field="gallery" />
+    		<bdywidget:ImageSplitButton res="{res.gallery}" position="BOTTOM" addStyleNames="{style.textButton}" ui:field="gallery" />
     		<bdywidget:ImageButton res="{res.approach}" addStyleNames="{style.textButton}" ui:field="approach" />
     		<bdywidget:ImageButton res="{res.exposition}" addStyleNames="{style.textButton}" ui:field="expo" />
     		<bdywidget:ImageButton res="{res.contact}" addStyleNames="{style.textButton}" ui:field="contact" />

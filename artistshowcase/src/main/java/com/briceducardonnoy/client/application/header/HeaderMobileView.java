@@ -22,11 +22,14 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.client.application.events.CategoryChangedEvent;
 import com.briceducardonnoy.client.application.widgets.ImageButton;
 import com.briceducardonnoy.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.client.lang.Translate;
 import com.briceducardonnoy.shared.model.Category;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Image;
@@ -34,6 +37,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
@@ -41,10 +45,12 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
     public interface Binder extends UiBinder<Widget, HeaderMobileView> {
     }
 
+    @Inject EventBus eventBus;
+    
     private final Translate translate = GWT.create(Translate.class);
     
     @UiField ImageButton home;
-	@UiField ImageSplitButton gallery;// TODO BDY: hide it because it has no reason to be here in mobile view
+	@UiField ImageSplitButton gallery;
 	@UiField ImageButton approach;
 	@UiField ImageButton expo;
 	@UiField ImageButton contact;
@@ -53,6 +59,8 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 	@UiField Image tr_fr;
 	@UiField Image tr_en;
 	@UiField SimplePanel main;
+	
+	private int nbCategories = 0;
 
     @Inject
     HeaderMobileView(Binder uiBinder) {
@@ -107,7 +115,17 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 
 	@Override
 	public void addGalleries(ArrayList<Category> categories) {
-		// TODO Auto-generated method stub
-		
+		if(categories == null || categories.size() == 0 || categories.size() == nbCategories) return;
+    	Log.info("Categories to update (size to add is " + categories.size() + ")");
+    	gallery.getMenuBar().clearItems();
+    	for(final Category cat : categories) {
+    		if(cat.getId() == null) continue;
+    		gallery.getMenuBar().addItem(cat.getName(), new ScheduledCommand() {
+				@Override
+				public void execute() {
+					eventBus.fireEvent(new CategoryChangedEvent(cat.getId()));
+				}
+			});
+    	}
 	}
 }

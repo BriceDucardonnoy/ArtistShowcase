@@ -15,6 +15,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
@@ -27,6 +28,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	private static final int maxSmall = 2;
 
 	@UiField ResizeLayoutPanel main;
+	@UiField ScrollPanel sc;
 	@UiField (provided = true) Grid grid;
 	
 	private int width = 0;
@@ -87,7 +89,6 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	@Override
 	public void addPicture(Picture picture) {
 //		grid.setText(row, column, text);
-		// TODO BDY: next step
 		/*
 		 * read is per line:
 		 * 1 2 3
@@ -110,8 +111,9 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 //		grid.getCellFormatter().setWidth(idxR, idxC, "50px");
 //		grid.getCellFormatter().setHeight(idxR, idxC, "50px");
 		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
-		grid.setWidget(idxR, idxC, new FitImage(picture.getImageUrl(), (int) (width / nbC), (int) (height / nbR)));
+		grid.setWidget(idxR, idxC, new FitImage(picture.getImageUrl(), (int) (width / nbC) - 5, (int) (height / nbR)));// - 5 for scrollBar if present
 		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
+		// TODO BDY: relayout on resize
 		
 		nbPictures++;
 	}

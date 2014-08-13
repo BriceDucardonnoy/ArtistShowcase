@@ -6,6 +6,8 @@
     </ui:style>
     
     <g:ResizeLayoutPanel ui:field="main" height="100%" >
-    	<g:Grid ui:field="grid" />
+    	<g:ScrollPanel ui:field="sc">
+    		<g:Grid ui:field="grid" />
+    	</g:ScrollPanel>
     </g:ResizeLayoutPanel>
 </ui:UiBinder>
