@@ -1,13 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:brice="urn:import:com.briceducardonnoy.client.application.widgets">
              
     <ui:style>
     </ui:style>
     
     <g:ResizeLayoutPanel ui:field="main" height="100%" >
     	<g:ScrollPanel ui:field="sc">
-    		<g:Grid ui:field="grid" />
+    		<brice:UpdatableGrid ui:field="grid" />
     	</g:ScrollPanel>
     </g:ResizeLayoutPanel>
 </ui:UiBinder>

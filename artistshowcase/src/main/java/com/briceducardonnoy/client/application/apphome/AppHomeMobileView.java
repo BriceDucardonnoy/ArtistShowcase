@@ -8,12 +8,12 @@ import javax.inject.Inject;
 import org.gwt.contentflow4gwt.client.ContentFlow;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.client.application.widgets.UpdatableGrid;
 import com.briceducardonnoy.shared.model.Category;
 import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -30,7 +30,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 
 	@UiField ResizeLayoutPanel main;
 	@UiField ScrollPanel sc;
-	@UiField (provided = true) Grid grid;
+	@UiField (provided = true) UpdatableGrid grid;
 	
 	private int width = 0;
 	private int height = 0;
@@ -46,7 +46,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 
 	@Inject
 	AppHomeMobileView(Binder uiBinder) {
-		grid = new Grid(1, 0);
+		grid = new UpdatableGrid(1, 0);
 		initWidget(uiBinder.createAndBindUi(this));
 		sortName = "Date";
 		allPictures = new ArrayList<>();
@@ -102,13 +102,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		int pos = addInOrderedData(picture, allPictures.size() - 1);
 		int idxC = pos % maxC;
 		int idxR = pos / maxC;
-		insertCell(idxR, idxC);
-//		int idxC = nbPictures % maxC;
-//		int idxR = nbPictures / maxC;
-//		if((nbPictures / maxC) >= grid.getRowCount()) {
-//			grid.resizeRows(grid.getRowCount() + 1);
-//		}
-		// TODO BDY: order
+		grid.insertCell(idxR, idxC, maxC);
 		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
 		grid.setWidget(idxR, idxC, new FitImage(picture.getImageUrl(), (int) (width / maxC) - 5, (int) (height / maxR)));// - 5 for scrollBar if present
 		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
@@ -120,40 +114,6 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		nbPictures++;
 	}
 	
-	private void insertCell(int idxR, int idxC) {
-		if(idxR >= grid.getRowCount()) {
-			grid.resizeRows(grid.getRowCount() + 1);
-		}
-		for(int r = grid.getRowCount() - 1 ; r >= idxR ; r--) {
-			for(int c = maxC-1 ; c >= 0/*idxC*/ ; c--) {// Column min is 0 because on row r+1, all the columns are concerned
-				if(grid.getWidget(r, c) != null) {
-					Log.info("Move (rxc): (" + r + "x" + c + ") " + ((FitImage)grid.getWidget(r, c)).getTitle());
-					shiftCell(r, c);
-				}
-				if(idxR == r && idxC == c) break;// Work is finished
-			}
-		}
-	}
-	
-	private void shiftCell(int r, int c) {
-		int newC;
-		int newR = r;
-		if(c == grid.getColumnCount() - 1) {// Shift to next row
-			newC = 0;
-			newR = r + 1;
-		}
-		else {
-			newC = c + 1;
-		}
-		if(newR >= grid.getRowCount()) {
-			grid.resizeRows(grid.getRowCount() + 1);
-		}
-		grid.setWidget(newR, newC, grid.getWidget(r, c));
-		grid.getCellFormatter().getElement(newR, newC).setPropertyString("align", "center");
-		grid.getWidget(newR, newC).getElement().getStyle().setCursor(Cursor.POINTER);
-		grid.clearCell(r, c);
-	}
-
 	@Override
 	public ResizeLayoutPanel getMainPane() {
 		return main;
