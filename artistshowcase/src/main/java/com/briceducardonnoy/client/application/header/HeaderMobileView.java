@@ -124,6 +124,7 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 				@Override
 				public void execute() {
 					eventBus.fireEvent(new CategoryChangedEvent(cat.getId()));
+					gallery.hideMenu();
 				}
 			});
     	}

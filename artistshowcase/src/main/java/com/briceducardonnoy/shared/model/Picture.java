@@ -123,4 +123,9 @@ public class Picture implements Serializable {
 	public Comparable<?> removeProperty(String property) {
 		return properties.remove(property);
 	}
+	
+	@Override
+	public String toString() {
+		return getTitleOrName();
+	}
 }

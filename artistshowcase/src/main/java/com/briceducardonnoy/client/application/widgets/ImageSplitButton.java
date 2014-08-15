@@ -61,7 +61,6 @@ public class ImageSplitButton extends ImageButton {
 		menuPopup = new PopupPanel(true);
 		menuBar = new MenuBar(true);
 		menuPopup.add(menuBar);
-		// TODO BDY: add hide on click
 		
 		clickHandlerRegistration = addClickHandler(new ClickHandler() {
 			@Override
@@ -97,5 +96,9 @@ public class ImageSplitButton extends ImageButton {
 	
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+	
+	public void hideMenu() {
+		menuPopup.hide();
 	}
 }

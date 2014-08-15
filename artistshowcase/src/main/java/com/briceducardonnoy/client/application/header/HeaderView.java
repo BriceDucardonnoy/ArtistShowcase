@@ -101,6 +101,7 @@ public class HeaderView extends ViewImpl implements HeaderPresenter.MyView {
 				@Override
 				public void execute() {
 					eventBus.fireEvent(new CategoryChangedEvent(cat.getId()));
+					gallery.hideMenu();
 				}
 			});
     	}

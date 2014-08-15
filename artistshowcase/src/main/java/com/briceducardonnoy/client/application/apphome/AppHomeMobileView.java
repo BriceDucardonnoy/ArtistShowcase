@@ -1,5 +1,6 @@
 package com.briceducardonnoy.client.application.apphome;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,15 +34,23 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	
 	private int width = 0;
 	private int height = 0;
-	private int nbC = 0;
-	private int nbR = 1;
+	private int maxC = 0;
+	private int maxR = 1;
 	private int nbPictures = 0;
 	private boolean isLandscape = true;
+	private String sortName;
+	private Integer currentCategoryId = null;
+	
+	private ArrayList<Picture> allPictures = null;
+	private ArrayList<Integer> orderedPictures = null;
 
 	@Inject
 	AppHomeMobileView(Binder uiBinder) {
 		grid = new Grid(1, 0);
 		initWidget(uiBinder.createAndBindUi(this));
+		sortName = "Date";
+		allPictures = new ArrayList<>();
+		orderedPictures = new ArrayList<>();
 	}
 
 	@Override
@@ -54,21 +63,13 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	@Override
-	public void addCategories(List<Category> categories) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void addCategories(List<Category> categories) {}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void init() {}
 
 	@Override
-	public void addItems(List<Picture> pictures) {
-		// Nothing to do
-	}
+	public void addItems(List<Picture> pictures) {}
 
 	@Override
 	public ContentFlow<Picture> getContentFlow() {
@@ -83,7 +84,6 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	@Override
 	public void changeCurrentCategory(Integer categoryId) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -97,25 +97,61 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		 * of orientation and size
 		 * Maybe get it in onReset because it cannot be done in @media
 		 */
-		Log.info("One picture loaded: " + picture.getTitleOrName());
-		int idxC = nbPictures % nbC;
-		int idxR = nbPictures / nbC;
-		if(idxC == 0 || idxR == 0) {
-			if(idxR == 0) {
-				grid.resizeColumns(grid.getColumnCount() + 1);
-			}
-			else {
-				grid.resizeRows(grid.getRowCount() + 1);
+		Log.info("One picture (" + picture.getProperty("Date") + ") loaded: " + picture.getTitleOrName());
+		allPictures.add(picture);
+		int pos = addInOrderedData(picture, allPictures.size() - 1);
+		int idxC = pos % maxC;
+		int idxR = pos / maxC;
+		insertCell(idxR, idxC);
+//		int idxC = nbPictures % maxC;
+//		int idxR = nbPictures / maxC;
+//		if((nbPictures / maxC) >= grid.getRowCount()) {
+//			grid.resizeRows(grid.getRowCount() + 1);
+//		}
+		// TODO BDY: order
+		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
+		grid.setWidget(idxR, idxC, new FitImage(picture.getImageUrl(), (int) (width / maxC) - 5, (int) (height / maxR)));// - 5 for scrollBar if present
+		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
+		if(Log.isInfoEnabled()) {
+			String tooltip = picture.getProperty("Date") == null ? "NULL" : picture.getProperty("Date").toString();
+			((FitImage)grid.getWidget(idxR, idxC)).setTitle(tooltip);
+		}
+		Log.info("Picture inserted");
+		nbPictures++;
+	}
+	
+	private void insertCell(int idxR, int idxC) {
+		if(idxR >= grid.getRowCount()) {
+			grid.resizeRows(grid.getRowCount() + 1);
+		}
+		for(int r = grid.getRowCount() - 1 ; r >= idxR ; r--) {
+			for(int c = maxC-1 ; c >= 0/*idxC*/ ; c--) {// Column min is 0 because on row r+1, all the columns are concerned
+				if(grid.getWidget(r, c) != null) {
+					Log.info("Move (rxc): (" + r + "x" + c + ") " + ((FitImage)grid.getWidget(r, c)).getTitle());
+					shiftCell(r, c);
+				}
+				if(idxR == r && idxC == c) break;// Work is finished
 			}
 		}
-//		grid.getCellFormatter().setWidth(idxR, idxC, "50px");
-//		grid.getCellFormatter().setHeight(idxR, idxC, "50px");
-		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
-		grid.setWidget(idxR, idxC, new FitImage(picture.getImageUrl(), (int) (width / nbC) - 5, (int) (height / nbR)));// - 5 for scrollBar if present
-		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
-		// TODO BDY: relayout on resize
-		
-		nbPictures++;
+	}
+	
+	private void shiftCell(int r, int c) {
+		int newC;
+		int newR = r;
+		if(c == grid.getColumnCount() - 1) {// Shift to next row
+			newC = 0;
+			newR = r + 1;
+		}
+		else {
+			newC = c + 1;
+		}
+		if(newR >= grid.getRowCount()) {
+			grid.resizeRows(grid.getRowCount() + 1);
+		}
+		grid.setWidget(newR, newC, grid.getWidget(r, c));
+		grid.getCellFormatter().getElement(newR, newC).setPropertyString("align", "center");
+		grid.getWidget(newR, newC).getElement().getStyle().setCursor(Cursor.POINTER);
+		grid.clearCell(r, c);
 	}
 
 	@Override
@@ -129,8 +165,42 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		this.width = width;
 		this.height = height;
 		isLandscape = width > height;
-		nbC = isLandscape ? maxBig : maxSmall;
-		nbR = isLandscape ? maxSmall : maxBig;
+		maxC = isLandscape ? maxBig : maxSmall;
+		maxR = isLandscape ? maxSmall : maxBig;
+		if(grid.getColumnCount() != maxC) {
+			grid.resize(maxR, maxC);
+			// TODO BDY: redo grid
+		}
+		else {
+			for(int r = 0 ; r < grid.getRowCount() ; r++) {
+				for(int c = 0 ; c < grid.getColumnCount() ; c++) {
+					FitImage img = (FitImage) grid.getWidget(r, c);
+					if(img != null) {
+						img.setMaxSize((int) (width / maxC) - 5, (int) (height / maxR));// - 5 for scrollBar if present
+					}
+				}
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private int addInOrderedData(Picture pojo, Integer refIdx) {
+		// If POJO doesn't contain sortName property, add it at the end
+		if(pojo.getProperty(sortName) == null) {
+			orderedPictures.add(refIdx);
+			return orderedPictures.size() - 1;
+		}
+		for(int i = 0 ; i < orderedPictures.size() ; i++) {
+			Picture pict = allPictures.get(orderedPictures.get(i));
+			if(pojo == pict) continue;// Doesn't test with itself
+			if(pict.getProperty(sortName) == null || 
+					((Comparable<Object>)pict.getProperty(sortName)).compareTo(pojo.getProperty(sortName)) < 0) {
+				orderedPictures.add(i, refIdx);
+				return i;
+			}
+		}
+		orderedPictures.add(refIdx);
+		return orderedPictures.size() - 1;
 	}
 	
 }

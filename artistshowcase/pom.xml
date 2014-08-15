@@ -250,6 +250,21 @@
             <version>0.5</version>
             <scope>compile</scope>
         </dependency>
+        
+        <!-- Misc -->
+        <dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
     <!-- Initialization of super dev mode -->
     <profiles>
