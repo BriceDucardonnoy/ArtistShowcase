@@ -100,16 +100,11 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		Log.info("One picture (" + picture.getProperty("Date") + ") loaded: " + picture.getTitleOrName());
 		allPictures.add(picture);
 		int pos = addInOrderedData(picture, allPictures.size() - 1);
-		int idxC = pos % maxC;
-		int idxR = pos / maxC;
-		grid.insertCell(idxR, idxC, maxC);
-		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
-		grid.setWidget(idxR, idxC, new FitImage(picture.getImageUrl(), (int) (width / maxC) - 5, (int) (height / maxR)));// - 5 for scrollBar if present
-		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
-		if(Log.isInfoEnabled()) {
-			String tooltip = picture.getProperty("Date") == null ? "NULL" : picture.getProperty("Date").toString();
-			((FitImage)grid.getWidget(idxR, idxC)).setTitle(tooltip);
-		}
+		String tooltip = picture.getProperty("Date") == null ? "NULL" : picture.getProperty("Date").toString();
+		FitImage image = new FitImage(picture.getImageUrl(), (int) (width / maxC) - 5, (int) (height / maxR));
+		
+		image.setAltText(tooltip);
+		addFitImage(pos, image);
 		Log.info("Picture inserted");
 		nbPictures++;
 	}
@@ -127,9 +122,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		isLandscape = width > height;
 		maxC = isLandscape ? maxBig : maxSmall;
 		maxR = isLandscape ? maxSmall : maxBig;
-		if(grid.getColumnCount() != maxC) {
-			grid.resize(maxR, maxC);
-			// TODO BDY: redo grid
+		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
+			changeOrientation();
 		}
 		else {
 			for(int r = 0 ; r < grid.getRowCount() ; r++) {
@@ -140,6 +134,33 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 					}
 				}
 			}
+		}
+	}
+	
+	private void changeOrientation() {
+		ArrayList<FitImage> images = new ArrayList<>();
+		for(int r = 0 ; r < grid.getRowCount() ; r++) {
+			for(int c = 0 ; c < grid.getColumnCount() ; c++) {
+				images.add((FitImage) grid.getWidget(r, c));
+			}
+		}
+		grid.clear();
+		grid.resize(maxR, maxC);
+		for(int pos = 0 ; pos < allPictures.size() ; pos++) {
+			addFitImage(pos, images.get(pos));
+		}
+	}
+	
+	private void addFitImage(int pos, FitImage image) {// Landscape state different for css and resize() because of header panel
+		int idxC = pos % maxC;
+		int idxR = pos / maxC;
+		grid.insertCell(idxR, idxC, maxC);
+		image.setMaxSize((int) (width / maxC) - 5, (int) (height / maxR));
+		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
+		grid.setWidget(idxR, idxC, image);// - 5 for scrollBar if present
+		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
+		if(Log.isInfoEnabled()) {
+			((FitImage)grid.getWidget(idxR, idxC)).setTitle(image.getAltText());
 		}
 	}
 	
