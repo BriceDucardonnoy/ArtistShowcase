@@ -40,7 +40,7 @@ public class UpdatableGrid extends Grid {
 		for(int r = getRowCount() - 1 ; r >= idxR ; r--) {
 			for(int c = maxC-1 ; c >= 0/*idxC*/ ; c--) {// Column min is 0 because on row r+1, all the columns are concerned
 				if(getWidget(r, c) != null) {
-					Log.info("Move (rxc): (" + r + "x" + c + ") " + ((FitImage)getWidget(r, c)).getTitle());
+					Log.trace("Move (rxc): (" + r + "x" + c + ") " + ((FitImage)getWidget(r, c)).getTitle());
 					shiftCell(r, c);
 				}
 				if(idxR == r && idxC == c) break;// Work is finished

@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class ImageSplitButton extends ImageButton {
 	
-	public enum Position {
+	public enum Position {// TODO BDY: add MOBILE and set it in function of the orientation (ie. update Utils class)
 		BOTTOM,
 		RIGHT
 	}

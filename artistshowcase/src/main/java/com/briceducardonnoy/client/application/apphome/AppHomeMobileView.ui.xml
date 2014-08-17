@@ -7,7 +7,7 @@
     </ui:style>
     
     <g:ResizeLayoutPanel ui:field="main" height="100%" >
-    	<g:ScrollPanel ui:field="sc">
+    	<g:ScrollPanel ui:field="scrollPane">
     		<brice:UpdatableGrid ui:field="grid" />
     	</g:ScrollPanel>
     </g:ResizeLayoutPanel>

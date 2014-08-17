@@ -30,20 +30,19 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	private static final int maxSmall = 2;
 
 	@UiField ResizeLayoutPanel main;
-	@UiField ScrollPanel sc;
+	@UiField ScrollPanel scrollPane;
 	@UiField (provided = true) UpdatableGrid grid;
 	
 	private int width = 0;
 	private int height = 0;
 	private int maxC = 0;
 	private int maxR = 1;
-	private int nbPictures = 0;
 	private boolean isLandscape = true;
 	private String sortName;
-	private Integer currentCategoryId = null;
+	private Integer currentCategoryId = 0;// All
 	
 	private ArrayList<Picture> allPictures = null;
-	private ArrayList<Integer> orderedPictures = null;
+	private ArrayList<FitImage> allImages = null;
 
 	@Inject
 	AppHomeMobileView(Binder uiBinder) {
@@ -51,7 +50,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		initWidget(uiBinder.createAndBindUi(this));
 		sortName = "Date";
 		allPictures = new ArrayList<>();
-		orderedPictures = new ArrayList<>();
+		allImages = new ArrayList<>();
 	}
 
 	@Override
@@ -79,17 +78,19 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 
 	@Override
 	public Picture getCurrentPicture() {
-		return null;// Can't return anything
+		return null;// Can't return anything in mobile view
 	}
 
 	@Override
 	public void changeCurrentCategory(Integer categoryId) {
-		// TODO Auto-generated method stub
+		Log.info("Change to category " + categoryId);
+		if(categoryId.equals(currentCategoryId)) return;
+		currentCategoryId = categoryId;
+		refreshGrid(allImages);
 	}
 
 	@Override
 	public void addPicture(Picture picture) {
-//		grid.setText(row, column, text);
 		/*
 		 * read is per line:
 		 * 1 2 3
@@ -99,15 +100,14 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		 * Maybe get it in onReset because it cannot be done in @media
 		 */
 		Log.info("One picture (" + picture.getProperty("Date") + ") loaded: " + picture.getTitleOrName());
-		allPictures.add(picture);
-		int pos = addInOrderedData(picture, allPictures.size() - 1);
+		int pos = addInOrderedData(picture);
 		String tooltip = picture.getProperty("Date") == null ? "NULL" : picture.getProperty("Date").toString();
 		FitImage image = new FitImage(picture.getImageUrl(), (int) (width / maxC) - 5, (int) (height / maxR));
+		allImages.add(pos, image);
 		
 		image.setAltText(tooltip);
 		addFitImage(pos, image);
 		Log.info("Picture inserted");
-		nbPictures++;
 	}
 	
 	@Override
@@ -124,7 +124,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		maxC = isLandscape ? maxBig : maxSmall;
 		maxR = isLandscape ? maxSmall : maxBig;
 		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
-			changeOrientation();
+//			changeOrientation();
+			refreshGrid(allImages);
 		}
 		else {
 			for(int r = 0 ; r < grid.getRowCount() ; r++) {
@@ -138,17 +139,30 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		}
 	}
 	
-	private void changeOrientation() {
-		ArrayList<FitImage> images = new ArrayList<>();
-		for(int r = 0 ; r < grid.getRowCount() ; r++) {
-			for(int c = 0 ; c < grid.getColumnCount() ; c++) {
-				images.add((FitImage) grid.getWidget(r, c));
-			}
-		}
+//	private void changeOrientation() {
+//		ArrayList<FitImage> images = new ArrayList<>();
+//		for(int r = 0 ; r < grid.getRowCount() ; r++) {
+//			for(int c = 0 ; c < grid.getColumnCount() ; c++) {
+//				images.add((FitImage) grid.getWidget(r, c));// This is an sorted list
+//			}
+//		}
+//		refreshGrid(images);
+//	}
+	
+	/**
+	 * Clear the grid and add images among the <code>images</code> that are in current category <code>currentCategoryId</code>
+	 * @param images The list of images to sort (current category) and to display
+	 */
+	private void refreshGrid(ArrayList<FitImage> images) {
+		Log.info("Clear grid");
+		int pos = 0;
 		grid.clear();
 		grid.resize(maxR, maxC);
-		for(int pos = 0 ; pos < allPictures.size() ; pos++) {
-			addFitImage(pos, images.get(pos));
+		for(int i = 0 ; i < allPictures.size() ; i++) {
+			if(allPictures.get(i).getCategoryIds().contains(currentCategoryId)) {
+				Log.info("Add picture " + allPictures.get(i).getTitleOrName() + " (" + images.get(i).getAltText() + ")");
+				addFitImage(pos++, images.get(i));
+			}
 		}
 	}
 	
@@ -166,23 +180,23 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 	
 	@SuppressWarnings("unchecked")
-	private int addInOrderedData(Picture pojo, Integer refIdx) {
+	private int addInOrderedData(Picture pojo) {
 		// If POJO doesn't contain sortName property, add it at the end
 		if(pojo.getProperty(sortName) == null) {
-			orderedPictures.add(refIdx);
-			return orderedPictures.size() - 1;
+			allPictures.add(pojo);
+			return allPictures.size() - 1;
 		}
-		for(int i = 0 ; i < orderedPictures.size() ; i++) {
-			Picture pict = allPictures.get(orderedPictures.get(i));
+		for(int i = 0 ; i < allPictures.size() ; i++) {
+			Picture pict = allPictures.get(i);
 			if(pojo == pict) continue;// Doesn't test with itself
 			if(pict.getProperty(sortName) == null || 
 					((Comparable<Object>)pict.getProperty(sortName)).compareTo(pojo.getProperty(sortName)) < 0) {
-				orderedPictures.add(i, refIdx);
+				allPictures.add(i, pojo);
 				return i;
 			}
 		}
-		orderedPictures.add(refIdx);
-		return orderedPictures.size() - 1;
+		allPictures.add(pojo);
+		return allPictures.size() - 1;
 	}
 	
 }
