@@ -14,6 +14,7 @@ import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -119,7 +120,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		Log.info("Size is " + width + " x " + height);
 		this.width = width;
 		this.height = height;
-		isLandscape = width > height;
+		isLandscape = Window.getClientWidth() > Window.getClientHeight();// To be in accordance with @media css
 		maxC = isLandscape ? maxBig : maxSmall;
 		maxR = isLandscape ? maxSmall : maxBig;
 		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
@@ -151,7 +152,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		}
 	}
 	
-	private void addFitImage(int pos, FitImage image) {// Landscape state different for css and resize() because of header panel
+	private void addFitImage(int pos, FitImage image) {
 		int idxC = pos % maxC;
 		int idxR = pos / maxC;
 		grid.insertCell(idxR, idxC, maxC);
