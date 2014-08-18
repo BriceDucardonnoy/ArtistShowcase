@@ -9,8 +9,10 @@ import org.gwt.contentflow4gwt.client.ContentFlow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.client.application.widgets.UpdatableGrid;
+import com.briceducardonnoy.client.lang.Translate;
 import com.briceducardonnoy.shared.model.Category;
 import com.briceducardonnoy.shared.model.Picture;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -26,6 +28,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	interface Binder extends UiBinder<Widget, AppHomeMobileView> {
 	}
 
+	private final Translate translate = GWT.create(Translate.class);
 	private static final int maxBig = 4;
 	private static final int maxSmall = 2;
 
@@ -35,7 +38,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	
 	private int width = 0;
 	private int height = 0;
-	private int maxC = 0;
+	private int maxC = maxBig;
 	private int maxR = 1;
 	private boolean isLandscape = true;
 	private String sortName;
@@ -46,7 +49,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 
 	@Inject
 	AppHomeMobileView(Binder uiBinder) {
-		grid = new UpdatableGrid(1, 0);
+		grid = new UpdatableGrid(1, maxC);
 		initWidget(uiBinder.createAndBindUi(this));
 		sortName = "Date";
 		allPictures = new ArrayList<>();
@@ -63,7 +66,14 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	@Override
-	public void addCategories(List<Category> categories) {}
+	public void addCategories(List<Category> categories) {
+		for(Category cat : categories) {
+			if(cat.getName().equals(translate.All())) {
+				changeCurrentCategory(cat.getId());
+				break;
+			}
+		}
+	}
 
 	@Override
 	public void init() {}
@@ -102,7 +112,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		Log.info("One picture (" + picture.getProperty("Date") + ") loaded: " + picture.getTitleOrName());
 		int pos = addInOrderedData(picture);
 		String tooltip = picture.getProperty("Date") == null ? "NULL" : picture.getProperty("Date").toString();
-		FitImage image = new FitImage(picture.getImageUrl(), (int) (width / maxC) - 5, (int) (height / maxR));
+		Log.info("width is " + width + " and maxC is " + maxC);
+		FitImage image = new FitImage(picture.getImageUrl());
 		allImages.add(pos, image);
 		
 		image.setAltText(tooltip);
@@ -116,45 +127,46 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		Log.info("Size is " + width + " x " + height);
+	public void resize(int width, int height) {// TODO BDY: in release mode, switch orientation => 1 picture displayed
+		/*
+		 * For an unknown reason, when resizing (and so switching orientation), the resize is done in 2 times: 
+		 * a 1st one with small update: Resize::Size is 433 x 751 and original size is 423x730
+		 * and the real one.
+		 * So, as the "just resize" can't append on mobile devices, the update is done only for consistency dimension update.
+		 */
+//		if(Math.abs(this.width - width) + Math.abs(this.height - height) < 35) return;
+		Log.info("Resize::Size is " + width + " x " + height + " and original size is " + this.width + "x" + this.height);
 		this.width = width;
 		this.height = height;
 		isLandscape = Window.getClientWidth() > Window.getClientHeight();// To be in accordance with @media css
 		maxC = isLandscape ? maxBig : maxSmall;
 		maxR = isLandscape ? maxSmall : maxBig;
 		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
-//			changeOrientation();
 			refreshGrid(allImages);
 		}
 		else {
+			Log.info("Just resize");
 			for(int r = 0 ; r < grid.getRowCount() ; r++) {
 				for(int c = 0 ; c < grid.getColumnCount() ; c++) {
 					FitImage img = (FitImage) grid.getWidget(r, c);
 					if(img != null) {
-						img.setMaxSize((int) (width / maxC) - 5, (int) (height / maxR));// - 5 for scrollBar if present
+//						Log.info("Set max size to " + ((width / maxC) - 5) + "x" + (height / maxR));
+						img.setMaxSize(Math.max((int) (width / maxC) - 5, 0), (int) (height / maxR));// - 5 for horizontal scroll
+						grid.getCellFormatter().setWidth(r, c, img.getMaxWidth() + "px");
+						grid.getCellFormatter().setHeight(r, c, img.getMaxHeight() + "px");
 					}
 				}
 			}
 		}
 	}
 	
-//	private void changeOrientation() {
-//		ArrayList<FitImage> images = new ArrayList<>();
-//		for(int r = 0 ; r < grid.getRowCount() ; r++) {
-//			for(int c = 0 ; c < grid.getColumnCount() ; c++) {
-//				images.add((FitImage) grid.getWidget(r, c));// This is an sorted list
-//			}
-//		}
-//		refreshGrid(images);
-//	}
-	
 	/**
 	 * Clear the grid and add images among the <code>images</code> that are in current category <code>currentCategoryId</code>
+	 * It also relayout the images.
 	 * @param images The list of images to sort (current category) and to display
 	 */
 	private void refreshGrid(ArrayList<FitImage> images) {
-		Log.info("Clear grid");
+		Log.info("RefreshGrid::Clear grid with category " + currentCategoryId);
 		int pos = 0;
 		grid.clear();
 		grid.resize(maxR, maxC);
@@ -166,13 +178,23 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		}
 	}
 	
+	/**
+	 * Add and image in <code>grid</code> at position <code>pos</code>
+	 * Function calculates the row and column indexes <code>pos</code> corresponds
+	 * @param pos The position of the image to insert
+	 * @param image The image to insert 
+	 */
 	private void addFitImage(int pos, FitImage image) {
 		int idxC = pos % maxC;
 		int idxR = pos / maxC;
 		grid.insertCell(idxR, idxC, maxC);
-		image.setMaxSize((int) (width / maxC) - 5, (int) (height / maxR));
+		
+		image.setMaxSize(Math.max((int) (width / maxC) - 5, 0), (int) (height / maxR));// - 5 for horizontal scroll
+		grid.getCellFormatter().setWidth(idxR, idxC, image.getMaxWidth() + "px");
+		grid.getCellFormatter().setHeight(idxR, idxC, image.getMaxHeight() + "px");
+		
 		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
-		grid.setWidget(idxR, idxC, image);// - 5 for scrollBar if present
+		grid.setWidget(idxR, idxC, image);
 		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
 		if(Log.isInfoEnabled()) {
 			((FitImage)grid.getWidget(idxR, idxC)).setTitle(image.getAltText());
