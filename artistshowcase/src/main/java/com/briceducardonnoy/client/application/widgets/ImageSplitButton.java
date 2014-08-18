@@ -20,6 +20,7 @@
  */
 package com.briceducardonnoy.client.application.widgets;
 
+import com.briceducardonnoy.client.application.utils.Utils;
 import com.briceducardonnoy.client.images.ImagesDesktopResources;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -40,9 +41,10 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class ImageSplitButton extends ImageButton {
 	
-	public enum Position {// TODO BDY: add MOBILE and set it in function of the orientation (ie. update Utils class)
+	public enum Position {
 		BOTTOM,
-		RIGHT
+		RIGHT,
+		MOBILE
 	}
 	
 	private Position position;
@@ -65,7 +67,8 @@ public class ImageSplitButton extends ImageButton {
 		clickHandlerRegistration = addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if(ImageSplitButton.this.position == Position.RIGHT) {
+				if(ImageSplitButton.this.position == Position.RIGHT ||
+						(ImageSplitButton.this.position == Position.MOBILE && Utils.isLandscape())) {
 					menuPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
 						@Override
 						public void setPosition(int offsetWidth, int offsetHeight) {

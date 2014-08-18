@@ -67,7 +67,7 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
         initWidget(uiBinder.createAndBindUi(this));
         
         home.setText(translate.Home());
-		gallery.setText(translate.Gallery());// TODO BDY: send HandlerRegistration to presenter
+		gallery.setText(translate.Gallery());
 		approach.setText(translate.ArtisticApproach());
 		expo.setText(translate.Expositions());
 		contact.setText(translate.Contact());

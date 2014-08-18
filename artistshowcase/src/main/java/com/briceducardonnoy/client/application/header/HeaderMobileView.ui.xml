@@ -17,7 +17,7 @@
     	<!-- <g:HTMLPanel>This is header from tablet<br/></g:HTMLPanel> -->
     	<g:FlowPanel ui:field="headerPanel" styleName="headerMobile">
     		<bdywidget:ImageButton res="{res.home}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="home" />
-    		<bdywidget:ImageSplitButton res="{res.gallery}" position="RIGHT" addStyleNames="{style.textButton} headerButtonMobile" ui:field="gallery" />
+    		<bdywidget:ImageSplitButton res="{res.gallery}" position="MOBILE" addStyleNames="{style.textButton} headerButtonMobile" ui:field="gallery" />
     		<bdywidget:ImageButton res="{res.approach}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="approach" />
     		<bdywidget:ImageButton res="{res.exposition}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="expo" />
     		<bdywidget:ImageButton res="{res.contact}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="contact" />

@@ -92,4 +92,8 @@ public class Utils {
 		return screen.height;
 	}-*/;
 	
+	public static boolean isLandscape() {
+		return Window.getClientWidth() >= Window.getClientHeight();
+	}
+	
 }

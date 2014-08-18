@@ -127,18 +127,17 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	@Override
-	public void resize(int width, int height) {// TODO BDY: in release mode, switch orientation => 1 picture displayed
+	public void resize(int width, int height) {
 		/*
 		 * For an unknown reason, when resizing (and so switching orientation), the resize is done in 2 times: 
 		 * a 1st one with small update: Resize::Size is 433 x 751 and original size is 423x730
 		 * and the real one.
-		 * So, as the "just resize" can't append on mobile devices, the update is done only for consistency dimension update.
 		 */
 //		if(Math.abs(this.width - width) + Math.abs(this.height - height) < 35) return;
 		Log.info("Resize::Size is " + width + " x " + height + " and original size is " + this.width + "x" + this.height);
 		this.width = width;
 		this.height = height;
-		isLandscape = Window.getClientWidth() > Window.getClientHeight();// To be in accordance with @media css
+		isLandscape = Window.getClientWidth() >= Window.getClientHeight();// To be in accordance with @media css
 		maxC = isLandscape ? maxBig : maxSmall;
 		maxR = isLandscape ? maxSmall : maxBig;
 		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
