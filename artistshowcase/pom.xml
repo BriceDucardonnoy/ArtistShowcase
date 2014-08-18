@@ -109,10 +109,19 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-            </plugin>
+                <configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+					<war>${basedir}/target/artistshowcase-1.0-SNAPSHOT</war>
+					<version>${jetty.plugin.version}</version>
+				</configuration>
+				<version>9.2.0.M0</version>
+            </plugin> -->
         </plugins>
         <pluginManagement>
         	<plugins>
@@ -121,8 +130,11 @@
                     <artifactId>jetty-maven-plugin</artifactId>
                     <version>${jetty.plugin.version}</version>
                     <configuration>
+                    	<scanIntervalSeconds>10</scanIntervalSeconds>
                         <webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
                         <contextPath>/</contextPath>
+                        <!-- <war>${basedir}/target/artistshowcase-1.0-SNAPSHOT</war> -->
+                        <war>${webappDirectory}</war>
                     </configuration>
                 </plugin>
         		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
