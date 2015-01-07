@@ -27,20 +27,31 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class ImageButton extends Button {
+	Image img;
 
 	public ImageButton() {
 	}
 
 	@UiConstructor
-	public ImageButton(ImageResource res) {
-		Image img = new Image(res);
+	public ImageButton(final ImageResource res) {
+		img = new Image(res);
 		getElement().appendChild(img.getElement());
 	}
 	
 	@Override
-	public void setText(String text) {
+	public void setText(final String text) {
 		Label lbl = new Label(text);
 		getElement().appendChild(lbl.getElement());
+	}
+	
+	public void setAltText(final String text) {
+		if(img != null) {
+			img.setAltText(text);
+		}
+	}
+	
+	public Image getImage() {
+		return img;
 	}
 
 }

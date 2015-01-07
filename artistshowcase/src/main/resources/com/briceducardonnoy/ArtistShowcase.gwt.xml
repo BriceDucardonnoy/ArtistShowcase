@@ -37,6 +37,12 @@
 	<!-- Shared modules -->
     <!-- <set-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.ClientModule"/> -->
     <extend-configuration-property name="gin.ginjector.modules" value="com.briceducardonnoy.client.gin.SharedModule" />
+    
+    <!-- PWT Module to extends in order to use PWT widgets-->
+	<!-- <inherits name="fr.putnami.pwt.core.widget.Widget"/> -->
+	<!-- PWT Module to extends in order to use PWT MVP features-->
+	<!-- <inherits name="fr.putnami.pwt.core.mvp.Mvp"/> -->
+	
 
     <source path='client' />
     <source path='shared' />

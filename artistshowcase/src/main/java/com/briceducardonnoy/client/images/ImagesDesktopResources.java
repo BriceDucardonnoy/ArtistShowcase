@@ -14,8 +14,14 @@ public interface ImagesDesktopResources extends ClientBundle {
 	@Source("united_kingdom_great_britain_24.png")
 	ImageResource uk24();
 	
+	@Source("france_16.png")
+	ImageResource france16();
+	
 	@Source("france.png")
 	ImageResource france();
+	
+	@Source("united_kingdom_great_britain_16.png")
+	ImageResource uk16();
 	
 	@Source("united_kingdom_great_britain.png")
 	ImageResource uk();

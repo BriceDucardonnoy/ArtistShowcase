@@ -33,7 +33,7 @@
 	}
 	
 	.headerButtonMobile {
-		margin: auto;
+		margin: auto !important;
 		width: 100%;
 	}
 	
@@ -55,8 +55,10 @@
 	}
 	
 	.headerButtonMobile {
-		margin: auto;
+		margin: auto !important;
 		height: 100%;
+		/* padding: 1px 6px !important; */
+		/* overflow-x: overlay; */
 	}
 	
 	.mainMobile {

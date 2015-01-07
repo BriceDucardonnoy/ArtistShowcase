@@ -56,8 +56,8 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 	@UiField ImageButton contact;
 	@UiField ImageButton link;
 	@UiField ImageButton legal;
-	@UiField Image tr_fr;
-	@UiField Image tr_en;
+	@UiField ImageButton tr_fr;
+	@UiField ImageButton tr_en;
 	@UiField SimplePanel main;
 	
 	private int nbCategories = 0;
@@ -65,7 +65,7 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
     @Inject
     HeaderMobileView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
-        
+        // TODO BDY: add drouot
         home.setText(translate.Home());
 		gallery.setText(translate.Gallery());
 		approach.setText(translate.ArtisticApproach());
@@ -95,12 +95,12 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
 	
 	@Override
 	public Image getFrBtn() {
-		return tr_fr;
+		return tr_fr.getImage();
 	}
 
 	@Override
 	public Image getEnBtn() {
-		return tr_en;
+		return tr_en.getImage();
 	}
 	
 	@Override

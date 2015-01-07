@@ -189,7 +189,12 @@
             <artifactId>gwt-codeserver</artifactId>
             <version>${gwt.version}</version>
         </dependency> -->
-        
+        <!-- PWT -->
+		<!-- <dependency>
+			<groupId>fr.putnami.pwt</groupId>
+			<artifactId>pwt</artifactId>
+			<version>1.1.1</version>
+		</dependency> -->
         <!-- Log -->
         <dependency>
 			<groupId>com.allen-sauer.gwt.log</groupId>
