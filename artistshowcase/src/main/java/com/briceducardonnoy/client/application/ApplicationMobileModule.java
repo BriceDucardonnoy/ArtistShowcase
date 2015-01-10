@@ -29,6 +29,7 @@ public class ApplicationMobileModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
 		install(new AppHomeMobileModule());
+		// TODO BDY: add here detailMobileModule
 		// Application Presenters
 		bind(ApplicationMobilePresenter.class).in(Singleton.class);
 		bind(ApplicationMobileView.class).in(Singleton.class);

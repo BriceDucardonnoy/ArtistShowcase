@@ -2,6 +2,8 @@ package com.briceducardonnoy.client.place;
 
 public class NameTokens {
 
+	public static final String details = "details";
+
 	public static final String main = "main";
 
 	public static final String homePage = "!homePage";
@@ -17,6 +19,10 @@ public class NameTokens {
 
 	public static String getMain() {
 		return main;
+	}
+
+	public static String getDetails() {
+		return details;
 	}
 
 }

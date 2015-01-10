@@ -61,6 +61,7 @@ public class Utils {
 		}
 		Window.Location.replace(newUrl);
 	}
+	// TODO BDY: add Unauthorized and Error places
 	// TODO BDY: implement progress waiting bar
 //	public static void showLoadingProgressToolbar() {
 //		if(box != null && box.isVisible()) return;

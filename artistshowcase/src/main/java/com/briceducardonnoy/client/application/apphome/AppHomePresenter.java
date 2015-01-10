@@ -53,6 +53,7 @@ import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHomePresenter.MyProxy> implements AppHomeUiHandlers {
 	interface MyView extends View, HasUiHandlers<AppHomeUiHandlers> {
@@ -129,8 +130,8 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	private ContentFlowItemClickListener contentFlowClickListener = new ContentFlowItemClickListener() {
         public void onItemClicked(Widget widget) {
         	Log.info(translate.Selection(), translate.YouClickOn() + " " + getView().getCurrentPicture().getTitle());
-//        	placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.detail).with(ApplicationContext.DETAIL_KEYWORD, 
-//        			(String) getView().getCurrentPicture().getProperty(ApplicationContext.FILEINFO)).build());
+        	placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.details).with(ApplicationContext.DETAIL_KEYWORD, 
+        			(String) getView().getCurrentPicture().getProperty(ApplicationContext.FILEINFO)).build());// TODO BDY: implement it now
         }
     };
     

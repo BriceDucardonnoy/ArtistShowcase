@@ -24,6 +24,7 @@ import com.briceducardonnoy.client.application.apphome.AppHomeModule;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.client.application.header.HeaderView;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.briceducardonnoy.client.application.details.DetailsModule;
 
 public class ApplicationDesktopModule extends AbstractPresenterModule {
 	@Override
@@ -40,5 +41,6 @@ public class ApplicationDesktopModule extends AbstractPresenterModule {
 //		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeView.class, AppHomePresenter.MyProxy.class);
 		
 		install(new AppHomeModule());
+		install(new DetailsModule());
 	}
 }
