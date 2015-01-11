@@ -51,7 +51,7 @@ public class Utils {
         }
     }
 	
-	public static void switchLocale(String locale) {
+	public static void switchLocale(final String locale) {
 		UrlBuilder builder = Location.createUrlBuilder().setParameter("locale", locale);
 		String newUrl = builder.buildString();
 		// Lame hack for debug execution only
@@ -95,6 +95,18 @@ public class Utils {
 	
 	public static boolean isLandscape() {
 		return Window.getClientWidth() >= Window.getClientHeight();
+	}
+	
+	public static String getSeparatorDependingLocale(final String locale) {
+		if(locale.equals("fr")) {
+			return " : ";
+		}
+		else if(locale.equals("en")) {
+			return ": ";
+		}
+		else {
+			return " : ";
+		}
 	}
 	
 }

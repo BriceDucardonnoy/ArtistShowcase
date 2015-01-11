@@ -131,7 +131,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
         public void onItemClicked(Widget widget) {
         	Log.info(translate.Selection(), translate.YouClickOn() + " " + getView().getCurrentPicture().getTitle());
         	placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.details).with(ApplicationContext.DETAIL_KEYWORD, 
-        			(String) getView().getCurrentPicture().getProperty(ApplicationContext.FILEINFO)).build());// TODO BDY: implement it now
+        			(String) getView().getCurrentPicture().getProperty(ApplicationContext.FILEINFO)).build());
         }
     };
     

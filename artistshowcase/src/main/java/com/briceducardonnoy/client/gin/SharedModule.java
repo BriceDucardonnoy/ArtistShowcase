@@ -31,8 +31,8 @@ public class SharedModule extends AbstractPresenterModule {
 
         // DefaultPlaceManager Places
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
-        bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.homePage);
-        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.homePage);
+        bindConstant().annotatedWith(ErrorPlace.class).to(NameTokens.error);
+        bindConstant().annotatedWith(UnauthorizedPlace.class).to(NameTokens.unauthorized);
 
         // Google Analytics
         bindConstant().annotatedWith(GaAccount.class).to("UA-8319339-6");

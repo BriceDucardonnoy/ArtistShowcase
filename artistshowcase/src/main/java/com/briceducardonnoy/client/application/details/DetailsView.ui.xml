@@ -1,9 +1,30 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <g:SimplePanel ui:field="main">
+    <!-- <g:SimplePanel ui:field="main">
     <g:HTMLPanel>
     This is my detail page
     </g:HTMLPanel>
-    </g:SimplePanel>
+    </g:SimplePanel> -->
+    <g:ResizeLayoutPanel ui:field="main" height="100%" >
+	    <g:DockLayoutPanel ui:field="dockPane" unit="PX">
+	    	<g:west size="300">
+	    		<!-- <g:Label>WEST</g:Label> -->
+	    		<g:LayoutPanel>
+	    			<g:layer>
+	    				<g:Image ui:field="mainImage" altText="Full Picture" addStyleNames="cursorImageFlag" />
+	    			</g:layer>
+	    			<g:layer top="50%" height="50%">
+	    				<g:Label>South WEST</g:Label>
+	    			</g:layer>
+	    		</g:LayoutPanel>
+	    	</g:west>
+	    	<g:center>
+	    		<g:Label addStyleNames="centerPane">CENTER</g:Label>
+	    	</g:center>
+	    	<g:east size="160">
+	    		<g:Label>EAST</g:Label>
+	    	</g:east>
+	    </g:DockLayoutPanel>
+    </g:ResizeLayoutPanel>
 </ui:UiBinder>

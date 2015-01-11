@@ -5,21 +5,24 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
+	
+	@UiField Image mainImage;
+	@UiField ResizeLayoutPanel main;
+	
 	interface Binder extends UiBinder<Widget, DetailsView> {
 	}
-
-	@UiField SimplePanel main;
 
 	@Inject
 	DetailsView(Binder uiBinder) {
@@ -37,8 +40,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 
 	@Override
 	public Image getMainImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return mainImage;
 	}
 
 	@Override
@@ -49,8 +51,10 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 
 	@Override
 	public void updateMainImage(String url) {
-		// TODO Auto-generated method stub
-		
+		if(Log.isTraceEnabled()) {
+			Log.trace("Update to image " + url);
+		}
+		mainImage.setUrl(url);
 	}
 
 	@Override
@@ -69,5 +73,10 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	public List<Picture> getPicturesList() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ResizeLayoutPanel getMainPane() {
+		return main;
 	}
 }

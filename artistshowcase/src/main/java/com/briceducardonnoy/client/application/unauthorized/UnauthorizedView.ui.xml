@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+             
+   	<ui:style>
+		.unauthorizedStyle {
+			background: #000000 repeat scroll 0 0;
+			color: #DDDDDD;
+			font-family: helvetica;
+			font-size: 20;
+			text-align: center;
+			padding-top: 80px;
+			height: 100%;
+			width: 100%;
+			vertical-align: middle;
+		}
+	</ui:style>
+	
+    <g:SimplePanel ui:field="main">
+		<g:HTMLPanel styleName="globalStyle" addStyleNames="{style.unauthorizedStyle}">
+			<p>Vous devez d'abord s&eacute;lectionner un tableau</p><br />
+			<p>You need to select a picture first</p>
+		</g:HTMLPanel>
+    </g:SimplePanel>
+</ui:UiBinder>

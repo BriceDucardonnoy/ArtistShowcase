@@ -25,10 +25,14 @@ import com.briceducardonnoy.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.client.application.header.HeaderView;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 import com.briceducardonnoy.client.application.details.DetailsModule;
+import com.briceducardonnoy.client.application.error.ErrorModule;
+import com.briceducardonnoy.client.application.unauthorized.UnauthorizedModule;
 
 public class ApplicationDesktopModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
+		install(new UnauthorizedModule());
+		install(new ErrorModule());
 		// Application Presenters
 		bind(ApplicationDesktopPresenter.class).in(Singleton.class);
 		bind(ApplicationDesktopView.class).in(Singleton.class);
