@@ -16,6 +16,8 @@ import com.briceducardonnoy.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
@@ -43,6 +45,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		public void updateDetailInfo(String html);
 		public void updateThumbs(ArrayList<String> thumbsArray);
 		public List<Picture> getPicturesList();
+		public void resize();
 	}
 	
 	private final Translate translate = GWT.create(Translate.class);
@@ -102,6 +105,14 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		}
 	};
 	
+	private ResizeHandler resize = new ResizeHandler() {
+		@Override
+		public void onResize(ResizeEvent event) {
+			Log.info(event.getWidth() + " x " + event.getHeight());
+			getView().resize();
+		}
+	};
+	
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> SLOT_details = new Type<RevealContentHandler<?>>();
 
@@ -129,6 +140,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	protected void onBind() {
 		super.onBind();
 		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
+		registerHandler(getView().getMainPane().addResizeHandler(resize));
 	}
 	
 	@Override
@@ -161,6 +173,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	@Override
 	protected void onReset() {
 		super.onReset();
+		Log.info("onReset");
 	}
 	
 	private boolean initializeCurrentPicture() {
@@ -193,10 +206,10 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 				"font-family: helvetica; " +
 				"font-size: 14px;" +
 				"padding-left: 10px;" +
-				"padding-left: 10px;" +
 				"overflow: auto;" +
 				"\">";
 		info += "<div style=\"text-align: center; font-size: 18px;\"><b>" + translate.Details() + "</b></div><br />";
+		info += "<div style=\"padding-left: 10px;\">";
 		info += translate.Title() + Utils.getSeparatorDependingLocale(locale) + currentPicture.getTranslatedTitle(locale) + "<br />";
 		info += translate.Dimension() + Utils.getSeparatorDependingLocale(locale) + currentPicture.getProperty("Dimension", "") + "<br />";
 		info += translate.Medium() + Utils.getSeparatorDependingLocale(locale) + currentPicture.getProperty("Medium", "") + "<br />";
@@ -204,7 +217,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		if(((String) currentPicture.getProperty("Price", "")).equalsIgnoreCase("vendu")) {
 			info += translate.Price() + Utils.getSeparatorDependingLocale(locale) + translate.Sold() + "<br />";
 		}
-		info += "</div>";
+		info += "</div></div>";
 		getView().updateDetailInfo(info);
 	}
 	

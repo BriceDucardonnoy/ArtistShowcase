@@ -11,6 +11,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -27,6 +28,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	// West
 	@UiField LayoutPanel westPane;
 	@UiField Image mainImage;
+	@UiField HTMLPanel description;
 	
 	interface Binder extends UiBinder<Widget, DetailsView> {
 	}
@@ -71,7 +73,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	
 	public void resizeMainImage() {
 		// Stretch to the biggest dimension
-		// TESTME BDY: test with FitImage
+		// BDY: test with FitImage?
 		mainImage.getElement().getStyle().clearHeight();// getElement().getStyle(): magic function!!!
 		mainImage.getElement().getStyle().clearWidth();
 		mainImage.getElement().getStyle().clearTop();
@@ -94,8 +96,20 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 
 	@Override
 	public void updateDetailInfo(String html) {
-		// TODO Auto-generated method stub
-		
+		if(!html.isEmpty()) {
+			description.getElement().setInnerHTML(html);
+		}
+		description.getElement().getStyle().clearTop();
+		description.getElement().getStyle().setTop(
+				(
+						(westPane.getOffsetHeight()/2)
+						- description.getOffsetHeight())
+						/ 2, Unit.PX);
+	}
+	
+	public void resize() {
+		resizeMainImage();
+		updateDetailInfo("");
 	}
 
 	@Override

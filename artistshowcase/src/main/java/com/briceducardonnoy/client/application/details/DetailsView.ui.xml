@@ -4,20 +4,22 @@
     
     <g:ResizeLayoutPanel ui:field="main" height="100%" >
 	    <g:DockLayoutPanel ui:field="dockPane" unit="PX">
+	    	<!-- Left part -->
 	    	<g:west size="300">
-	    		<!-- <g:Label>WEST</g:Label> -->
 	    		<g:LayoutPanel ui:field="westPane">
 	    			<g:layer bottom="50%" height="50%">
 	    				<g:Image ui:field="mainImage" altText="Selected Picture" addStyleNames="cursorImageFlag" />
 	    			</g:layer>
 	    			<g:layer top="50%" height="50%">
-	    				<g:Label>South WEST</g:Label>
+	    				<g:HTMLPanel ui:field="description" />
 	    			</g:layer>
 	    		</g:LayoutPanel>
 	    	</g:west>
+	    	<!-- Center part -->
 	    	<g:center>
 	    		<g:Label addStyleNames="centerPane">CENTER</g:Label>
 	    	</g:center>
+	    	<!-- Right part -->
 	    	<g:east size="160">
 	    		<g:Label>EAST</g:Label>
 	    	</g:east>
