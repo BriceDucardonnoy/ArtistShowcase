@@ -150,6 +150,12 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			Scheduler.get().scheduleFixedDelay(loadPicturesWaitCmd, 1000);// 1s
 			return;
 		}
+		if(initializeCurrentPicture()) {
+			// Shows picture information
+			showPictureMainThumbAndInfo();
+			// Shows pictures thumbs
+			showPicturesThumb();
+		}
 	}
 
 	@Override

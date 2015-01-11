@@ -1,18 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
              xmlns:g="urn:import:com.google.gwt.user.client.ui">
-    <!-- <g:SimplePanel ui:field="main">
-    <g:HTMLPanel>
-    This is my detail page
-    </g:HTMLPanel>
-    </g:SimplePanel> -->
+    
     <g:ResizeLayoutPanel ui:field="main" height="100%" >
 	    <g:DockLayoutPanel ui:field="dockPane" unit="PX">
 	    	<g:west size="300">
 	    		<!-- <g:Label>WEST</g:Label> -->
-	    		<g:LayoutPanel>
-	    			<g:layer>
-	    				<g:Image ui:field="mainImage" altText="Full Picture" addStyleNames="cursorImageFlag" />
+	    		<g:LayoutPanel ui:field="westPane">
+	    			<g:layer bottom="50%" height="50%">
+	    				<g:Image ui:field="mainImage" altText="Selected Picture" addStyleNames="cursorImageFlag" />
 	    			</g:layer>
 	    			<g:layer top="50%" height="50%">
 	    				<g:Label>South WEST</g:Label>
