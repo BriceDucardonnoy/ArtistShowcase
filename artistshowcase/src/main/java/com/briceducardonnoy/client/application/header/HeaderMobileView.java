@@ -65,7 +65,6 @@ public class HeaderMobileView extends ViewImpl implements HeaderPresenter.MyView
     @Inject
     HeaderMobileView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
-        // TODO BDY: switch to eclipse 4.4
         // TODO BDY: add drouot
         home.setText(translate.Home());
 		gallery.setText(translate.Gallery());
