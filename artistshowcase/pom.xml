@@ -87,7 +87,7 @@
 
                     <copyWebapp>true</copyWebapp>
                     <hostedWebapp>${webappDirectory}</hostedWebapp>
-					<i18nMessagesBundle>com.briceducardonnoy.client.lang.Translate</i18nMessagesBundle>
+					<i18nMessagesBundle>com.briceducardonnoy.artistshowcase.client.lang.Translate</i18nMessagesBundle>
 					<bindAddress>0.0.0.0</bindAddress>
 					<!-- <noServer>true</noServer> -->
 					<port>8080</port>
@@ -96,7 +96,7 @@
 					<!-- <codeServerPort>4040</codeServerPort> -->
                     <runTarget>index.html</runTarget>
                     <modules>
-                        <module>com.briceducardonnoy.ArtistShowcase</module>
+                        <module>com.briceducardonnoy.artistshowcase.ArtistShowcase</module>
                     </modules>
                 </configuration>
                 <executions>

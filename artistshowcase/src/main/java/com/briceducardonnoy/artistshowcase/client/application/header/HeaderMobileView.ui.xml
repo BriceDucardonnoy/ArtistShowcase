@@ -1,0 +1,35 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:bdywidget="urn:import:com.briceducardonnoy.artistshowcase.client.application.widgets">
+    
+    <!-- Resources -->
+	<ui:with field='res' type='com.briceducardonnoy.artistshowcase.client.images.ImagesDesktopResources' />
+    
+    <ui:style>
+		.menuItem {
+			cursor: pointer;
+		}
+		.textButton {
+			font: 11px Helvetica,elvetica;
+		}
+    </ui:style>
+    <g:HTMLPanel styleName="globalStyle globalFont">
+    	<!-- <g:HTMLPanel>This is header from tablet<br/></g:HTMLPanel> -->
+    		<!-- <g:ScrollPanel width="500px" height="40px"> -->
+    	<g:FlowPanel ui:field="headerPanel" styleName="headerMobile">
+    		<bdywidget:ImageButton res="{res.home}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="home" />
+    		<bdywidget:ImageSplitButton res="{res.gallery}" position="MOBILE" addStyleNames="{style.textButton} headerButtonMobile" ui:field="gallery" />
+    		<bdywidget:ImageButton res="{res.approach}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="approach" />
+    		<bdywidget:ImageButton res="{res.exposition}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="expo" />
+    		<bdywidget:ImageButton res="{res.contact}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="contact" />
+    		<bdywidget:ImageButton res="{res.link}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="link" />
+    		<bdywidget:ImageButton res="{res.copyright}" addStyleNames="{style.textButton} headerButtonMobile" ui:field="legal" />
+    		<!-- <g:Image resource='{res.france}' ui:field="tr_fr" addStyleNames="{style.menuItem} headerButtonMobile" altText="langFr" />
+	    	<g:Image resource='{res.uk}' ui:field="tr_en" addStyleNames="{style.menuItem} headerButtonMobile" altText="langEn" /> -->
+	    	<bdywidget:ImageButton res='{res.france16}' ui:field="tr_fr" addStyleNames="{style.menuItem} headerButtonMobile" altText="Fr" text="fr" />
+	    	<bdywidget:ImageButton res='{res.uk16}' ui:field="tr_en" addStyleNames="{style.menuItem} headerButtonMobile" altText="En" text="en" />
+    	</g:FlowPanel>
+	    	<!-- </g:ScrollPanel> -->
+    	<g:SimplePanel styleName="mainMobile" ui:field="main" />
+    </g:HTMLPanel>
+</ui:UiBinder>
