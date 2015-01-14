@@ -54,7 +54,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	private ArrayList<PhotoView> allPictures = null;
 	private ArrayList<Integer> orderedPictures = null;
 	private ArrayList<Category> categories = null;// TODO BDY: not sure it's necessary
-	
+	// TODO BDY: add "Vendu" below the dimension in desktop coverflow
 	private FitImageLoadHandler flh;
 	
 	private String sortName;

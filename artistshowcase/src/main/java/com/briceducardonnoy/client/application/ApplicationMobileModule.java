@@ -21,17 +21,23 @@ package com.briceducardonnoy.client.application;
 import javax.inject.Singleton;
 
 import com.briceducardonnoy.client.application.apphome.AppHomeMobileModule;
+import com.briceducardonnoy.client.application.details.DetailsModule;
 import com.briceducardonnoy.client.application.error.ErrorModule;
 import com.briceducardonnoy.client.application.header.HeaderMobileView;
 import com.briceducardonnoy.client.application.header.HeaderPresenter;
+import com.briceducardonnoy.client.application.unauthorized.UnauthorizedModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
 public class ApplicationMobileModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
 		install(new AppHomeMobileModule());
+		install(new DetailsModule());
 		install(new ErrorModule());
+		install(new UnauthorizedModule());
 		// TODO BDY: add here detailMobileModule
+		// See below in case of compilation failure
+		// https://github.com/ArcBees/GWTP/issues/291
 		// Application Presenters
 		bind(ApplicationMobilePresenter.class).in(Singleton.class);
 		bind(ApplicationMobileView.class).in(Singleton.class);
