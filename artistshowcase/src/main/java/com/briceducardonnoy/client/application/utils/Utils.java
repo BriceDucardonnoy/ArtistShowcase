@@ -62,7 +62,7 @@ public class Utils {
 		Window.Location.replace(newUrl);
 	}
 	
-	// TODO BDY: implement progress waiting bar
+	// TODO BDY: implement progress waiting bar (GWT-Bootstrap?)
 //	public static void showLoadingProgressToolbar() {
 //		if(box != null && box.isVisible()) return;
 //		if(box == null) {

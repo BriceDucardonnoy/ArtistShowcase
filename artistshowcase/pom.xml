@@ -27,7 +27,7 @@
         <!-- maven -->
         <gwt-maven-plugin.version>2.7.0</gwt-maven-plugin.version>
         <maven-surefire-plugin.version>2.6</maven-surefire-plugin.version>
-        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
         <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
         <maven-processor-plugin.version>2.0.5</maven-processor-plugin.version>
         <maven-build-helper-plugin.version>1.7</maven-build-helper-plugin.version>
@@ -199,7 +199,7 @@
         <dependency>
 			<groupId>com.allen-sauer.gwt.log</groupId>
 			<artifactId>gwt-log</artifactId>
-			<version>3.3.1</version>
+			<version>3.3.2</version>
 		</dependency>
         <!-- GWT-Platform -->
         <dependency>
