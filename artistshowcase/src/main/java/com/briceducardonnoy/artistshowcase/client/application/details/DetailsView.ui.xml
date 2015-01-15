@@ -9,11 +9,12 @@
 			overflow-y: auto;
 		}
 	</ui:style>
+	<ui:with type="com.briceducardonnoy.artistshowcase.client.application.details.DetailsView.Constants" field="details"></ui:with>
     
     <g:ResizeLayoutPanel ui:field="main" height="100%" >
 	    <g:DockLayoutPanel ui:field="dockPane" unit="PX">
 	    	<!-- Left part -->
-	    	<g:west size="300">
+	    	<g:west size="{details.getWestWidth}">
 	    		<g:LayoutPanel ui:field="westPane" addStyleNames="rightBorderSolid">
 	    			<g:layer bottom="50%" height="50%">
 	    				<g:Image ui:field="mainImage" altText="Selected Picture" addStyleNames="cursorImageFlag" />
@@ -28,9 +29,9 @@
 	    		<imagepreloader:FitImage ui:field="centerImage" addStyleNames="cursorImageFlag" />
 	    	</g:center>
 	    	<!-- Right part -->
-	    	<g:east size="160">
+	    	<g:east size="{details.getEastWidth}">
 	    		<!-- <g:Label addStyleNames="leftBorderSolid">EAST</g:Label> -->
-	    		<g:FlowPanel ui:field="thumbPane" addStyleNames="{style.thumbOverflow}" />
+	    		<g:FlowPanel ui:field="thumbPane" addStyleNames="leftBorderSolid {style.thumbOverflow}" />
 	    	</g:east>
 	    </g:DockLayoutPanel>
     </g:ResizeLayoutPanel>

@@ -41,14 +41,15 @@ import com.reveregroup.gwt.imagepreloader.client.FitImage;
 public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, DetailsPresenter.MyProxy> {
 	
 	interface MyView extends View {
-		public ResizeLayoutPanel getMainPane();
-		public Image getMainImage();
-		public FitImage getCenterImage();
-		public void updateMainImage(String url);
-		public void updateDetailInfo(String html);
-		public void updateThumbs(ArrayList<String> urls);
-		public List<Picture> getPicturesList();
-		public void resize();
+		ResizeLayoutPanel getMainPane();
+		Image getMainImage();
+		FitImage getCenterImage();
+		void updateMainImage(String url);
+		void updateDetailInfo(String html);
+		void updateThumbs(ArrayList<String> urls);
+		List<Picture> getPicturesList();
+		void resize();
+		void clearData();
 	}
 	
 	private final Translate translate = GWT.create(Translate.class);
@@ -182,13 +183,13 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			showPicturesThumb();
 		}
 	}
-
-	@Override
-	protected void onReset() {
-		super.onReset();
-		Log.info("onReset");
-	}
 	
+	@Override
+	protected void onHide() {
+		super.onHide();
+		getView().clearData();
+	}
+
 	private boolean initializeCurrentPicture() {
 		// No need to reload info, already in picture, just need to load images
 		if(Log.isTraceEnabled()) {
@@ -243,7 +244,6 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			if(thumbs.length > 0) {// Add the others details
 				for(String thumb : thumbs) {
 					thumbsArray.add(GWT.getHostPageBaseURL() + ApplicationContext.PHOTOSFOLDER + "/" + pictureFolder + "/" + thumb.trim());
-					Log.info("Add detail " + thumbsArray.get(thumbsArray.size() - 1));
 					if(Log.isTraceEnabled()) {
 						Log.trace("Add detail " + thumbsArray.get(thumbsArray.size() - 1));
 					}

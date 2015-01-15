@@ -270,3 +270,15 @@ button::-moz-focus-inner {
 .cursorImageFlag {
 	cursor: pointer;
 }
+
+.thumbPane {
+	border-left-width: 5px;
+	border-style: solid;
+	border-color: #000000;
+	cursor: pointer;
+}
+
+.thumbPane:HOVER {
+	border-left-width: 3px;
+	border-color: #222222;
+}

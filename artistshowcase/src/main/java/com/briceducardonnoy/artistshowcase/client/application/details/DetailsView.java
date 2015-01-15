@@ -7,9 +7,11 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -39,11 +41,18 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	@UiField FlowPanel thumbPane;
 	
 	private final Translate translate = GWT.create(Translate.class);
+	private static final String ACTIVE = "#444444";
 	
 	private List<Picture> picturesList;
 	private List<FitImage> imagesList;
+	private List<HandlerRegistration> imageHandlers;
 	
 	interface Binder extends UiBinder<Widget, DetailsView> {
+	}
+	
+	static class Constants {
+		public static int getWestWidth() {return 300;}
+		public static int getEastWidth() {return 160;}
 	}
 
 	@Inject
@@ -51,6 +60,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		initWidget(uiBinder.createAndBindUi(this));
 		picturesList = new ArrayList<>();
 		imagesList = new ArrayList<>();
+		imageHandlers = new ArrayList<>();
 	}
 
 	@Override
@@ -128,14 +138,37 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 
 	@Override
 	public void updateThumbs(ArrayList<String> urls) {
+		picturesList.clear();
+		imagesList.clear();
+		thumbPane.clear();
 		for(String url : urls) {
-			Picture p = new Picture(translate.Details());
+			final Picture p = new Picture(translate.Details());
 			p.getProperties().put("imageUrl", url);
 			picturesList.add(p);
-			imagesList.add(new FitImage(p.getImageUrl()));
-			thumbPane.add(imagesList.get(imagesList.size() - 1));
+			final FitImage image = new FitImage(p.getImageUrl());
+			image.setFixedWidth(Constants.getEastWidth() - 25);
+			// With setProperty, replace style property '-' by upper-case => camelCase syntax: http://blog.francoismaillet.com/?p=68
+//			image.getElement().getStyle().setProperty("borderLeftWidth", "5px");
+			image.setStyleName("thumbPane");
+//			image.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
+//			image.getElement().getStyle().setCursor(Cursor.POINTER);
+			imageHandlers.add(image.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					for(FitImage other : imagesList) {
+						other.getElement().getStyle().clearBorderColor();
+					}
+					image.getElement().getStyle().setBorderColor(ACTIVE);
+				}
+			}));
+			imagesList.add(image);
+			thumbPane.add(image);
 		}
-//		Scheduler.get().scheduleDeferred(select1stImageCmd);
+
+		if(imagesList.size() > 0) {
+			imagesList.get(0).getElement().getStyle().setBorderColor(ACTIVE);
+			// TODO BDY: show this picture in center
+		}
 	}
 
 	@Override
@@ -146,5 +179,16 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	@Override
 	public ResizeLayoutPanel getMainPane() {
 		return main;
+	}
+
+	@Override
+	public void clearData() {
+		for(HandlerRegistration hr : imageHandlers) {
+			hr.removeHandler();
+		}
+		imageHandlers.clear();
+		picturesList.clear();
+		imagesList.clear();
+		thumbPane.clear();
 	}
 }
