@@ -16,9 +16,12 @@ import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.inject.Inject;
@@ -43,7 +46,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		public FitImage getCenterImage();
 		public void updateMainImage(String url);
 		public void updateDetailInfo(String html);
-		public void updateThumbs(ArrayList<String> thumbsArray);
+		public void updateThumbs(ArrayList<String> urls);
 		public List<Picture> getPicturesList();
 		public void resize();
 	}
@@ -70,15 +73,16 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		}
 	};
 	
-//	private ClickHandler centerImageHandler = new ClickHandler() {
-//		@Override
-//		public void onClick(ClickEvent event) {
+	private ClickHandler centerImageHandler = new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO BDY: NYI open picture viewer
 //			addToPopupSlot(pictureViewer);
 //			pictureViewer.setPictures(getView().getPicturesList());
 //			pictureViewer.setImage(getView().getCenterImage().getUrl());
 //			pictureViewer.update();
-//		}
-//	};
+		}
+	};
 	
 	private RepeatingCommand loadPicturesWaitCmd = new RepeatingCommand() {
 		@Override
@@ -122,10 +126,18 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	interface MyProxy extends ProxyPlace<DetailsPresenter> {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Inject
 	DetailsPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
 //		super(eventBus, view, proxy, AppHomePresenter.SLOT_AppHome);
 		super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
+		locale = LocaleInfo.getCurrentLocale().getLocaleName();
+		pictures = (ArrayList<Picture>) ApplicationContext.getInstance().getProperty("pictures");
+		arePicturesLoaded = false;
+//		waitBox = new AutoProgressMessageBox(translate.Loading());
+//		waitBox.setTitle(translate.Loading());
+//		waitBox.setMessage(translate.LoadingMessage());
+//		waitBox.setProgressText(translate.Loading());
 	}
 
 	@Override
@@ -141,6 +153,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		super.onBind();
 		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
 		registerHandler(getView().getMainPane().addResizeHandler(resize));
+		registerHandler(getView().getCenterImage().addClickHandler(centerImageHandler));
 	}
 	
 	@Override
@@ -230,6 +243,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			if(thumbs.length > 0) {// Add the others details
 				for(String thumb : thumbs) {
 					thumbsArray.add(GWT.getHostPageBaseURL() + ApplicationContext.PHOTOSFOLDER + "/" + pictureFolder + "/" + thumb.trim());
+					Log.info("Add detail " + thumbsArray.get(thumbsArray.size() - 1));
 					if(Log.isTraceEnabled()) {
 						Log.trace("Add detail " + thumbsArray.get(thumbsArray.size() - 1));
 					}

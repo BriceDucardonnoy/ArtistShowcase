@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.shared.model.Picture;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -29,6 +33,15 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	@UiField LayoutPanel westPane;
 	@UiField Image mainImage;
 	@UiField HTMLPanel description;
+	// Center
+	@UiField FitImage centerImage;
+	// East
+	@UiField FlowPanel thumbPane;
+	
+	private final Translate translate = GWT.create(Translate.class);
+	
+	private List<Picture> picturesList;
+	private List<FitImage> imagesList;
 	
 	interface Binder extends UiBinder<Widget, DetailsView> {
 	}
@@ -36,6 +49,8 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	@Inject
 	DetailsView(Binder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
+		picturesList = new ArrayList<>();
+		imagesList = new ArrayList<>();
 	}
 
 	@Override
@@ -54,8 +69,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 
 	@Override
 	public FitImage getCenterImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return centerImage;
 	}
 
 	@Override
@@ -113,15 +127,20 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	}
 
 	@Override
-	public void updateThumbs(ArrayList<String> thumbsArray) {
-		// TODO Auto-generated method stub
-		
+	public void updateThumbs(ArrayList<String> urls) {
+		for(String url : urls) {
+			Picture p = new Picture(translate.Details());
+			p.getProperties().put("imageUrl", url);
+			picturesList.add(p);
+			imagesList.add(new FitImage(p.getImageUrl()));
+			thumbPane.add(imagesList.get(imagesList.size() - 1));
+		}
+//		Scheduler.get().scheduleDeferred(select1stImageCmd);
 	}
 
 	@Override
 	public List<Picture> getPicturesList() {
-		// TODO Auto-generated method stub
-		return null;
+		return picturesList;
 	}
 
 	@Override
