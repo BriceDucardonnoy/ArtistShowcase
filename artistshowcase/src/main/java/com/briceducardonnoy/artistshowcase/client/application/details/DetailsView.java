@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
+import com.reveregroup.gwt.imagepreloader.client.FitImageLoadEvent;
+import com.reveregroup.gwt.imagepreloader.client.FitImageLoadHandler;
 
 class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	
@@ -61,6 +63,20 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		picturesList = new ArrayList<>();
 		imagesList = new ArrayList<>();
 		imageHandlers = new ArrayList<>();
+		// TODO BDY: give handler registration to presenter
+		centerImage.addFitImageLoadHandler(new FitImageLoadHandler() {// TODO BDY: test resize
+			@Override
+			public void imageLoaded(FitImageLoadEvent event) {
+				Log.info("Resize and center image. Max is " + centerImage.getParent().getOffsetWidth() + " x " +
+						centerImage.getParent().getOffsetHeight());
+				int parentWidth = centerImage.getParent().getOffsetWidth() - Constants.getWestWidth() - Constants.getEastWidth();
+				// Fit image
+				centerImage.setMaxSize(parentWidth, centerImage.getParent().getOffsetHeight());
+				// Align it
+				centerImage.getElement().getStyle().setTop((centerImage.getParent().getOffsetHeight() - centerImage.getHeight()) / 2, Unit.PX);
+				centerImage.getElement().getStyle().setLeft((parentWidth - centerImage.getOffsetWidth()) / 2, Unit.PX);
+			}
+		});
 	}
 
 	@Override
@@ -159,6 +175,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 						other.getElement().getStyle().clearBorderColor();
 					}
 					image.getElement().getStyle().setBorderColor(ACTIVE);
+					centerImage.setUrl(image.getUrl());
 				}
 			}));
 			imagesList.add(image);
@@ -167,7 +184,10 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 
 		if(imagesList.size() > 0) {
 			imagesList.get(0).getElement().getStyle().setBorderColor(ACTIVE);
-			// TODO BDY: show this picture in center
+			centerImage.setUrl(imagesList.get(0).getUrl());
+		}
+		else {
+			centerImage.setUrl("");
 		}
 	}
 

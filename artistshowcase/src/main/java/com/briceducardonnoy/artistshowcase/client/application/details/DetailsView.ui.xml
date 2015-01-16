@@ -26,7 +26,7 @@
 	    	</g:west>
 	    	<!-- Center part -->
 	    	<g:center>
-	    		<imagepreloader:FitImage ui:field="centerImage" addStyleNames="cursorImageFlag" />
+	    		<imagepreloader:FitImage ui:field="centerImage" altText="Big Image" addStyleNames="cursorImageFlag" />
 	    	</g:center>
 	    	<!-- Right part -->
 	    	<g:east size="{details.getEastWidth}">
