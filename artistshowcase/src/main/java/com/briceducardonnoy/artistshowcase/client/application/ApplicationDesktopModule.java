@@ -25,6 +25,7 @@ import com.briceducardonnoy.artistshowcase.client.application.details.DetailsMod
 import com.briceducardonnoy.artistshowcase.client.application.error.ErrorModule;
 import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.header.HeaderView;
+import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
 import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
@@ -46,5 +47,6 @@ public class ApplicationDesktopModule extends AbstractPresenterModule {
 		
 		install(new AppHomeModule());
 		install(new DetailsModule());
+		install(new PictureViewerModule());
 	}
 }

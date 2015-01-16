@@ -1,0 +1,49 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui"
+             xmlns:imagepreloader="urn:import:com.reveregroup.gwt.imagepreloader.client">
+    
+    <ui:style>
+		.zindex {
+			z-index: 42;
+		}
+		.panel {
+			/*border: 1px solid red;*/
+			margin-top: -5px;
+		}
+		.closeBtn {
+			float: right;
+			width: 30px;
+		}
+		.prevBtn {
+			left: auto !important;
+			right: 0px !important;
+		}
+	</ui:style>
+	<ui:with type="com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerView.Constants" field="viewer"></ui:with>
+	
+	<g:PopupPanel modal="true" autoHideEnabled="true" glassEnabled="true" addStyleNames="{style.zindex}">
+		<g:FocusPanel ui:field="focusPane">
+			<g:HTMLPanel ui:field="pane" styleName="globalStyle">
+			    <!-- Top: close image -->
+				<div style="background: black">
+					<g:Button ui:field="close" styleName="buttonViewer" addStyleNames="{style.closeBtn}">X</g:Button>
+				</div>
+				<!-- Middle: image -->
+				<imagepreloader:FitImage ui:field="image" />
+				<!-- Bottom: navigation -->
+				<g:LayoutPanel height="{viewer.getBottomHeightPx}" styleName="globalStyle" addStyleNames="{style.panel}">
+					<g:layer left="0px" width="33%">
+						<g:Button ui:field="prev" styleName="buttonViewer" addStyleNames="{style.prevBtn}" />
+					</g:layer>
+					<g:layer left="33%" right="33%">
+						<g:Label ui:field="countLabel" styleName="globalStyle labelViewer">?? / ??</g:Label>
+					</g:layer>
+					<g:layer right="0px" width="33%">
+						<g:Button ui:field="next" styleName="buttonViewer" />
+					</g:layer>
+				</g:LayoutPanel>
+			</g:HTMLPanel>
+		</g:FocusPanel>
+	</g:PopupPanel>
+</ui:UiBinder>

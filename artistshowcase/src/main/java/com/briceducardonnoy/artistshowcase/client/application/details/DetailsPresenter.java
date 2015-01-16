@@ -9,6 +9,7 @@ import com.briceducardonnoy.artistshowcase.client.application.events.PicturesLoa
 import com.briceducardonnoy.artistshowcase.client.application.events.PicturesLoadedEvent.PicturesLoadedHandler;
 import com.briceducardonnoy.artistshowcase.client.application.gateKeepers.DetailsGateKeeper;
 import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
+import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.utils.Utils;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
@@ -56,6 +57,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	private final int MAXWAITTIME = 20;
 
 	@Inject PlaceManager placeManager;
+	@Inject PictureViewerPresenter pictureViewer;
 	private String pictureFolder = "";
 	private ArrayList<Picture> pictures = null;
 	private Picture currentPicture = null;
@@ -77,11 +79,18 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	private ClickHandler centerImageHandler = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO BDY: NYI open picture viewer
-//			addToPopupSlot(pictureViewer);
-//			pictureViewer.setPictures(getView().getPicturesList());
-//			pictureViewer.setImage(getView().getCenterImage().getUrl());
-//			pictureViewer.update();
+			pictureViewer.setPictures(getView().getPicturesList());
+			pictureViewer.setImage(getView().getCenterImage().getUrl());
+			pictureViewer.update();
+			addToPopupSlot(pictureViewer);//, true);// TODO BDY: reactive center?
+		}
+	};
+	
+	private ResizeHandler resize = new ResizeHandler() {
+		@Override
+		public void onResize(ResizeEvent event) {
+			Log.info(event.getWidth() + " x " + event.getHeight());
+			getView().resize();
 		}
 	};
 	
@@ -107,14 +116,6 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			}
 			waitTime++;
 			return true;
-		}
-	};
-	
-	private ResizeHandler resize = new ResizeHandler() {
-		@Override
-		public void onResize(ResizeEvent event) {
-			Log.info(event.getWidth() + " x " + event.getHeight());
-			getView().resize();
 		}
 	};
 	

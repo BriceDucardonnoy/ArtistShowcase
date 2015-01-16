@@ -27,10 +27,12 @@ import com.briceducardonnoy.artistshowcase.client.application.header.HeaderMobil
 import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
+import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
 
 public class ApplicationMobileModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
+		install(new PictureViewerModule());
 		install(new AppHomeMobileModule());
 		install(new DetailsModule());
 		install(new ErrorModule());
