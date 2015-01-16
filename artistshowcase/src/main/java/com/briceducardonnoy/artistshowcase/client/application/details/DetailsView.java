@@ -27,7 +27,6 @@ import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 import com.reveregroup.gwt.imagepreloader.client.FitImageLoadEvent;
-import com.reveregroup.gwt.imagepreloader.client.FitImageLoadHandler;
 
 class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	
@@ -63,20 +62,6 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		picturesList = new ArrayList<>();
 		imagesList = new ArrayList<>();
 		imageHandlers = new ArrayList<>();
-		// TODO BDY: give handler registration to presenter
-		centerImage.addFitImageLoadHandler(new FitImageLoadHandler() {// TODO BDY: test resize
-			@Override
-			public void imageLoaded(FitImageLoadEvent event) {
-				Log.info("Resize and center image. Max is " + centerImage.getParent().getOffsetWidth() + " x " +
-						centerImage.getParent().getOffsetHeight());
-				int parentWidth = centerImage.getParent().getOffsetWidth() - Constants.getWestWidth() - Constants.getEastWidth();
-				// Fit image
-				centerImage.setMaxSize(parentWidth, centerImage.getParent().getOffsetHeight());
-				// Align it
-				centerImage.getElement().getStyle().setTop((centerImage.getParent().getOffsetHeight() - centerImage.getHeight()) / 2, Unit.PX);
-				centerImage.getElement().getStyle().setLeft((parentWidth - centerImage.getOffsetWidth()) / 2, Unit.PX);
-			}
-		});
 	}
 
 	@Override
@@ -87,7 +72,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 			super.setInSlot(slot, content);
 		}
 	}
-
+	
 	@Override
 	public Image getMainImage() {
 		return mainImage;
@@ -111,6 +96,11 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		resizeMainImage();
 	}
 	
+	@UiHandler("centerImage")
+	void centerLoadHandle(FitImageLoadEvent event) {
+		resizeCenterImage();
+	}
+	
 	public void resizeMainImage() {
 		// Stretch to the biggest dimension
 		// BDY: test with FitImage?
@@ -124,7 +114,6 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		}
 		else {// Landscape
 			mainImage.setWidth("100%");
-//			Log.info("Vertical align to middle");
 			mainImage.getElement().getStyle().setTop(
 					(
 							(westPane.getOffsetHeight()/2) 
@@ -149,6 +138,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	
 	public void resize() {
 		resizeMainImage();
+		resizeCenterImage();
 		updateDetailInfo("");
 	}
 
@@ -211,4 +201,15 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		imagesList.clear();
 		thumbPane.clear();
 	}
+	
+	private void resizeCenterImage() {
+		Log.info("Resize center image");
+		int parentWidth = centerImage.getParent().getOffsetWidth() - Constants.getWestWidth() - Constants.getEastWidth();
+		// Fit image
+		centerImage.setMaxSize(parentWidth, centerImage.getParent().getOffsetHeight());
+		// Align it
+		centerImage.getElement().getStyle().setTop((centerImage.getParent().getOffsetHeight() - centerImage.getHeight()) / 2, Unit.PX);
+		centerImage.getElement().getStyle().setLeft((parentWidth - centerImage.getOffsetWidth()) / 2, Unit.PX);
+	}
+
 }
