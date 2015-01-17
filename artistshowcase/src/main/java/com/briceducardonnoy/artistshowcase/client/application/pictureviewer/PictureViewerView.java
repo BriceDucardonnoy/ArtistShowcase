@@ -38,7 +38,7 @@ class PictureViewerView extends PopupViewImpl implements PictureViewerPresenter.
     static class Constants {
     	public static int getTopHeight() {return 20;}
 		public static int getBottomHeight() {return 40;}
-		public static String getBottomHeightPx() {return "40px";}
+		public static String getBottomHeightPx() {return getBottomHeight() + "px";}
     }
     
 	@Override

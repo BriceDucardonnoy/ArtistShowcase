@@ -4,8 +4,9 @@
              xmlns:imagepreloader="urn:import:com.reveregroup.gwt.imagepreloader.client">
     
     <ui:style>
-		.zindex {
+		.popup {
 			z-index: 42;
+			padding: 1px;
 		}
 		.panel {
 			/*border: 1px solid red;*/
@@ -22,7 +23,7 @@
 	</ui:style>
 	<ui:with type="com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerView.Constants" field="viewer"></ui:with>
 	
-	<g:PopupPanel modal="true" autoHideEnabled="true" glassEnabled="true" addStyleNames="{style.zindex}">
+	<g:PopupPanel modal="true" autoHideEnabled="true" glassEnabled="true" addStyleNames="{style.popup}">
 		<g:FocusPanel ui:field="focusPane">
 			<g:HTMLPanel ui:field="pane" styleName="globalStyle">
 			    <!-- Top: close image -->

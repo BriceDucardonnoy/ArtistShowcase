@@ -101,6 +101,26 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		resizeCenterImage();
 	}
 	
+	@UiHandler("mainImage")
+	void clickMainImageHandle(ClickEvent event) {
+		boolean found = false;
+		for(FitImage other : imagesList) {
+			if(other.getUrl().equals(mainImage.getUrl())) {
+				other.getElement().getStyle().setBorderColor(ACTIVE);
+				centerImage.setUrl(other.getUrl());
+				found = true;
+			}
+			else {
+				other.getElement().getStyle().clearBorderColor();
+			}
+		}
+		if(!found) {
+			Log.warn("Main image not found. Select 1st one by default");
+			imagesList.get(0).getElement().getStyle().setBorderColor(ACTIVE);
+			centerImage.setUrl(imagesList.get(0).getUrl());
+		}
+	}
+	
 	public void resizeMainImage() {
 		// Stretch to the biggest dimension
 		// BDY: test with FitImage?
@@ -203,7 +223,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	}
 	
 	private void resizeCenterImage() {
-		Log.info("Resize center image");
+		Log.trace("Resize center image");
 		int parentWidth = centerImage.getParent().getOffsetWidth() - Constants.getWestWidth() - Constants.getEastWidth();
 		// Fit image
 		centerImage.setMaxSize(parentWidth, centerImage.getParent().getOffsetHeight());

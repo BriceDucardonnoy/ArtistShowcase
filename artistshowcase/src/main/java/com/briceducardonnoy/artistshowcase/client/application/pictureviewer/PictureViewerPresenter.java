@@ -18,7 +18,6 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.PopupView;
 import com.gwtplatform.mvp.client.PresenterWidget;
-import com.gwtplatform.mvp.client.view.PopupPositioner;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 import com.reveregroup.gwt.imagepreloader.client.FitImageLoadEvent;
 import com.reveregroup.gwt.imagepreloader.client.FitImageLoadHandler;
@@ -45,6 +44,22 @@ public class PictureViewerPresenter extends PresenterWidget<PictureViewerPresent
         super(eventBus, view);
         currentPicture = -1;
 		nbPictures = -1;
+//		getView().setPopupPositioner(new PopupPositioner() {
+//			@Override
+//			protected int getTop(int popupHeight) {
+//				Log.info("Height is " + popupHeight + " and image is " + getView().getImage().getOffsetHeight());
+//				Log.info("Return top " + Math.abs(getView().getImage().getOffsetHeight() + PictureViewerView.Constants.getTopHeight() + 
+//						 + PictureViewerView.Constants.getBottomHeight()- popupHeight) / 2);
+//				return Math.abs(getView().getImage().getOffsetHeight() + PictureViewerView.Constants.getTopHeight() + 
+//						 + PictureViewerView.Constants.getBottomHeight()- popupHeight) / 2;
+//			}
+//			@Override
+//			protected int getLeft(int popupWidth) {
+//				Log.info("Width is " + popupWidth);
+//				return (getView().getImage().getOffsetWidth() - popupWidth) / 2;
+//			}
+//		});
+		getView().getImage().setMaxSize(getView().getMaxWidth(), getView().getMaxHeight());
     }
     
     private KeyDownHandler keyHandler = new KeyDownHandler() {
@@ -86,20 +101,9 @@ public class PictureViewerPresenter extends PresenterWidget<PictureViewerPresent
 	private FitImageLoadHandler imageLoaded = new FitImageLoadHandler() {
 		@Override
 		public void imageLoaded(FitImageLoadEvent event) {
-			PopupPositioner pp = new PopupPositioner() {
-				@Override
-				protected int getTop(int popupHeight) {
-					Log.info("Height is " + popupHeight);
-					return (getView().getMaxHeight() - popupHeight) / 2;
-				}
-				@Override
-				protected int getLeft(int popupWidth) {
-					Log.info("Width is " + popupWidth);
-					return (getView().getMaxWidth() - popupWidth) / 2;
-				}
-			};
-			getView().setPopupPositioner(pp);
-			Log.info("Relayout after load");// FIXME BDY: picture probably not yet loaded
+			Log.info("Relayout after load");
+			event.getFitImage().setMaxSize(getView().getMaxWidth(), getView().getMaxHeight());
+			getView().showAndReposition();
 //			getView().center();
 		}
 	};
@@ -125,8 +129,8 @@ public class PictureViewerPresenter extends PresenterWidget<PictureViewerPresent
 	}
 	
 	public void setImage(String url) {
+//		getView().getImage().setMaxSize(getView().getMaxWidth(), getView().getMaxHeight());
 		getView().getImage().setUrl(url);
-		getView().getImage().setMaxSize(getView().getMaxWidth(), getView().getMaxHeight());
 	}
 	
 	public void setPictures(List<Picture> list) {
