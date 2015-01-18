@@ -272,7 +272,9 @@ button::-moz-focus-inner {
 }
 
 .thumbPane {
-	border-left-width: 5px;
+	/* border-left-width: 5px; */
+	border-width: 5px;
+	border-left-width: 6px;
 	border-style: solid;
 	border-color: #000000;
 	cursor: pointer;

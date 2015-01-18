@@ -89,6 +89,9 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 
     @Inject
     HeaderPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    	// This is the root presenter, present in all the pages which will dispatch other presenters in SLOT_SetMainContent
+    	// Normally, it's ApplicationPresenter but due to a bad comprehension, it's HeaderPresenter now.
+    	// FIXME BDY: move header presenter to ApplicationPresenter
         super(eventBus, view, proxy, RevealType.Root);
         categories = new ArrayList<Category>();
 		pictures = new ArrayList<Picture>();

@@ -82,7 +82,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			pictureViewer.setPictures(getView().getPicturesList());
 			pictureViewer.setImage(getView().getCenterImage().getUrl());
 			pictureViewer.update();
-			addToPopupSlot(pictureViewer);//, true);// TODO BDY: reactive center?
+			addToPopupSlot(pictureViewer);//, true);
 		}
 	};
 	
@@ -132,6 +132,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	@Inject
 	DetailsPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
 //		super(eventBus, view, proxy, AppHomePresenter.SLOT_AppHome);
+		// FIXME BDY: if resize on this page, back to home is empty
 		super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
 		locale = LocaleInfo.getCurrentLocale().getLocaleName();
 		pictures = (ArrayList<Picture>) ApplicationContext.getInstance().getProperty("pictures");

@@ -172,7 +172,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 			p.getProperties().put("imageUrl", url);
 			picturesList.add(p);
 			final FitImage image = new FitImage(p.getImageUrl());
-			image.setFixedWidth(Constants.getEastWidth() - 25);
+			image.setFixedWidth(Constants.getEastWidth() - 28);
 			// With setProperty, replace style property '-' by upper-case => camelCase syntax: http://blog.francoismaillet.com/?p=68
 //			image.getElement().getStyle().setProperty("borderLeftWidth", "5px");
 			image.setStyleName("thumbPane");
