@@ -73,6 +73,8 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
 		ImageSplitButton getGallery();
 		void addGalleries(ArrayList<Category> categories);
     }
+    
+    // TODO BDY: implement button actions
 
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<>();

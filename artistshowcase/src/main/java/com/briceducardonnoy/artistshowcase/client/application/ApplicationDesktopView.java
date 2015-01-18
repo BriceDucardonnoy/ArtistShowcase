@@ -25,11 +25,14 @@ import com.briceducardonnoy.artistshowcase.client.application.events.CategoryCha
 import com.briceducardonnoy.artistshowcase.client.application.widgets.ImageButton;
 import com.briceducardonnoy.artistshowcase.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
+import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.briceducardonnoy.artistshowcase.shared.model.Category;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -38,6 +41,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.ViewImpl;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 public class ApplicationDesktopView extends ViewImpl implements ApplicationPresenter.MyView {
@@ -47,6 +52,7 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
     private final Translate translate = GWT.create(Translate.class);
     
     @Inject EventBus eventBus;
+    @Inject PlaceManager placeManager;
 
 	@UiField FitImage logo;
 	@UiField Image tr_fr;
@@ -61,6 +67,7 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
 	@UiField SimplePanel main;
 	
 	private int nbCategories = 0;
+	private PlaceRequest homeGo;
 
     @Inject
     ApplicationDesktopView(Binder uiBinder) {
@@ -73,6 +80,8 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
 		contact.setText(translate.Contact());
 		link.setText(translate.Link());
 		legal.setText(translate.Legal());
+		
+		homeGo = new PlaceRequest.Builder().nameToken(NameTokens.getMain()).build();
     }
 
     @Override
@@ -102,6 +111,11 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
 				}
 			});
     	}
+    }
+    
+    @UiHandler("home")
+    public void onHomeClick(ClickEvent event) {
+    	placeManager.revealPlace(homeGo);
     }
 
 	@Override
