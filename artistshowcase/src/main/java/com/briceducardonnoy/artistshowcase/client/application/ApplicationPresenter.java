@@ -1,6 +1,5 @@
-/**
+/*
  * Copyright © Brice DUCARDONNOY
- * 
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation 
@@ -11,14 +10,13 @@
  * 	in all copies or substantial portions of the Software.
  * - The Software is provided "as is", without warranty of any kind, express 
  * 	or implied, including but not limited to the warranties of merchantability, 
- * 	fitness for a particular purpose and noninfringement.
- * 
+ * 	fitness for a particular purpose and noninfringement. 
  * In no event shall the authors or copyright holders be liable for any claim, 
  * damages or other liability, whether in an action of contract, tort or otherwise, 
  * arising from, out of or in connection with the software or the use or other 
  * dealings in the Software.
  */
-package com.briceducardonnoy.artistshowcase.client.application.header;
+package com.briceducardonnoy.artistshowcase.client.application;
 
 import java.util.ArrayList;
 
@@ -56,10 +54,8 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
-/**
- * This is the top-level presenter of the hierarchy. Other presenters reveal themselves within this presenter.
- */
-public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPresenter.MyProxy> {
+public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
+
 	@Inject	PlaceManager placeManager;
 	
 	private final Translate translate = GWT.create(Translate.class);
@@ -84,14 +80,13 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 	public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<>();
 
     @ProxyStandard
-    public interface MyProxy extends Proxy<HeaderPresenter> {
+    public interface MyProxy extends Proxy<ApplicationPresenter> {
     }
 
     @Inject
-    HeaderPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
+    ApplicationPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
     	// This is the root presenter, present in all the pages which will dispatch other presenters in SLOT_SetMainContent
     	// Normally, it's ApplicationPresenter but due to a bad comprehension, it's HeaderPresenter now.
-    	// FIXME BDY: move header presenter to ApplicationPresenter
         super(eventBus, view, proxy, RevealType.Root);
         categories = new ArrayList<Category>();
 		pictures = new ArrayList<Picture>();
@@ -292,5 +287,5 @@ public class HeaderPresenter extends Presenter<HeaderPresenter.MyView, HeaderPre
 			loadPictureInfo(result, ++ind);
 		}
 	};
-	
+
 }

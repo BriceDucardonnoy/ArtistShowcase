@@ -18,35 +18,32 @@
  */
 package com.briceducardonnoy.artistshowcase.client.application;
 
-import javax.inject.Singleton;
-
 import com.briceducardonnoy.artistshowcase.client.application.apphome.AppHomeModule;
 import com.briceducardonnoy.artistshowcase.client.application.details.DetailsModule;
 import com.briceducardonnoy.artistshowcase.client.application.error.ErrorModule;
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderView;
 import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
 import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
 public class ApplicationDesktopModule extends AbstractPresenterModule {
 	@Override
-	protected void configure() {
-		install(new UnauthorizedModule());
-		install(new ErrorModule());
-		// Application Presenters
-		bind(ApplicationDesktopPresenter.class).in(Singleton.class);
-		bind(ApplicationDesktopView.class).in(Singleton.class);
-		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
-		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationDesktopView.class);
-		bind(AbstractApplicationPresenter.class).to(ApplicationDesktopPresenter.class);
-		
-		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderView.class, HeaderPresenter.MyProxy.class);
-//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);
-//		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeView.class, AppHomePresenter.MyProxy.class);
-		
+	protected void configure() {		
 		install(new AppHomeModule());
 		install(new DetailsModule());
 		install(new PictureViewerModule());
+		install(new ErrorModule());
+		install(new UnauthorizedModule());
+		
+		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationDesktopView.class, ApplicationPresenter.MyProxy.class);
+		// Application Presenters
+//		bind(ApplicationPresenter.class).in(Singleton.class);
+//		bind(ApplicationDesktopView.class).in(Singleton.class);
+//		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
+//		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationDesktopView.class);
+//		bind(AbstractApplicationPresenter.class).to(ApplicationPresenter.class);
+		
+//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderView.class, HeaderPresenter.MyProxy.class);
+//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);
+//		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeView.class, AppHomePresenter.MyProxy.class);
 	}
 }

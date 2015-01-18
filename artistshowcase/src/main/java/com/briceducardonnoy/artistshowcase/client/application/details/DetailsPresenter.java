@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.artistshowcase.client.application.ApplicationPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.context.ApplicationContext;
 import com.briceducardonnoy.artistshowcase.client.application.events.PicturesLoadedEvent;
 import com.briceducardonnoy.artistshowcase.client.application.events.PicturesLoadedEvent.PicturesLoadedHandler;
 import com.briceducardonnoy.artistshowcase.client.application.gateKeepers.DetailsGateKeeper;
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.utils.Utils;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
@@ -132,8 +132,8 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	@Inject
 	DetailsPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
 //		super(eventBus, view, proxy, AppHomePresenter.SLOT_AppHome);
-		// FIXME BDY: if resize on this page, back to home is empty
-		super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
+		// FIXME BDY: if resize on this page, back to home is empty.
+		super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 		locale = LocaleInfo.getCurrentLocale().getLocaleName();
 		pictures = (ArrayList<Picture>) ApplicationContext.getInstance().getProperty("pictures");
 		arePicturesLoaded = false;
@@ -190,6 +190,8 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	protected void onHide() {
 		super.onHide();
 		getView().clearData();
+		Log.info("OnHide");
+		removeFromPopupSlot(pictureViewer);
 	}
 
 	private boolean initializeCurrentPicture() {

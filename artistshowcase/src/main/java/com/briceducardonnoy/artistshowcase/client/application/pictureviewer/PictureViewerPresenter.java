@@ -128,6 +128,12 @@ public class PictureViewerPresenter extends PresenterWidget<PictureViewerPresent
 		getView().getFocusPanel().setFocus(true);
 	}
 	
+	@Override
+	protected void onHide() {
+		super.onHide();
+		close();
+	}
+	
 	public void setImage(String url) {
 //		getView().getImage().setMaxSize(getView().getMaxWidth(), getView().getMaxHeight());
 		getView().getImage().setUrl(url);

@@ -1,6 +1,6 @@
 package com.briceducardonnoy.artistshowcase.client.application.error;
 
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
+import com.briceducardonnoy.artistshowcase.client.application.ApplicationPresenter;
 import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.inject.Inject;
@@ -28,7 +28,7 @@ public class ErrorPresenter extends
 
 	@Inject
 	ErrorPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-		super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
+		super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 
 	}
 

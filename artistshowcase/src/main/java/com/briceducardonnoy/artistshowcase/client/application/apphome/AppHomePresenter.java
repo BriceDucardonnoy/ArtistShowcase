@@ -24,6 +24,7 @@ import org.gwt.contentflow4gwt.client.ContentFlow;
 import org.gwt.contentflow4gwt.client.ContentFlowItemClickListener;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.artistshowcase.client.application.ApplicationPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.context.ApplicationContext;
 import com.briceducardonnoy.artistshowcase.client.application.events.CategoryChangedEvent;
 import com.briceducardonnoy.artistshowcase.client.application.events.CategoryChangedEvent.CategoryChangedHandler;
@@ -31,7 +32,6 @@ import com.briceducardonnoy.artistshowcase.client.application.events.PictureLoad
 import com.briceducardonnoy.artistshowcase.client.application.events.PictureLoadedEvent.PictureLoadedHandler;
 import com.briceducardonnoy.artistshowcase.client.application.events.PicturesLoadedEvent;
 import com.briceducardonnoy.artistshowcase.client.application.events.PicturesLoadedEvent.PicturesLoadedHandler;
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.briceducardonnoy.artistshowcase.shared.model.Category;
@@ -82,7 +82,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 
 	@Inject
 	public AppHomePresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-		super(eventBus, view, proxy, HeaderPresenter.SLOT_SetMainContent);
+		super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 
 		getView().setUiHandlers(this);
 	}

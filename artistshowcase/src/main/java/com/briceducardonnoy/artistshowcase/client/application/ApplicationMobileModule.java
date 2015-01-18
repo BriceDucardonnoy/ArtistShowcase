@@ -18,35 +18,33 @@
  */
 package com.briceducardonnoy.artistshowcase.client.application;
 
-import javax.inject.Singleton;
-
 import com.briceducardonnoy.artistshowcase.client.application.apphome.AppHomeMobileModule;
 import com.briceducardonnoy.artistshowcase.client.application.details.DetailsModule;
 import com.briceducardonnoy.artistshowcase.client.application.error.ErrorModule;
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderMobileView;
-import com.briceducardonnoy.artistshowcase.client.application.header.HeaderPresenter;
+import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
 import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
-import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
 
 public class ApplicationMobileModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
-		install(new PictureViewerModule());
 		install(new AppHomeMobileModule());
 		install(new DetailsModule());
+		install(new PictureViewerModule());
 		install(new ErrorModule());
 		install(new UnauthorizedModule());
+		
+		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationMobileView.class, ApplicationPresenter.MyProxy.class);
 		// TODO BDY: add here detailMobileModule
 		// See below in case of compilation failure
 		// https://github.com/ArcBees/GWTP/issues/291
 		// Application Presenters
-		bind(ApplicationMobilePresenter.class).in(Singleton.class);
-		bind(ApplicationMobileView.class).in(Singleton.class);
-		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
-		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationMobileView.class);
-		bind(AbstractApplicationPresenter.class).to(ApplicationMobilePresenter.class);
+//		bind(ApplicationPresenter.class).in(Singleton.class);
+//		bind(ApplicationMobileView.class).in(Singleton.class);
+//		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
+//		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationMobileView.class);
+//		bind(AbstractApplicationPresenter.class).to(ApplicationPresenter.class);
 		
-		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);		
+//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);		
 	}
 }
