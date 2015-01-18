@@ -1,5 +1,5 @@
 /*
- * Copyright © Brice DUCARDONNOY
+ * Copyright 2014 © Brice DUCARDONNOY
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation 
@@ -55,7 +55,6 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	private ArrayList<Integer> orderedPictures = null;
 	private ArrayList<Category> categories = null;// TODO BDY: not sure it's necessary
 	// TODO BDY: add "Vendu" below the dimension in desktop coverflow
-	// TODO BDY: update copyright in code (add date)
 	private FitImageLoadHandler flh;
 	
 	private String sortName;

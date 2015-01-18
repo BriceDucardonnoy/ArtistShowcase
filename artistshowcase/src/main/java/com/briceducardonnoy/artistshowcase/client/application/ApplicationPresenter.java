@@ -1,5 +1,5 @@
 /*
- * Copyright © Brice DUCARDONNOY
+ * Copyright 2014 © Brice DUCARDONNOY
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation 
@@ -74,8 +74,6 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
 		void addGalleries(ArrayList<Category> categories);
     }
 
-//	@ContentSlot
-//	public static final Type<RevealContentHandler<?>> SLOT_SetHeaderContent = new Type<>();
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<>();
 
@@ -86,7 +84,6 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     @Inject
     ApplicationPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
     	// This is the root presenter, present in all the pages which will dispatch other presenters in SLOT_SetMainContent
-    	// Normally, it's ApplicationPresenter but due to a bad comprehension, it's HeaderPresenter now.
         super(eventBus, view, proxy, RevealType.Root);
         categories = new ArrayList<Category>();
 		pictures = new ArrayList<Picture>();

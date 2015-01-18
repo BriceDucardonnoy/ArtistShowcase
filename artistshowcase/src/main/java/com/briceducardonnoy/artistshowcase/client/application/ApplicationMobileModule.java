@@ -1,5 +1,5 @@
-/*
- * Copyright © Brice DUCARDONNOY
+/**
+ * Copyright 2014 © Brice DUCARDONNOY
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation 
@@ -35,16 +35,5 @@ public class ApplicationMobileModule extends AbstractPresenterModule {
 		install(new UnauthorizedModule());
 		
 		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationMobileView.class, ApplicationPresenter.MyProxy.class);
-		// TODO BDY: add here detailMobileModule
-		// See below in case of compilation failure
-		// https://github.com/ArcBees/GWTP/issues/291
-		// Application Presenters
-//		bind(ApplicationPresenter.class).in(Singleton.class);
-//		bind(ApplicationMobileView.class).in(Singleton.class);
-//		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
-//		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationMobileView.class);
-//		bind(AbstractApplicationPresenter.class).to(ApplicationPresenter.class);
-		
-//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);		
 	}
 }

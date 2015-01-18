@@ -1,5 +1,5 @@
 /*
- * Copyright © Brice DUCARDONNOY
+ * Copyright 2014 © Brice DUCARDONNOY
  * Permission is hereby granted, free of charge, to any person obtaining 
  * a copy of this software and associated documentation files (the "Software"), 
  * to deal in the Software without restriction, including without limitation 
@@ -35,15 +35,5 @@ public class ApplicationDesktopModule extends AbstractPresenterModule {
 		install(new UnauthorizedModule());
 		
 		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationDesktopView.class, ApplicationPresenter.MyProxy.class);
-		// Application Presenters
-//		bind(ApplicationPresenter.class).in(Singleton.class);
-//		bind(ApplicationDesktopView.class).in(Singleton.class);
-//		bind(AbstractApplicationPresenter.MyProxy.class).asEagerSingleton();
-//		bind(AbstractApplicationPresenter.MyView.class).to(ApplicationDesktopView.class);
-//		bind(AbstractApplicationPresenter.class).to(ApplicationPresenter.class);
-		
-//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderView.class, HeaderPresenter.MyProxy.class);
-//		bindPresenter(HeaderPresenter.class, HeaderPresenter.MyView.class, HeaderMobileView.class, HeaderPresenter.MyProxy.class);
-//		bindPresenter(AppHomePresenter.class, AppHomePresenter.MyView.class, AppHomeView.class, AppHomePresenter.MyProxy.class);
 	}
 }

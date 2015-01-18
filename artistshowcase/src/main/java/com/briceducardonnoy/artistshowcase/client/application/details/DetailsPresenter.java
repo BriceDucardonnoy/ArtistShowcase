@@ -131,7 +131,6 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	@SuppressWarnings("unchecked")
 	@Inject
 	DetailsPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-//		super(eventBus, view, proxy, AppHomePresenter.SLOT_AppHome);
 		// FIXME BDY: if resize on this page, back to home is empty.
 		super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 		locale = LocaleInfo.getCurrentLocale().getLocaleName();

@@ -111,10 +111,6 @@ public class PictureViewerPresenter extends PresenterWidget<PictureViewerPresent
 	@Override
 	protected void onBind() {
 		super.onBind();
-//		maxWidth = Utils.getScreenWidth() - 30;
-//		maxHeight = Utils.getScreenHeight() - 30;
-//		maxWidth = Window.getClientWidth() - 30;
-//		maxHeight = Window.getClientHeight() - 20 - 40;
 		registerHandler(getView().getFocusPanel().addKeyDownHandler(keyHandler));
 		registerHandler(getView().getCloseButton().addClickHandler(clickClose));
 		registerHandler(getView().getPrevButton().addClickHandler(clickPrev));
@@ -135,7 +131,6 @@ public class PictureViewerPresenter extends PresenterWidget<PictureViewerPresent
 	}
 	
 	public void setImage(String url) {
-//		getView().getImage().setMaxSize(getView().getMaxWidth(), getView().getMaxHeight());
 		getView().getImage().setUrl(url);
 	}
 	
