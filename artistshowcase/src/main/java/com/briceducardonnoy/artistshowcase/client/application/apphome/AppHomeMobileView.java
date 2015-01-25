@@ -102,7 +102,11 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	public void init() {}
 
 	@Override
-	public void addItems(List<Picture> pictures) {}
+	public void addItems(List<Picture> pictures) {
+		for(Picture picture : pictures) {
+			addPicture(picture);
+		}
+	}
 
 	@Override
 	public ContentFlow<Picture> getContentFlow() {
@@ -190,7 +194,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	 * @param images The list of images to sort (current category) and to display
 	 */
 	private void refreshGrid(ArrayList<FitImage> images) {
-		Log.info("RefreshGrid::Clear grid with category " + currentCategoryId);
+		Log.info("RefreshGrid::Clear grid with category " + currentCategoryId + " (" + images.size() + " elements)");
 		int pos = 0;
 		grid.clear();
 		grid.resize(maxR, maxC);

@@ -7,8 +7,8 @@
 	</ui:style>
 	
 	<g:ResizeLayoutPanel ui:field="main" height="100%" >
-		<!-- <g:HTMLPanel>
+		<g:HTMLPanel>
 		Hello World!!!
-		</g:HTMLPanel> -->
+		</g:HTMLPanel>
 	</g:ResizeLayoutPanel>
 </ui:UiBinder> 

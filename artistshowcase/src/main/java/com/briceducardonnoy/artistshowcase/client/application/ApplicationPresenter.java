@@ -52,7 +52,6 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
-import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
 
@@ -66,7 +65,6 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
 	private int categoriesNumber = 0;
 	
     public interface MyView extends View {
-    	public FitImage getLogo();
 		public Image getFrBtn();
 		public Image getEnBtn();
 		Panel getMain();
@@ -98,9 +96,6 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     	super.onBind();
     	Utils.loadFile(loadListAC, GWT.getHostPageBaseURL() + "Documents/List.txt");
 		Utils.showWaitCursor(getView().getMain().getElement());
-    	if(getView().getLogo() != null) {// Mobile view hasn't any logo
-    		registerHandler(getView().getLogo().addClickHandler(logoClick));
-    	}
     	registerHandler(getView().getGallery().getClickHandlerRegistration());
     	registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
     	registerHandler(getView().getFrBtn().addClickHandler(frHandler));
@@ -212,15 +207,6 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     /*
      * Handlers
      */
-    private ClickHandler logoClick = new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-			if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.main)) {
-				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.main).build());
-			}
-		}
-	};
-	
 	private ClickHandler frHandler = new ClickHandler() {
 		@Override
 		public void onClick(ClickEvent arg0) {

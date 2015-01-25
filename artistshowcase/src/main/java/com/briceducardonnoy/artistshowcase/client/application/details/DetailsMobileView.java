@@ -23,6 +23,7 @@ package com.briceducardonnoy.artistshowcase.client.application.details;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
@@ -79,8 +80,7 @@ public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyVi
 	}
 
 	@Override
-	public FitImage getCenterImage() {
-		// TODO Auto-generated method stub
+	public FitImage getCenterImage() {// No center image on mobile view
 		return null;
 	}
 

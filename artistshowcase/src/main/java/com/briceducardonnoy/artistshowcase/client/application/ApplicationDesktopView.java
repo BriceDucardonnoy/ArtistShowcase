@@ -117,11 +117,13 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
     public void onHomeClick(ClickEvent event) {
     	placeManager.revealPlace(homeGo);
     }
-
-	@Override
-	public FitImage getLogo() {
-		return logo;
-	}
+    
+    @UiHandler("logo")
+    public void onLogoClick(ClickEvent event) {
+    	if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.getMain())) {
+			placeManager.revealPlace(homeGo);
+		}
+    }
 
 	@Override
 	public Image getFrBtn() {

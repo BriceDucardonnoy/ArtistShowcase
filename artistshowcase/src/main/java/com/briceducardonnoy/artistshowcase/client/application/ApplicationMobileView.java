@@ -29,11 +29,14 @@ import com.briceducardonnoy.artistshowcase.client.application.events.CategoryCha
 import com.briceducardonnoy.artistshowcase.client.application.widgets.ImageButton;
 import com.briceducardonnoy.artistshowcase.client.application.widgets.ImageSplitButton;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
+import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.briceducardonnoy.artistshowcase.shared.model.Category;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
@@ -41,13 +44,15 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.ViewImpl;
-import com.reveregroup.gwt.imagepreloader.client.FitImage;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 public class ApplicationMobileView extends ViewImpl implements ApplicationPresenter.MyView {
     public interface Binder extends UiBinder<Widget, ApplicationMobileView> {
     }
 
     @Inject EventBus eventBus;
+    @Inject PlaceManager placeManager;
     
     private final Translate translate = GWT.create(Translate.class);
     
@@ -63,6 +68,7 @@ public class ApplicationMobileView extends ViewImpl implements ApplicationPresen
 	@UiField SimplePanel main;
 	
 	private int nbCategories = 0;
+	private PlaceRequest homeGo;
 
     @Inject
     ApplicationMobileView(Binder uiBinder) {
@@ -75,6 +81,8 @@ public class ApplicationMobileView extends ViewImpl implements ApplicationPresen
 		contact.setText(translate.Contact());
 		link.setText(translate.Link());
 		legal.setText(translate.Legal());
+		
+		homeGo = new PlaceRequest.Builder().nameToken(NameTokens.getMain()).build();
     }
 
     @Override
@@ -89,11 +97,10 @@ public class ApplicationMobileView extends ViewImpl implements ApplicationPresen
 		}
     }
 
-	@Override
-	public FitImage getLogo() {
-		// Mobile view hasn't any logo
-		return null;
-	}
+	@UiHandler("home")
+    public void onHomeClick(ClickEvent event) {
+    	placeManager.revealPlace(homeGo);
+    }
 	
 	@Override
 	public Image getFrBtn() {

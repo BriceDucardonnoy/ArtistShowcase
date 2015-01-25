@@ -156,6 +156,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 						/ 2, Unit.PX);
 	}
 	
+	@Override
 	public void resize() {
 		resizeMainImage();
 		resizeCenterImage();

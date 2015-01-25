@@ -102,6 +102,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		}
 		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
 		if(ApplicationContext.getInstance().getProperty("pictures") != null) {
+			Log.info("patate " + ((List<Category>) ApplicationContext.getInstance().getProperty("categories")).size());
 			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
 					(List<Picture>)ApplicationContext.getInstance().getProperty("pictures"));
 		}
