@@ -67,7 +67,7 @@ public class ApplicationMobileView extends ViewImpl implements ApplicationPresen
     @Inject
     ApplicationMobileView(Binder uiBinder) {
         initWidget(uiBinder.createAndBindUi(this));
-        // TODO BDY: add drouot
+        // TODO BDY: add drouot and manage flags which aren't visible
         home.setText(translate.Home());
 		gallery.setText(translate.Gallery());
 		approach.setText(translate.ArtisticApproach());

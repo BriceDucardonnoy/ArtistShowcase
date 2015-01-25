@@ -33,6 +33,7 @@ import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
@@ -112,7 +113,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	}
 	
 	@Override
-	public void addCategories(List<Category> categories) {
+	public void addCategories(final List<Category> categories) {
 		if(categories == null || categories.isEmpty()) return;
 		this.categories = new ArrayList<>();
 		this.categories.addAll(categories);
@@ -120,7 +121,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	}
 	
 	@Override
-	public void addItems(List<Picture> people) {
+	public void addItems(final List<Picture> people) {
 		int number = people.size();
         for (final Picture picture : generatePictures(people, number)) {
         	createImageView(picture);
@@ -136,7 +137,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 		}
     }
 	
-	private Picture[] generatePictures(List<Picture> pictures, int number) {
+	private Picture[] generatePictures(final List<Picture> pictures, int number) {
         Picture[] result = new Picture[number];
 
         for (int i = 0; i < number; i++) {
@@ -146,7 +147,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
         return result;
     }
 	
-	private PhotoView createImageView(Picture picture) {
+	private PhotoView createImageView(final Picture picture) {
 		String title = picture.getTitle();
 		String dim = picture.getProperty("Dimension", "").toString();
 		String date = picture.getProperty("Date", "").toString();
@@ -159,7 +160,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
     }
 	
 	@SuppressWarnings("unchecked")
-	private void addInOrderedData(Picture pojo, Integer refIdx) {
+	private void addInOrderedData(final Picture pojo, Integer refIdx) {
 		// If POJO doesn't contain sortName property, add it at the end
 		if(pojo.getProperty(sortName) == null) {
 			orderedPictures.add(refIdx);
@@ -282,13 +283,18 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	}
 
 	@Override
-	public void addPicture(Picture picture) {
+	public void addPicture(final Picture picture) {
 		// Does nothing now. That's for mobile version. Maybe usefull for one-by-one loading
 	}
 
 	@Override
 	public ResizeLayoutPanel getMainPane() {
 		return main;
+	}
+
+	@Override
+	public List<HandlerRegistration> getCustomHandlers2Unregister() {
+		return null;
 	}
 
 }

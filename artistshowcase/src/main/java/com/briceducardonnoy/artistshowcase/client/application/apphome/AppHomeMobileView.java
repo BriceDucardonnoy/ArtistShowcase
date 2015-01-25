@@ -1,19 +1,23 @@
 package com.briceducardonnoy.artistshowcase.client.application.apphome;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import org.gwt.contentflow4gwt.client.ContentFlow;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.artistshowcase.client.application.context.ApplicationContext;
 import com.briceducardonnoy.artistshowcase.client.application.widgets.UpdatableGrid;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
+import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.briceducardonnoy.artistshowcase.shared.model.Category;
 import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -21,7 +25,10 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.gwtplatform.mvp.client.proxy.PlaceManager;
+import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> implements AppHomePresenter.MyView {
@@ -29,8 +36,10 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	private final Translate translate = GWT.create(Translate.class);
-	private static final int maxBig = 4;
-	private static final int maxSmall = 2;
+	private static final int MAX_BIG = 4;
+	private static final int MAX_SMALL = 2;
+	
+	@Inject PlaceManager placeManager;
 
 	@UiField ResizeLayoutPanel main;
 	@UiField ScrollPanel scrollPane;
@@ -38,7 +47,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	
 	private int width = 0;
 	private int height = 0;
-	private int maxC = maxBig;
+	private int maxC = MAX_BIG;
 	private int maxR = 1;
 	private boolean isLandscape = true;
 	private String sortName;
@@ -46,6 +55,9 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	
 	private ArrayList<Picture> allPictures = null;
 	private ArrayList<FitImage> allImages = null;
+	private HashMap<String, String> urlImageFolder = null;
+	private ClickHandler imageClickH;
+	private List<HandlerRegistration> handlers = null;
 
 	@Inject
 	AppHomeMobileView(Binder uiBinder) {
@@ -54,6 +66,17 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		sortName = "Date";
 		allPictures = new ArrayList<>();
 		allImages = new ArrayList<>();
+		urlImageFolder = new HashMap<>();
+		imageClickH = new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				String folder = urlImageFolder.get(((FitImage)event.getSource()).getUrl());
+				Log.info("Image clicked: " + folder);
+				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.details).with(ApplicationContext.DETAIL_KEYWORD, 
+						folder).build());
+			}
+		};
+		handlers = new ArrayList<>();
 	}
 
 	@Override
@@ -100,7 +123,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	@Override
-	public void addPicture(Picture picture) {
+	public void addPicture(final Picture picture) {
 		/*
 		 * read is per line:
 		 * 1 2 3
@@ -114,6 +137,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		String tooltip = picture.getProperty("Date") == null ? "NULL" : picture.getProperty("Date").toString();
 		Log.info("width is " + width + " and maxC is " + maxC);
 		FitImage image = new FitImage(picture.getImageUrl());
+		urlImageFolder.put(image.getUrl(), picture.getProperty(ApplicationContext.FILEINFO).toString());
+		handlers.add(image.addClickHandler(imageClickH));
 		allImages.add(pos, image);
 		
 		image.setAltText(tooltip);
@@ -138,8 +163,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		this.width = width;
 		this.height = height;
 		isLandscape = Window.getClientWidth() >= Window.getClientHeight();// To be in accordance with @media css
-		maxC = isLandscape ? maxBig : maxSmall;
-		maxR = isLandscape ? maxSmall : maxBig;
+		maxC = isLandscape ? MAX_BIG : MAX_SMALL;
+		maxR = isLandscape ? MAX_SMALL : MAX_BIG;
 		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
 			refreshGrid(allImages);
 		}
@@ -178,7 +203,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 	
 	/**
-	 * Add and image in <code>grid</code> at position <code>pos</code>
+	 * Add and image in <code>grid</code> at position <code>pos</code><br>
 	 * Function calculates the row and column indexes <code>pos</code> corresponds
 	 * @param pos The position of the image to insert
 	 * @param image The image to insert 
@@ -218,6 +243,11 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		}
 		allPictures.add(pojo);
 		return allPictures.size() - 1;
+	}
+
+	@Override
+	public List<HandlerRegistration> getCustomHandlers2Unregister() {
+		return handlers;
 	}
 	
 }

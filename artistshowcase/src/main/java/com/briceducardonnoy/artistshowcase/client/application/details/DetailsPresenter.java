@@ -155,7 +155,9 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		super.onBind();
 		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
 		registerHandler(getView().getMainPane().addResizeHandler(resize));
-		registerHandler(getView().getCenterImage().addClickHandler(centerImageHandler));
+		if(getView().getCenterImage() != null) {
+			registerHandler(getView().getCenterImage().addClickHandler(centerImageHandler));
+		}
 	}
 	
 	@Override

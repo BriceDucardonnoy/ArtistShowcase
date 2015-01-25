@@ -19,7 +19,7 @@
 package com.briceducardonnoy.artistshowcase.client.application;
 
 import com.briceducardonnoy.artistshowcase.client.application.apphome.AppHomeMobileModule;
-import com.briceducardonnoy.artistshowcase.client.application.details.DetailsModule;
+import com.briceducardonnoy.artistshowcase.client.application.details.DetailsMobileModule;
 import com.briceducardonnoy.artistshowcase.client.application.error.ErrorModule;
 import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
 import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
@@ -29,7 +29,7 @@ public class ApplicationMobileModule extends AbstractPresenterModule {
 	@Override
 	protected void configure() {
 		install(new AppHomeMobileModule());
-		install(new DetailsModule());
+		install(new DetailsMobileModule());
 		install(new PictureViewerModule());
 		install(new ErrorModule());
 		install(new UnauthorizedModule());

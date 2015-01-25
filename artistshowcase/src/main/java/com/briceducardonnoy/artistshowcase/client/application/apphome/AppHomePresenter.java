@@ -40,6 +40,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -57,15 +58,16 @@ import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHomePresenter.MyProxy> implements AppHomeUiHandlers {
 	interface MyView extends View, HasUiHandlers<AppHomeUiHandlers> {
-		void addCategories(List<Category> categories);
+		void addCategories(final List<Category> categories);
 		void init();
-		void addItems(List<Picture> pictures);
+		void addItems(final List<Picture> pictures);
 		ContentFlow<Picture> getContentFlow();
 		Picture getCurrentPicture();
-		void changeCurrentCategory(Integer categoryId);
-		void addPicture(Picture picture);
+		void changeCurrentCategory(final Integer categoryId);
+		void addPicture(final Picture picture);
 		ResizeLayoutPanel getMainPane();
 		void resize(int width, int height);
+		List<HandlerRegistration> getCustomHandlers2Unregister();
 	}
 	
 	@Inject	PlaceManager placeManager;
@@ -119,6 +121,16 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 //		super.onReset();
 //		Log.info("Reset. Size is " + getView().getMainPane().getOffsetWidth() + " x " + getView().getMainPane().getOffsetHeight());
 //	}
+	
+	@Override
+	protected void onUnbind() {
+		super.onUnbind();
+		List<HandlerRegistration> hs = getView().getCustomHandlers2Unregister();
+		if(hs == null) return;
+		for(HandlerRegistration h : hs) {
+			h.removeHandler();
+		}
+	}
 	
 	private void initDataAndView(List<Category> categories, List<Picture> pictures) {
 		getView().addCategories(categories);
