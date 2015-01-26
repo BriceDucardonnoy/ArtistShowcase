@@ -102,7 +102,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		}
 		registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
 		if(ApplicationContext.getInstance().getProperty("pictures") != null) {
-			Log.info("patate " + ((List<Category>) ApplicationContext.getInstance().getProperty("categories")).size());
+//			Log.info("patate " + ((List<Category>) ApplicationContext.getInstance().getProperty("categories")).size());
 			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
 					(List<Picture>)ApplicationContext.getInstance().getProperty("pictures"));
 		}
@@ -172,6 +172,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	private ResizeHandler resizeHandler = new ResizeHandler() {
 		@Override
 		public void onResize(ResizeEvent event) {
+			// FIXME BDY: if resize on this page, back to home is empty. Maybe do it only if place main is current place
 			getView().resize(event.getWidth(), event.getHeight());
 		}
 	};

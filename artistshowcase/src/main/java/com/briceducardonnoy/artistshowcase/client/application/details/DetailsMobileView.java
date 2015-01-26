@@ -24,15 +24,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.briceducardonnoy.artistshowcase.client.application.apphome.AppHomeMobileView;
+import com.briceducardonnoy.artistshowcase.client.application.utils.Utils;
+import com.briceducardonnoy.artistshowcase.client.application.widgets.UpdatableGrid;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.gwtplatform.mvp.client.ViewImpl;
@@ -41,19 +47,24 @@ import com.reveregroup.gwt.imagepreloader.client.FitImage;
 public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyView  {
 
 	@UiField ResizeLayoutPanel main;
+	@UiField ScrollPanel scrollPane;
+	@UiField (provided = true) UpdatableGrid grid;
 	
 	private final Translate translate = GWT.create(Translate.class);
-	private static final String ACTIVE = "#444444";
 	
 	private List<Picture> picturesList;
 	private List<FitImage> imagesList;
 	private List<HandlerRegistration> imageHandlers;
+	private int maxC = AppHomeMobileView.MAX_BIG;
+	private int maxR = 1;
+	private int width, height;
 	
 	interface Binder extends UiBinder<Widget, DetailsMobileView> {
 	}
 	
 	@Inject
 	DetailsMobileView(Binder uiBinder) {
+		grid = new UpdatableGrid(1, maxC);
 		initWidget(uiBinder.createAndBindUi(this));
 		picturesList = new ArrayList<>();
 		imagesList = new ArrayList<>();
@@ -85,39 +96,92 @@ public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyVi
 	}
 
 	@Override
-	public void updateMainImage(String url) {
-		// TODO Auto-generated method stub
-		
+	public void updateMainImage(final String url) {}
+
+	@Override
+	public void updateDetailInfo(final String html) {
+		// TODO BDY: add a div with html content in 1st place
 	}
 
 	@Override
-	public void updateDetailInfo(String html) {
-		// TODO Auto-generated method stub
-		
+	public void updateThumbs(final List<String> urls) {
+		/*
+		 * read is per line:
+		 * 1 2 3
+		 * 4 5 6
+		 * Define max number of column and size of each item depending
+		 * of orientation and size
+		 * Maybe get it in onReset because it cannot be done in @media
+		 */
+		int pos = 0;
+		picturesList.clear();
+		imagesList.clear();
+		grid.clear();
+		for(String url : urls) {
+			final Picture p = new Picture(translate.Details());
+			p.getProperties().put("imageUrl", url);
+			picturesList.add(p);
+			final FitImage image = new FitImage(p.getImageUrl());
+			imageHandlers.add(image.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					// TODO BDY: do something to show in fullscreen
+				}
+			}));
+			imagesList.add(image);
+			// Insert in grid
+			Utils.addFitImageInGrid(grid, pos++, image, maxC, maxR, width, height);
+			// FIXME BDY: back to home by switch category select category 0 if home wasn't loaded before 
+		}
 	}
-
-	@Override
-	public void updateThumbs(ArrayList<String> urls) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public List<Picture> getPicturesList() {
-		// TODO Auto-generated method stub
-		return null;
+		return picturesList;
 	}
 
 	@Override
-	public void resize() {
-		// TODO Auto-generated method stub
-		
+	public void resize(int width, int height) {
+		Log.info("Resize::Size is " + width + " x " + height + " and original size is " + this.width + "x" + this.height);
+		this.width = width;
+		this.height = height;
+		boolean isLandscape = Utils.isLandscape();// To be in accordance with @media css
+		maxC = isLandscape ? AppHomeMobileView.MAX_BIG : AppHomeMobileView.MAX_SMALL;
+		maxR = isLandscape ? AppHomeMobileView.MAX_SMALL : AppHomeMobileView.MAX_BIG;
+		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
+			refreshGrid(imagesList);
+		}
+		else {
+			Log.info("Just resize");
+			Utils.resize(grid, maxC, maxR, width, height);
+		}
+	}
+	
+	/**
+	 * Clear the grid and add images among the <code>images</code> that are in current category <code>currentCategoryId</code>
+	 * It also relayout the images.
+	 * @param images The list of images to sort (current category) and to display
+	 */
+	private void refreshGrid(final List<FitImage> images) {
+		Log.info("RefreshGrid::Clear grid with (" + images.size() + " elements)");
+		int pos = 0;
+		grid.clear();
+		grid.resize(maxR, maxC);
+		for(int i = 0 ; i < picturesList.size() ; i++) {
+			Log.info("Add picture " + picturesList.get(i).getTitleOrName() + " (" + images.get(i).getAltText() + ")");
+			Utils.addFitImageInGrid(grid, pos++, images.get(i), maxC, maxR, width, height);
+		}
 	}
 
 	@Override
 	public void clearData() {
-		// TODO Auto-generated method stub
-		
+		for(HandlerRegistration hr : imageHandlers) {
+			hr.removeHandler();
+		}
+		imageHandlers.clear();
+		picturesList.clear();
+		imagesList.clear();
 	}
+
 
 }

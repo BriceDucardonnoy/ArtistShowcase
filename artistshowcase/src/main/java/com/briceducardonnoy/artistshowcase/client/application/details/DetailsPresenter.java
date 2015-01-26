@@ -45,11 +45,11 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		ResizeLayoutPanel getMainPane();
 		Image getMainImage();
 		FitImage getCenterImage();
-		void updateMainImage(String url);
-		void updateDetailInfo(String html);
-		void updateThumbs(ArrayList<String> urls);
+		void updateMainImage(final String url);
+		void updateDetailInfo(final String html);
+		void updateThumbs(final List<String> urls);
 		List<Picture> getPicturesList();
-		void resize();
+		void resize(int width, int height);
 		void clearData();
 	}
 	
@@ -65,60 +65,6 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	private boolean arePicturesLoaded;
 	private int waitTime;
 	
-	private PicturesLoadedHandler pictureLoadedHandler = new PicturesLoadedHandler() {
-		@Override
-		public void onPicturesLoaded(PicturesLoadedEvent event) {
-			pictures = event.getPictures();
-			if(Log.isTraceEnabled()) {
-				Log.trace("Pictures loaded: " + pictures.size());
-			}
-			arePicturesLoaded = true;
-		}
-	};
-	
-	private ClickHandler centerImageHandler = new ClickHandler() {
-		@Override
-		public void onClick(ClickEvent event) {
-			pictureViewer.setPictures(getView().getPicturesList());
-			pictureViewer.setImage(getView().getCenterImage().getUrl());
-			pictureViewer.update();
-			addToPopupSlot(pictureViewer);//, true);
-		}
-	};
-	
-	private ResizeHandler resize = new ResizeHandler() {
-		@Override
-		public void onResize(ResizeEvent event) {
-			Log.info(event.getWidth() + " x " + event.getHeight());
-			getView().resize();
-		}
-	};
-	
-	private RepeatingCommand loadPicturesWaitCmd = new RepeatingCommand() {
-		@Override
-		public boolean execute() {
-			if(arePicturesLoaded) {
-//				waitBox.hide();
-				Utils.showDefaultCursor(getView().getMainPane().getElement());
-				if(initializeCurrentPicture()) {
-					// Shows picture information
-					showPictureMainThumbAndInfo();
-					// Shows pictures thumbs
-					showPicturesThumb();
-				}
-				return false;
-			}
-			if(waitTime >= MAXWAITTIME) {
-//				waitBox.hide();
-				Utils.showDefaultCursor(getView().getMainPane().getElement());
-				placeManager.revealErrorPlace(NameTokens.details);
-				return false;
-			}
-			waitTime++;
-			return true;
-		}
-	};
-	
 	@ContentSlot
 	public static final Type<RevealContentHandler<?>> SLOT_details = new Type<RevealContentHandler<?>>();
 
@@ -131,7 +77,6 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	@SuppressWarnings("unchecked")
 	@Inject
 	DetailsPresenter(EventBus eventBus, MyView view, MyProxy proxy) {
-		// FIXME BDY: if resize on this page, back to home is empty.
 		super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 		locale = LocaleInfo.getCurrentLocale().getLocaleName();
 		pictures = (ArrayList<Picture>) ApplicationContext.getInstance().getProperty("pictures");
@@ -153,7 +98,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 	@Override
 	protected void onBind() {
 		super.onBind();
-		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), pictureLoadedHandler));
+		registerHandler(getEventBus().addHandler(PicturesLoadedEvent.getType(), picturesLoadedHandler));
 		registerHandler(getView().getMainPane().addResizeHandler(resize));
 		if(getView().getCenterImage() != null) {
 			registerHandler(getView().getCenterImage().addClickHandler(centerImageHandler));
@@ -249,13 +194,66 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			if(thumbs.length > 0) {// Add the others details
 				for(String thumb : thumbs) {
 					thumbsArray.add(GWT.getHostPageBaseURL() + ApplicationContext.PHOTOSFOLDER + "/" + pictureFolder + "/" + thumb.trim());
-					if(Log.isTraceEnabled()) {
-						Log.trace("Add detail " + thumbsArray.get(thumbsArray.size() - 1));
-					}
+					Log.trace("Add detail " + thumbsArray.get(thumbsArray.size() - 1));
 				}
 			}
 		}
 		getView().updateThumbs(thumbsArray);
 	}
+	
+	/*
+	 * Handlers and commands
+	 */
+	private PicturesLoadedHandler picturesLoadedHandler = new PicturesLoadedHandler() {
+		@Override
+		public void onPicturesLoaded(PicturesLoadedEvent event) {
+			pictures = event.getPictures();
+			Log.info("Pictures loaded: " + pictures.size());
+			arePicturesLoaded = true;
+		}
+	};
+	
+	private ClickHandler centerImageHandler = new ClickHandler() {
+		@Override
+		public void onClick(ClickEvent event) {
+			pictureViewer.setPictures(getView().getPicturesList());
+			pictureViewer.setImage(getView().getCenterImage().getUrl());
+			pictureViewer.update();
+			addToPopupSlot(pictureViewer);//, true);
+		}
+	};
+	
+	private ResizeHandler resize = new ResizeHandler() {
+		@Override
+		public void onResize(ResizeEvent event) {
+			Log.info(event.getWidth() + " x " + event.getHeight());
+			getView().resize(event.getWidth(), event.getHeight());
+		}
+	};
+	
+	private RepeatingCommand loadPicturesWaitCmd = new RepeatingCommand() {
+		@Override
+		public boolean execute() {
+			if(arePicturesLoaded) {
+//				waitBox.hide();
+				Utils.showDefaultCursor(getView().getMainPane().getElement());
+				if(initializeCurrentPicture()) {
+					// Shows picture information
+					showPictureMainThumbAndInfo();
+					// Shows pictures thumbs
+					showPicturesThumb();
+				}
+				return false;
+			}
+			if(waitTime >= MAXWAITTIME) {
+//				waitBox.hide();
+				Utils.showDefaultCursor(getView().getMainPane().getElement());
+				placeManager.revealErrorPlace(NameTokens.details);
+				return false;
+			}
+			waitTime++;
+			return true;
+		}
+	};
 	
 }

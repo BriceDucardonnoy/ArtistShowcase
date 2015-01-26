@@ -8,19 +8,18 @@ import org.gwt.contentflow4gwt.client.ContentFlow;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.artistshowcase.client.application.context.ApplicationContext;
+import com.briceducardonnoy.artistshowcase.client.application.utils.Utils;
 import com.briceducardonnoy.artistshowcase.client.application.widgets.UpdatableGrid;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
 import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.briceducardonnoy.artistshowcase.shared.model.Category;
 import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -36,8 +35,9 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	}
 
 	private final Translate translate = GWT.create(Translate.class);
-	private static final int MAX_BIG = 4;
-	private static final int MAX_SMALL = 2;
+	
+	public static final int MAX_BIG = 4;
+	public static final int MAX_SMALL = 2;
 	
 	@Inject PlaceManager placeManager;
 
@@ -53,8 +53,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	private String sortName;
 	private Integer currentCategoryId = 0;// All
 	
-	private ArrayList<Picture> allPictures = null;
-	private ArrayList<FitImage> allImages = null;
+	private List<Picture> allPictures = null;
+	private List<FitImage> allImages = null;
 	private HashMap<String, String> urlImageFolder = null;
 	private ClickHandler imageClickH;
 	private List<HandlerRegistration> handlers = null;
@@ -103,6 +103,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 
 	@Override
 	public void addItems(List<Picture> pictures) {
+		if(allPictures.size() != 0) return;
 		for(Picture picture : pictures) {
 			addPicture(picture);
 		}
@@ -146,7 +147,8 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		allImages.add(pos, image);
 		
 		image.setAltText(tooltip);
-		addFitImage(pos, image);
+//		addFitImage(pos, image);
+		Utils.addFitImageInGrid(grid, pos, image, maxC, maxR, width, height);
 		Log.info("Picture inserted");
 	}
 	
@@ -166,7 +168,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		Log.info("Resize::Size is " + width + " x " + height + " and original size is " + this.width + "x" + this.height);
 		this.width = width;
 		this.height = height;
-		isLandscape = Window.getClientWidth() >= Window.getClientHeight();// To be in accordance with @media css
+		isLandscape = Utils.isLandscape();// To be in accordance with @media css
 		maxC = isLandscape ? MAX_BIG : MAX_SMALL;
 		maxR = isLandscape ? MAX_SMALL : MAX_BIG;
 		if(grid.getColumnCount() != maxC) {// Switch landscape -> portrait or portrait -> landscape
@@ -174,17 +176,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		}
 		else {
 			Log.info("Just resize");
-			for(int r = 0 ; r < grid.getRowCount() ; r++) {
-				for(int c = 0 ; c < grid.getColumnCount() ; c++) {
-					FitImage img = (FitImage) grid.getWidget(r, c);
-					if(img != null) {
-//						Log.info("Set max size to " + ((width / maxC) - 5) + "x" + (height / maxR));
-						img.setMaxSize(Math.max((int) (width / maxC) - 5, 0), (int) (height / maxR));// - 5 for horizontal scroll
-						grid.getCellFormatter().setWidth(r, c, img.getMaxWidth() + "px");
-						grid.getCellFormatter().setHeight(r, c, img.getMaxHeight() + "px");
-					}
-				}
-			}
+			Utils.resize(grid, maxC, maxR, width, height);
 		}
 	}
 	
@@ -193,7 +185,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	 * It also relayout the images.
 	 * @param images The list of images to sort (current category) and to display
 	 */
-	private void refreshGrid(ArrayList<FitImage> images) {
+	private void refreshGrid(final List<FitImage> images) {
 		Log.info("RefreshGrid::Clear grid with category " + currentCategoryId + " (" + images.size() + " elements)");
 		int pos = 0;
 		grid.clear();
@@ -201,31 +193,9 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 		for(int i = 0 ; i < allPictures.size() ; i++) {
 			if(allPictures.get(i).getCategoryIds().contains(currentCategoryId)) {
 				Log.info("Add picture " + allPictures.get(i).getTitleOrName() + " (" + images.get(i).getAltText() + ")");
-				addFitImage(pos++, images.get(i));
+//				addFitImage(pos++, images.get(i));
+				Utils.addFitImageInGrid(grid, pos++, images.get(i), maxC, maxR, width, height);
 			}
-		}
-	}
-	
-	/**
-	 * Add and image in <code>grid</code> at position <code>pos</code><br>
-	 * Function calculates the row and column indexes <code>pos</code> corresponds
-	 * @param pos The position of the image to insert
-	 * @param image The image to insert 
-	 */
-	private void addFitImage(int pos, FitImage image) {
-		int idxC = pos % maxC;
-		int idxR = pos / maxC;
-		grid.insertCell(idxR, idxC, maxC);
-		
-		image.setMaxSize(Math.max((int) (width / maxC) - 5, 0), (int) (height / maxR));// - 5 for horizontal scroll
-		grid.getCellFormatter().setWidth(idxR, idxC, image.getMaxWidth() + "px");
-		grid.getCellFormatter().setHeight(idxR, idxC, image.getMaxHeight() + "px");
-		
-		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
-		grid.setWidget(idxR, idxC, image);
-		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
-		if(Log.isInfoEnabled()) {
-			((FitImage)grid.getWidget(idxR, idxC)).setTitle(image.getAltText());
 		}
 	}
 	

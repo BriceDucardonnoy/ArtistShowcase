@@ -84,7 +84,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	}
 
 	@Override
-	public void updateMainImage(String url) {
+	public void updateMainImage(final String url) {
 		if(Log.isTraceEnabled()) {
 			Log.trace("Update to image " + url);
 		}
@@ -144,7 +144,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	}
 
 	@Override
-	public void updateDetailInfo(String html) {
+	public void updateDetailInfo(final String html) {
 		if(!html.isEmpty()) {
 			description.getElement().setInnerHTML(html);
 		}
@@ -157,14 +157,14 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 	}
 	
 	@Override
-	public void resize() {
+	public void resize(int width, int height) {
 		resizeMainImage();
 		resizeCenterImage();
 		updateDetailInfo("");
 	}
 
 	@Override
-	public void updateThumbs(ArrayList<String> urls) {
+	public void updateThumbs(final List<String> urls) {
 		picturesList.clear();
 		imagesList.clear();
 		thumbPane.clear();

@@ -55,7 +55,7 @@ public class ApplicationMobileView extends ViewImpl implements ApplicationPresen
     @Inject PlaceManager placeManager;
     
     private final Translate translate = GWT.create(Translate.class);
-    
+    // TODO BDY: use GWT-Bootstrap menu
     @UiField ImageButton home;
 	@UiField ImageSplitButton gallery;
 	@UiField ImageButton approach;

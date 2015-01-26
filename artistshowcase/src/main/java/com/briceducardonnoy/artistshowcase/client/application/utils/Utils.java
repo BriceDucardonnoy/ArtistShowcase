@@ -1,9 +1,9 @@
 package com.briceducardonnoy.artistshowcase.client.application.utils;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.briceducardonnoy.artistshowcase.client.lang.Translate;
-import com.google.gwt.core.shared.GWT;
+import com.briceducardonnoy.artistshowcase.client.application.widgets.UpdatableGrid;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -13,9 +13,10 @@ import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 public class Utils {
-	private static final Translate translate = GWT.create(Translate.class);
+//	private static final Translate translate = GWT.create(Translate.class);
 //	private static ProgressMessageBox box;
 
 	/**
@@ -84,14 +85,14 @@ public class Utils {
 //		if(box == null || !box.isVisible()) return;
 //		box.hide();
 //	}
-	
-	public static final native int getScreenWidth() /*-{
-		return screen.width;
-	}-*/;
-
-	public static final native int getScreenHeight() /*-{
-		return screen.height;
-	}-*/;
+//	
+//	public static final native int getScreenWidth() /*-{
+//		return screen.width;
+//	}-*/;
+//
+//	public static final native int getScreenHeight() /*-{
+//		return screen.height;
+//	}-*/;
 	
 	public static boolean isLandscape() {
 		return Window.getClientWidth() >= Window.getClientHeight();
@@ -106,6 +107,49 @@ public class Utils {
 		}
 		else {
 			return " : ";
+		}
+	}
+	
+	/**
+	 * Add a {@link FitImage} <code>image</code> into the {@link UpdatableGrid} <code>grid</code> at the given <code>position</code>
+	 * depending of its number of row and columns.<br>
+	 * Function calculates the row and column indexes <code>pos</code> corresponds.
+	 * @param grid The grid to add the image in
+	 * @param position The position of the image
+	 * @param image The image to add
+	 * @param maxC The maximum number of columns
+	 * @param maxR The maximum number or rows
+	 * @param width The width of the panel container
+	 * @param height The height of the panel container
+	 */
+	public static void addFitImageInGrid(final UpdatableGrid grid, int position, final FitImage image, int maxC, int maxR, int width, int height) {
+		int idxC = position % maxC;
+		int idxR = position / maxC;
+		grid.insertCell(idxR, idxC, maxC);
+		
+		image.setMaxSize(Math.max((int) (width / maxC) - 5, 0), (int) (height / maxR));// - 5 for horizontal scroll
+		grid.getCellFormatter().setWidth(idxR, idxC, image.getMaxWidth() + "px");
+		grid.getCellFormatter().setHeight(idxR, idxC, image.getMaxHeight() + "px");
+		
+		grid.getCellFormatter().getElement(idxR, idxC).setPropertyString("align", "center");
+		grid.setWidget(idxR, idxC, image);
+		grid.getWidget(idxR, idxC).getElement().getStyle().setCursor(Cursor.POINTER);
+		if(Log.isInfoEnabled()) {
+			((FitImage)grid.getWidget(idxR, idxC)).setTitle(image.getAltText());
+		}
+	}
+	
+	public static void resize(final UpdatableGrid grid, int maxC, int maxR, int width, int height) {
+		for(int r = 0 ; r < grid.getRowCount() ; r++) {
+			for(int c = 0 ; c < grid.getColumnCount() ; c++) {
+				FitImage img = (FitImage) grid.getWidget(r, c);
+				if(img != null) {
+//					Log.info("Set max size to " + ((width / maxC) - 5) + "x" + (height / maxR));
+					img.setMaxSize(Math.max((int) (width / maxC) - 5, 0), (int) (height / maxR));// - 5 for horizontal scroll
+					grid.getCellFormatter().setWidth(r, c, img.getMaxWidth() + "px");
+					grid.getCellFormatter().setHeight(r, c, img.getMaxHeight() + "px");
+				}
+			}
 		}
 	}
 	
