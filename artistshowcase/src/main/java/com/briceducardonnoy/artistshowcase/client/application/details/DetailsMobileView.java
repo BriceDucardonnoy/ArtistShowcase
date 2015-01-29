@@ -131,7 +131,7 @@ public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyVi
 			imagesList.add(image);
 			// Insert in grid
 			Utils.addFitImageInGrid(grid, pos++, image, maxC, maxR, width, height);
-			// FIXME BDY: back to home by switch category select category 0 if home wasn't loaded before 
+			// FIXME BDY: back to home by switch category select category 0 if home wasn't loaded before (both desktop and mobile)
 		}
 	}
 	
