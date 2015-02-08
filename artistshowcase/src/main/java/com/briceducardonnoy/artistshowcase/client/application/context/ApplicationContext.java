@@ -10,6 +10,7 @@ public class ApplicationContext {
 	public static final String DETAIL_KEYWORD	= "picture";
 	public static final String PHOTOSFOLDER 	= "photos";
 	public static final String FILEINFO		= "fileInfo";
+	public static final String GALLERY		= "gallery";
 	
 	private ApplicationContext() {
 		userObjects = new HashMap<String, Object>();

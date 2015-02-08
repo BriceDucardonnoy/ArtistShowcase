@@ -182,6 +182,8 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	public void changeCurrentCategory(final Integer categoryId) {
 		// Wait for cover flow to be initialized and change current category
 		// That case can append if another page is loaded in first and then a category selection is done without going to home before
+		Log.info("Change to category " + categoryId);
+		if(categoryId == -1) return;
 		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 			@Override
 			public boolean execute() {

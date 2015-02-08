@@ -224,9 +224,10 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
 	private CategoryChangedHandler categoryChangedHandler = new CategoryChangedHandler() {
 		@Override
 		public void onCategoryChanged(CategoryChangedEvent event) {
-			if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.main)) {
-				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.main).build());
-			}
+//			if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.getMain())) {
+				// Add the gallery data in URL in case where home was never loaded before
+				placeManager.revealPlace(new PlaceRequest.Builder().nameToken(NameTokens.getMain()).with(ApplicationContext.GALLERY, event.getCategoryId().toString()).build());
+//			}
 		}
 	};
 	

@@ -18,6 +18,7 @@
  */
 package com.briceducardonnoy.artistshowcase.client.application.apphome;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gwt.contentflow4gwt.client.ContentFlow;
@@ -71,6 +72,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	}
 	
 	@Inject	PlaceManager placeManager;
+	private List<Integer> catIds;
 	
 	private final Translate translate = GWT.create(Translate.class);
 
@@ -87,6 +89,7 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		super(eventBus, view, proxy, ApplicationPresenter.SLOT_SetMainContent);
 
 		getView().setUiHandlers(this);
+		catIds = new ArrayList<>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -106,6 +109,21 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 			initDataAndView((List<Category>) ApplicationContext.getInstance().getProperty("categories"), 
 					(List<Picture>)ApplicationContext.getInstance().getProperty("pictures"));
 		}
+	}
+	
+	@Override
+	public void prepareFromRequest(PlaceRequest request) {
+		super.prepareFromRequest(request);
+		Integer catId = Integer.parseInt(request.getParameter(ApplicationContext.GALLERY, "-1"), 10);
+		Log.info("Cat is " + catId);
+		if(catId != -1 && !catIds.contains(catId)) {// Category not found
+			placeManager.revealErrorPlace(NameTokens.getMain());
+		}
+		else {
+			getView().changeCurrentCategory(catId);// 0 is ALL
+		}
+		// PictureName is now available in onReveal and onReset method
+		// If pictureName isn't ok, redirect to unauthorized page (URL set manually)
 	}
 	
 	@Override
@@ -135,6 +153,9 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	}
 	
 	private void initDataAndView(List<Category> categories, List<Picture> pictures) {
+		for(Category cat : categories) {
+			catIds.add(cat.getId());
+		}
 		getView().addCategories(categories);
 		getView().addItems(pictures);// Initialize cover flow
 		getView().init();

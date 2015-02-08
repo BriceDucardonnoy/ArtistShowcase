@@ -179,7 +179,7 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 			image.setStyleName("thumbPane");
 //			image.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 //			image.getElement().getStyle().setCursor(Cursor.POINTER);
-			imageHandlers.add(image.addClickHandler(new ClickHandler() {// TODO BDY: css animation for offset on mouseover
+			imageHandlers.add(image.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					for(FitImage other : imagesList) {

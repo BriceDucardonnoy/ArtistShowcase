@@ -103,6 +103,7 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
     	gallery.getMenuBar().clearItems();
     	for(final Category cat : categories) {
     		if(cat.getId() == null) continue;
+    		Log.info("Add gallery " + cat.getName());
     		gallery.getMenuBar().addItem(cat.getName(), new ScheduledCommand() {
 				@Override
 				public void execute() {
@@ -115,7 +116,9 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
     
     @UiHandler("home")
     public void onHomeClick(ClickEvent event) {
-    	placeManager.revealPlace(homeGo);
+    	if(!placeManager.getCurrentPlaceRequest().getNameToken().equals(NameTokens.getMain())) {
+			placeManager.revealPlace(homeGo);
+		}
     }
     
     @UiHandler("logo")

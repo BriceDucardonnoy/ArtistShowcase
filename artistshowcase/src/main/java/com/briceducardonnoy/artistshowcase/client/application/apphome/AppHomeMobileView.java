@@ -122,6 +122,7 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 	@Override
 	public void changeCurrentCategory(Integer categoryId) {
 		Log.info("Change to category " + categoryId);
+		if(categoryId == -1) return;
 		if(categoryId.equals(currentCategoryId)) return;
 		currentCategoryId = categoryId;
 		refreshGrid(allImages);
