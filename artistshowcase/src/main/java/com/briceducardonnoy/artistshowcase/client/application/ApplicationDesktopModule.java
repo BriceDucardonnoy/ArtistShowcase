@@ -20,9 +20,7 @@ package com.briceducardonnoy.artistshowcase.client.application;
 
 import com.briceducardonnoy.artistshowcase.client.application.apphome.AppHomeModule;
 import com.briceducardonnoy.artistshowcase.client.application.details.DetailsModule;
-import com.briceducardonnoy.artistshowcase.client.application.error.ErrorModule;
 import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerModule;
-import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
 import com.gwtplatform.mvp.client.gin.AbstractPresenterModule;
 
 public class ApplicationDesktopModule extends AbstractPresenterModule {
@@ -31,8 +29,6 @@ public class ApplicationDesktopModule extends AbstractPresenterModule {
 		install(new AppHomeModule());
 		install(new DetailsModule());
 		install(new PictureViewerModule());
-		install(new ErrorModule());
-		install(new UnauthorizedModule());
 		
 		bindPresenter(ApplicationPresenter.class, ApplicationPresenter.MyView.class, ApplicationDesktopView.class, ApplicationPresenter.MyProxy.class);
 	}

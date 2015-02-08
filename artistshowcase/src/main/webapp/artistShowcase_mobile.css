@@ -69,3 +69,26 @@
 		top: 40px;
 	}
 }
+
+/****************************/
+/*********** Popup **********/
+/****************************/
+/* Override global pop-up and menu properties */
+.gwt-PopupPanel {
+	background: none repeat scroll 0 0 #000000 !important;
+	border: 0px solid #222222 !important;
+	color: #FFFFFF;
+}
+
+.gwt-MenuBar-vertical {
+	background: inherit !important;
+}
+
+.gwt-MenuBar .gwt-MenuItem {
+    background: none repeat scroll 0 0 #222222 !important;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+    background: none repeat scroll 0 0 #333333 !important;
+}
+

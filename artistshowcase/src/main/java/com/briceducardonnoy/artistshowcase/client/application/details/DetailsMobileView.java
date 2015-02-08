@@ -25,6 +25,7 @@ import java.util.List;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.artistshowcase.client.application.apphome.AppHomeMobileView;
+import com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerPresenter;
 import com.briceducardonnoy.artistshowcase.client.application.utils.Utils;
 import com.briceducardonnoy.artistshowcase.client.application.widgets.UpdatableGrid;
 import com.briceducardonnoy.artistshowcase.client.lang.Translate;
@@ -51,6 +52,8 @@ public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyVi
 	@UiField (provided = true) UpdatableGrid grid;
 	
 	private final Translate translate = GWT.create(Translate.class);
+	
+	@Inject PictureViewerPresenter pictureViewer;
 	
 	private List<Picture> picturesList;
 	private List<FitImage> imagesList;
@@ -126,6 +129,12 @@ public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyVi
 				@Override
 				public void onClick(ClickEvent event) {
 					// TODO BDY: do something to show in fullscreen
+					Log.info("Click on image");
+					Log.info(event.getSource().toString());
+					pictureViewer.setPictures(getPicturesList());
+					pictureViewer.setImage(((FitImage) event.getSource()).getUrl());
+					pictureViewer.update();
+//					addToPopupSlot(pictureViewer);//, true);
 				}
 			}));
 			imagesList.add(image);

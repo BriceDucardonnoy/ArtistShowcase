@@ -2,6 +2,8 @@ package com.briceducardonnoy.artistshowcase.client.place;
 
 public class NameTokens {
 
+	public static final String fullview = "fullview";
+
 	public static final String unauthorized = "unauthorized";
 
 	public static final String error = "error";
@@ -24,6 +26,10 @@ public class NameTokens {
 
 	public static String getUnauthorized() {
 		return unauthorized;
+	}
+
+	public static String getFullview() {
+		return fullview;
 	}
 
 }

@@ -16,6 +16,8 @@
 
 package com.briceducardonnoy.artistshowcase.client.gin;
 
+import com.briceducardonnoy.artistshowcase.client.application.error.ErrorModule;
+import com.briceducardonnoy.artistshowcase.client.application.unauthorized.UnauthorizedModule;
 import com.briceducardonnoy.artistshowcase.client.place.NameTokens;
 import com.gwtplatform.mvp.client.annotations.DefaultPlace;
 import com.gwtplatform.mvp.client.annotations.ErrorPlace;
@@ -28,6 +30,8 @@ public class SharedModule extends AbstractPresenterModule {
     @Override
     protected void configure() {
         install(new DefaultModule());
+        install(new ErrorModule());
+		install(new UnauthorizedModule());
 
         // DefaultPlaceManager Places
         bindConstant().annotatedWith(DefaultPlace.class).to(NameTokens.main);
