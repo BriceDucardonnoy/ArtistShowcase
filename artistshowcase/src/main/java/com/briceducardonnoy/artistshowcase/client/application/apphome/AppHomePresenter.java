@@ -108,12 +108,13 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 		}
 	}
 	
-//	@Override
-//	protected void onReveal() {
-//		super.onReveal();
-//		getView().resize();
-//	}
-//
+	@Override
+	protected void onReveal() {
+		super.onReveal();
+		// If resize on this page, back to home is empty. The following instruction's purpose is to avoid it
+		getView().resize(getView().getMainPane().getOffsetWidth(), getView().getMainPane().getOffsetHeight());
+	}
+
 //	protected void onHide() {
 //		super.onHide();
 //	}
@@ -172,7 +173,6 @@ public class AppHomePresenter extends Presenter<AppHomePresenter.MyView, AppHome
 	private ResizeHandler resizeHandler = new ResizeHandler() {
 		@Override
 		public void onResize(ResizeEvent event) {
-			// FIXME BDY: if resize on this page, back to home is empty. Maybe do it only if place main is current place
 			getView().resize(event.getWidth(), event.getHeight());
 		}
 	};
