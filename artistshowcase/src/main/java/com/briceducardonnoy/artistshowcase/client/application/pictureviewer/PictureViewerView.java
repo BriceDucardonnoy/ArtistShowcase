@@ -36,6 +36,8 @@ class PictureViewerView extends PopupViewImpl implements PictureViewerPresenter.
     }
     
     static class Constants {
+    	public static int getPaddingTopBottom() { return 10; }// If update this value, also update popup.padding in UiBinder
+    	public static int getPaddingRightLeft() { return 40; }// If update this value, also update popup.padding in UiBinder
     	public static int getTopHeight() {return 20;}
 		public static int getBottomHeight() {return 40;}
 		public static String getBottomHeightPx() {return getBottomHeight() + "px";}
@@ -78,12 +80,12 @@ class PictureViewerView extends PopupViewImpl implements PictureViewerPresenter.
 
 	@Override
 	public int getMaxWidth() {
-		return Window.getClientWidth() - 30;
+		return Window.getClientWidth() - 30 - Constants.getPaddingTopBottom() * 2;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return Window.getClientHeight() - Constants.getTopHeight() - Constants.getBottomHeight();
+		return Window.getClientHeight() - Constants.getTopHeight() - Constants.getBottomHeight() - Constants.getPaddingTopBottom() * 2;
 	}
 	
 //	@UiHandler("prev")

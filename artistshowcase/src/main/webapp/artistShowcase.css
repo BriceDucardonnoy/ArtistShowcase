@@ -177,9 +177,8 @@ h1 {
 /* Override global pop-up and menu properties */
 .gwt-PopupPanel {
 	background: none repeat scroll 0 0 #000000 !important;
-	border: 1px solid #222222 !important;
+	border: 0px solid #222222 !important;
 	color: #FFFFFF;
-    /*padding: 3px;*/
 }
 
 .gwt-MenuBar-vertical {
@@ -278,9 +277,23 @@ button::-moz-focus-inner {
 	border-style: solid;
 	border-color: #000000;
 	cursor: pointer;
+	position: relative;
 }
 
 .thumbPane:HOVER {
-	border-left-width: 3px;
+	/* border-left-width: 3px; */
 	border-color: #222222;
+	-webkit-animation: thumbmove 200ms forwards; /* Chrome, Safari, Opera */
+    animation: thumbmove 200ms forwards;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes thumbmove {
+    from {right: 0px;}
+    to {right: 3px;}
+}
+
+@keyframes thumbmove {
+    from {right: 0px;}
+    to {right: 3px;}
 }

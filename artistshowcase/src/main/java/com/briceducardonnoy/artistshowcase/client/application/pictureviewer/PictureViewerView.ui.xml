@@ -3,10 +3,14 @@
              xmlns:g="urn:import:com.google.gwt.user.client.ui"
              xmlns:imagepreloader="urn:import:com.reveregroup.gwt.imagepreloader.client">
     
+	<ui:with type="com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerView.Constants" field="viewer"></ui:with>
     <ui:style>
 		.popup {
 			z-index: 42;
-			padding: 1px;
+			padding: 10px 40px;
+		}
+		.noOutline {
+			outline-style: none !important;
 		}
 		.panel {
 			/*border: 1px solid red;*/
@@ -21,10 +25,9 @@
 			right: 0px !important;
 		}
 	</ui:style>
-	<ui:with type="com.briceducardonnoy.artistshowcase.client.application.pictureviewer.PictureViewerView.Constants" field="viewer"></ui:with>
 	
 	<g:PopupPanel modal="true" autoHideEnabled="true" glassEnabled="true" addStyleNames="{style.popup}">
-		<g:FocusPanel ui:field="focusPane">
+		<g:FocusPanel ui:field="focusPane" addStyleNames="{style.noOutline}">
 			<g:HTMLPanel ui:field="pane" styleName="globalStyle">
 			    <!-- Top: close image -->
 				<div style="background: black">
