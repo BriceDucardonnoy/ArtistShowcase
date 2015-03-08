@@ -78,7 +78,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 				Log.info("Image loaded : " + loadedPictures + " / " + allPictures.size() + ": " + ((FitImage)event.getSource()).getUrl());
 //				Utils.updateProgressToolbar((loadedPictures * 100) / allPictures.size());
 				if(loadedPictures >= allPictures.size()) {
-					Utils.showDefaultCursor(main.getElement());
+					Utils.showDefaultCursor();
 //					Utils.hideLoadingProgressToolbar();
 				}
 			}
@@ -96,7 +96,7 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 	
 	@Override
 	public void init() {
-		Utils.showWaitCursor(main.getElement());
+		Utils.showWaitCursor(/*main.getElement()*/);
 //		Utils.showLoadingProgressToolbar();
 		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 			@Override

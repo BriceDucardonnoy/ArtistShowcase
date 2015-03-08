@@ -193,6 +193,16 @@ h1 {
     background: none repeat scroll 0 0 #333333 !important;
 }
 
+#glassPaneDark {
+	opacity: 0.6;
+}
+
+.gwt-PopupPanelGlassDark {
+  background-color: #000;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+}
+
 /****************************/
 /********** buttons *********/
 /****************************/

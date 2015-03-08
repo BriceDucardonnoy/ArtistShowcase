@@ -26,7 +26,7 @@
 		}
 	</ui:style>
 	
-	<g:PopupPanel modal="true" autoHideEnabled="true" glassEnabled="true" addStyleNames="{style.popup}">
+	<g:PopupPanel ui:field="popupPane" modal="true" autoHideEnabled="true" glassEnabled="true" addStyleNames="{style.popup}">
 		<g:FocusPanel ui:field="focusPane" addStyleNames="{style.noOutline}">
 			<g:HTMLPanel ui:field="pane" styleName="globalStyle">
 			    <!-- Top: close image -->

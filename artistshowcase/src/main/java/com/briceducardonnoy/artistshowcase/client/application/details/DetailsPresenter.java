@@ -120,7 +120,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			// TODO BDY: waitbox
 //			waitBox.show();
 //			waitBox.auto();
-			Utils.showWaitCursor(getView().getMainPane().getElement());
+			Utils.showWaitCursor();
 			Scheduler.get().scheduleFixedDelay(loadPicturesWaitCmd, 1000);// 1s
 			return;
 		}
@@ -236,7 +236,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 		public boolean execute() {
 			if(arePicturesLoaded) {
 //				waitBox.hide();
-				Utils.showDefaultCursor(getView().getMainPane().getElement());
+				Utils.showDefaultCursor();
 				if(initializeCurrentPicture()) {
 					// Shows picture information
 					showPictureMainThumbAndInfo();
@@ -247,7 +247,7 @@ public class DetailsPresenter extends Presenter<DetailsPresenter.MyView, Details
 			}
 			if(waitTime >= MAXWAITTIME) {
 //				waitBox.hide();
-				Utils.showDefaultCursor(getView().getMainPane().getElement());
+				Utils.showDefaultCursor(/*getView().getMainPane().getElement()*/);
 				placeManager.revealErrorPlace(NameTokens.details);
 				return false;
 			}

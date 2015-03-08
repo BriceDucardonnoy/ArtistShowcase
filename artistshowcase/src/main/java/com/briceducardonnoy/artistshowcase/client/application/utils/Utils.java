@@ -2,7 +2,6 @@ package com.briceducardonnoy.artistshowcase.client.application.utils;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.briceducardonnoy.artistshowcase.client.application.widgets.UpdatableGrid;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -13,6 +12,7 @@ import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.reveregroup.gwt.imagepreloader.client.FitImage;
 
 public class Utils {
@@ -22,14 +22,14 @@ public class Utils {
 	/**
 	 * Cursor
 	 */
-	public static void showWaitCursor(Element e) {
+	public static void showWaitCursor() {
 //		DOM.setStyleAttribute(e, "cursor", "wait");
-		e.getStyle().setProperty("cursor", "wait");
+		RootPanel.getBodyElement().getStyle().setProperty("cursor", "wait");
 	}
 
-	public static void showDefaultCursor(Element e) {
+	public static void showDefaultCursor() {
 //		DOM.setStyleAttribute(e, "cursor", "default");
-		e.getStyle().setProperty("cursor", "default");
+		RootPanel.getBodyElement().getStyle().setProperty("cursor", "default");
 	}
 
 	public static void loadFile(final AsyncCallback<String> callback, final String filename) {

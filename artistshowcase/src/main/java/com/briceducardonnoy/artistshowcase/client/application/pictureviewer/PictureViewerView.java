@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -18,6 +19,7 @@ class PictureViewerView extends PopupViewImpl implements PictureViewerPresenter.
 	interface Binder extends UiBinder<Widget, PictureViewerView> {
     }
 
+	@UiField PopupPanel popupPane;
 	@UiField FocusPanel focusPane;
 	@UiField HTMLPanel pane;
 	@UiField FitImage image;
@@ -33,6 +35,7 @@ class PictureViewerView extends PopupViewImpl implements PictureViewerPresenter.
         initWidget(uiBinder.createAndBindUi(this));
         prev.setHTML("<<");// provided true if do it before createAndBindUi
         next.setHTML(">>");
+        popupPane.setGlassStyleName("gwt-PopupPanelGlassDark");
     }
     
     static class Constants {

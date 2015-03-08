@@ -95,7 +95,7 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     protected void onBind() {
     	super.onBind();
     	Utils.loadFile(loadListAC, GWT.getHostPageBaseURL() + "Documents/List.txt");
-		Utils.showWaitCursor(getView().getMain().getElement());
+		Utils.showWaitCursor();//getView().getMain().getElement());
     	registerHandler(getView().getGallery().getClickHandlerRegistration());
     	registerHandler(getEventBus().addHandler(CategoryChangedEvent.getType(), categoryChangedHandler));
     	registerHandler(getView().getFrBtn().addClickHandler(frHandler));
@@ -182,7 +182,7 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
 			getEventBus().fireEvent(new PicturesLoadedEvent(pictures, categories));
 			ApplicationContext.getInstance().addProperty("categories", categories);
 			ApplicationContext.getInstance().addProperty("pictures", pictures);
-			Utils.showDefaultCursor(getView().getMain().getElement());
+			Utils.showDefaultCursor();//getView().getMain().getElement());
 			return;
 		}
 	}
