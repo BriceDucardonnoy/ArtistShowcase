@@ -37,7 +37,6 @@ import com.briceducardonnoy.artistshowcase.shared.model.Picture;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -46,11 +45,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.web.bindery.event.shared.EventBus;
 import com.gwtplatform.mvp.client.Presenter;
 import com.gwtplatform.mvp.client.View;
-import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.ProxyStandard;
+import com.gwtplatform.mvp.client.presenter.slots.NestedSlot;
 import com.gwtplatform.mvp.client.proxy.PlaceManager;
 import com.gwtplatform.mvp.client.proxy.Proxy;
-import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.shared.proxy.PlaceRequest;
 
 public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView, ApplicationPresenter.MyProxy> {
@@ -74,8 +72,7 @@ public class ApplicationPresenter extends Presenter<ApplicationPresenter.MyView,
     
     // TODO BDY: implement button actions
 
-	@ContentSlot
-	public static final Type<RevealContentHandler<?>> SLOT_SetMainContent = new Type<>();
+	public static final NestedSlot SLOT_SetMainContent = new NestedSlot();
 
     @ProxyStandard
     public interface MyProxy extends Proxy<ApplicationPresenter> {

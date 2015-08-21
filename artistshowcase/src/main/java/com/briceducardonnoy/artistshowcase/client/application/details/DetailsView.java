@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -62,16 +61,17 @@ class DetailsView extends ViewImpl implements DetailsPresenter.MyView {
 		picturesList = new ArrayList<>();
 		imagesList = new ArrayList<>();
 		imageHandlers = new ArrayList<>();
+		bindSlot(DetailsPresenter.SLOT_details, main);
 	}
 
-	@Override
-	public void setInSlot(Object slot, IsWidget content) {
-		if (slot == DetailsPresenter.SLOT_details) {
-			main.setWidget(content);
-		} else {
-			super.setInSlot(slot, content);
-		}
-	}
+//	@Override
+//	public void setInSlot(Object slot, IsWidget content) {
+//		if (slot == DetailsPresenter.SLOT_details) {
+//			main.setWidget(content);
+//		} else {
+//			super.setInSlot(slot, content);
+//		}
+//	}
 	
 	@Override
 	public Image getMainImage() {

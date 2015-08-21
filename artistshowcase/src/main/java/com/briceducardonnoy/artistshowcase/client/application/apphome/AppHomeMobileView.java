@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -77,16 +76,17 @@ public class AppHomeMobileView extends ViewWithUiHandlers<AppHomeUiHandlers> imp
 			}
 		};
 		handlers = new ArrayList<>();
+		bindSlot(AppHomePresenter.SLOT_AppHome, main);
 	}
 
-	@Override
-	public void setInSlot(Object slot, IsWidget content) {
-		if (slot == AppHomePresenter.SLOT_AppHome) {
-			main.setWidget(content);
-		} else {
-			super.setInSlot(slot, content);
-		}
-	}
+//	@Override
+//	public void setInSlot(Object slot, IsWidget content) {
+//		if (slot == AppHomePresenter.SLOT_AppHome) {
+//			main.setWidget(content);
+//		} else {
+//			super.setInSlot(slot, content);
+//		}
+//	}
 
 	@Override
 	public void addCategories(List<Category> categories) {

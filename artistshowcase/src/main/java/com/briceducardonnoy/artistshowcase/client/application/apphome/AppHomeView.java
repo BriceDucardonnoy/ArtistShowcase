@@ -37,7 +37,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
@@ -83,16 +82,17 @@ public class AppHomeView extends ViewWithUiHandlers<AppHomeUiHandlers> implement
 				}
 			}
 		};
+		bindSlot(AppHomePresenter.SLOT_AppHome, main);
 	}
 
-	@Override
-	public void setInSlot(Object slot, IsWidget content) {
-		if (slot == AppHomePresenter.SLOT_AppHome) {
-			main.setWidget(content);
-		} else {
-			super.setInSlot(slot, content);
-		}
-	}
+//	@Override
+//	public void setInSlot(Object slot, IsWidget content) {
+//		if (slot == AppHomePresenter.SLOT_AppHome) {
+//			main.setWidget(content);
+//		} else {
+//			super.setInSlot(slot, content);
+//		}
+//	}
 	
 	@Override
 	public void init() {

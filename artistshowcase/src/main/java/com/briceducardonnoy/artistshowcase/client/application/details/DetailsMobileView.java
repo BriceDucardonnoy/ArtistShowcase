@@ -37,7 +37,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ResizeLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -72,16 +71,17 @@ public class DetailsMobileView extends ViewImpl implements DetailsPresenter.MyVi
 		picturesList = new ArrayList<>();
 		imagesList = new ArrayList<>();
 		imageHandlers = new ArrayList<>();
+		bindSlot(DetailsPresenter.SLOT_details, main);
 	}
 
-	@Override
-	public void setInSlot(Object slot, IsWidget content) {
-		if (slot == DetailsPresenter.SLOT_details) {
-			main.setWidget(content);
-		} else {
-			super.setInSlot(slot, content);
-		}
-	}
+//	@Override
+//	public void setInSlot(Object slot, IsWidget content) {
+//		if (slot == DetailsPresenter.SLOT_details) {
+//			main.setWidget(content);
+//		} else {
+//			super.setInSlot(slot, content);
+//		}
+//	}
 
 	@Override
 	public ResizeLayoutPanel getMainPane() {

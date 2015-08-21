@@ -34,7 +34,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -82,19 +81,20 @@ public class ApplicationDesktopView extends ViewImpl implements ApplicationPrese
 		legal.setText(translate.Legal());
 		
 		homeGo = new PlaceRequest.Builder().nameToken(NameTokens.getMain()).build();
+		bindSlot(ApplicationPresenter.SLOT_SetMainContent, main);
     }
 
-    @Override
-    public void setInSlot(Object slot, IsWidget content) {
-//		if (slot == HeaderPresenter.SLOT_SetHeaderContent) {
-//		} else
-		if (slot == ApplicationPresenter.SLOT_SetMainContent) {
-		    main.setWidget(content);
-		}
-		else {
-		    super.setInSlot(slot, content);
-		}
-    }
+//    @Override
+//    public void setInSlot(Object slot, IsWidget content) {
+////		if (slot == HeaderPresenter.SLOT_SetHeaderContent) {
+////		} else
+//		if (slot == ApplicationPresenter.SLOT_SetMainContent) {
+//		    main.setWidget(content);
+//		}
+//		else {
+//		    super.setInSlot(slot, content);
+//		}
+//    }
     
     @Override
 	public void addGalleries(ArrayList<Category> categories) {
